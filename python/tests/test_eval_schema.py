@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+
 import jsonschema
 import pytest
 
@@ -12,14 +13,14 @@ TEST_QUESTIONS_PATH = ROOT_DIR / "data" / "eval" / "questions.test.jsonl"
 
 @pytest.fixture
 def eval_schema():
-    with open(SCHEMA_PATH, "r", encoding="utf-8") as f:
+    with open(SCHEMA_PATH, encoding="utf-8") as f:
         return json.load(f)
 
 def load_jsonl(path: Path):
     if not path.exists():
         return []
     records = []
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if line:

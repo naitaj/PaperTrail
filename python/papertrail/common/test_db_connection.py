@@ -3,10 +3,10 @@ Does not print passwords or connection strings to stdout.
 """
 
 import os
-import sys
 from pathlib import Path
-from dotenv import load_dotenv
+
 import psycopg
+from dotenv import load_dotenv
 
 # Load root .env
 root_dir = Path(__file__).resolve().parents[3]
@@ -17,7 +17,7 @@ def test_connectivity():
     if not db_url:
         print("FAIL: No DIRECT_URL or DATABASE_URL found in .env")
         return False
-    
+
     if "[YOUR-PASSWORD]" in db_url:
         print("FAIL: [YOUR-PASSWORD] placeholder detected in .env. Please replace [YOUR-PASSWORD] with your actual Supabase database password.")
         return False

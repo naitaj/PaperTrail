@@ -3,8 +3,9 @@
 import os
 import sys
 from pathlib import Path
-from dotenv import load_dotenv
+
 import psycopg
+from dotenv import load_dotenv
 
 # Load root and python .env
 root_dir = Path(__file__).resolve().parents[3]
@@ -29,7 +30,7 @@ def run_migrations():
         print(f"No migration files found in {migrations_dir}")
         return
 
-    print(f"Connecting to database...")
+    print("Connecting to database...")
     with psycopg.connect(db_url, autocommit=True) as conn:
         with conn.cursor() as cur:
             # Create migrations table if not exists

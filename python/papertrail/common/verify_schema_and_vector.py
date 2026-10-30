@@ -2,8 +2,9 @@
 
 import os
 from pathlib import Path
-from dotenv import load_dotenv
+
 import psycopg
+from dotenv import load_dotenv
 
 root_dir = Path(__file__).resolve().parents[3]
 load_dotenv(root_dir / ".env")
@@ -38,8 +39,8 @@ def verify_all():
     with psycopg.connect(db_url, autocommit=True) as conn:
         with conn.cursor() as cur:
             cur.execute("""
-                SELECT table_name 
-                FROM information_schema.tables 
+                SELECT table_name
+                FROM information_schema.tables
                 WHERE table_schema = 'public';
             """)
             existing_tables = {row[0] for row in cur.fetchall()}
@@ -52,11 +53,11 @@ def verify_all():
             print("\n--- 2. Verifying Foreign Key Relationships ---")
             cur.execute("""
                 SELECT
-                    tc.table_name, 
-                    kcu.column_name, 
+                    tc.table_name,
+                    kcu.column_name,
                     ccu.table_name AS foreign_table_name,
-                    ccu.column_name AS foreign_column_name 
-                FROM information_schema.table_constraints AS tc 
+                    ccu.column_name AS foreign_column_name
+                FROM information_schema.table_constraints AS tc
                 JOIN information_schema.key_column_usage AS kcu
                   ON tc.constraint_name = kcu.constraint_name
                   AND tc.table_schema = kcu.table_schema
@@ -71,8 +72,8 @@ def verify_all():
 
             print("\n--- 3. Verifying Indexes ---")
             cur.execute("""
-                SELECT indexname, tablename 
-                FROM pg_indexes 
+                SELECT indexname, tablename
+                FROM pg_indexes
                 WHERE schemaname = 'public';
             """)
             existing_indexes = {row[0]: row[1] for row in cur.fetchall()}
@@ -97,7 +98,7 @@ def verify_all():
             try:
                 # Insert dependencies
                 cur.execute("""
-                    INSERT INTO chunk_configs (config_id, params) 
+                    INSERT INTO chunk_configs (config_id, params)
                     VALUES (%s, '{"target": 256}')
                     ON CONFLICT (config_id) DO NOTHING;
                 """, (test_cfg_id,))

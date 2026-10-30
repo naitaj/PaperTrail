@@ -3,6 +3,7 @@
 import hashlib
 import time
 from pathlib import Path
+
 import httpx
 import yaml
 
@@ -19,8 +20,8 @@ def compute_sha256(filepath: Path) -> str:
 
 def fetch_corpus():
     RAW_DIR.mkdir(parents=True, exist_ok=True)
-    
-    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
+
+    with open(MANIFEST_PATH, encoding="utf-8") as f:
         manifest = yaml.safe_load(f)
 
     papers = manifest.get("papers", [])
@@ -56,7 +57,7 @@ def fetch_corpus():
             resp.raise_for_status()
             with open(target_path, "wb") as f:
                 f.write(resp.content)
-            
+
             computed_sha = compute_sha256(target_path)
             paper["sha256"] = computed_sha
             updated = True

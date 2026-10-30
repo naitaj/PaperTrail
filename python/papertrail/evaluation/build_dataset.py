@@ -6,6 +6,7 @@ import hashlib
 import json
 import random
 from pathlib import Path
+
 import jsonschema
 
 ROOT_DIR = Path(__file__).resolve().parents[3]
@@ -544,7 +545,7 @@ QUESTIONS = [
 
 def build_and_split():
     # Load JSON schema to validate every question
-    with open(SCHEMA_PATH, "r", encoding="utf-8") as f:
+    with open(SCHEMA_PATH, encoding="utf-8") as f:
         schema = json.load(f)
     validator = jsonschema.Draft7Validator(schema)
 
@@ -598,7 +599,7 @@ def build_and_split():
     # Calculate SHA-256 of dev and test files and commit split.sha256
     dev_sha = hashlib.sha256(DEV_PATH.read_bytes()).hexdigest()
     test_sha = hashlib.sha256(TEST_PATH.read_bytes()).hexdigest()
-    
+
     with open(HASH_PATH, "w", encoding="utf-8") as f:
         f.write(f"dev_sha256={dev_sha}\ntest_sha256={test_sha}\n")
 

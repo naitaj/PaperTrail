@@ -1,0 +1,36 @@
+# ---- Dependencies ----
+node_modules/
+.next/
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+
+# ---- Environment ----
+.env
+.env.local
+.env.*.local
+python/.env
+
+# ---- Corpus data (large files) ----
+data/raw/
+
+# ---- IDE ----
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+
+# ---- Build ----
+dist/
+build/
+out/
+.vercel/
+
+# ---- Notebook outputs ----
+notebooks/.ipynb_checkpoints/

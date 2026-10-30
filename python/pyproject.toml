@@ -1,0 +1,61 @@
+[project]
+name = "papertrail"
+version = "0.1.0"
+description = "PaperTrail: An evaluated research-paper assistant"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+
+dependencies = [
+    # PDF parsing
+    "pymupdf>=1.25.0",
+    # Token counting (for chunk sizing)
+    "tiktoken>=0.9.0",
+    # Database
+    "psycopg[binary]>=3.2.0",
+    "pgvector>=0.4.0",
+    # Schema validation
+    "pydantic>=2.10.0",
+    # Numerics and metrics
+    "numpy>=2.0.0",
+    # Fuzzy matching (deduplication)
+    "rapidfuzz>=3.12.0",
+    # Retry and backoff
+    "tenacity>=9.0.0",
+    # HTTP client (for API calls)
+    "httpx>=0.28.0",
+    # OpenAI embeddings
+    "openai>=1.60.0",
+    # Anthropic (for judge)
+    "anthropic>=0.45.0",
+    # Environment variables
+    "python-dotenv>=1.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.25.0",
+    "ruff>=0.11.0",
+    "rank-bm25>=0.2.2",       # reference BM25 for validation tests
+]
+notebooks = [
+    "jupyter>=1.0.0",
+    "matplotlib>=3.10.0",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

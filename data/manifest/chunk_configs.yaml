@@ -1,0 +1,19 @@
+# Chunk configurations for PaperTrail
+# Defines the two evaluated chunking sizes per PRD FR-CHK-03 and TRD §5.4
+
+configs:
+  ck256:
+    target_tokens: 256
+    overlap_tokens: 48
+    tokenizer: "cl100k_base"
+    page_bounded: true
+    min_tokens: 40
+    description: "Fine-grained chunks: 256 token target, 48 token overlap, page bounded"
+
+  ck640:
+    target_tokens: 640
+    overlap_tokens: 96
+    tokenizer: "cl100k_base"
+    page_bounded: true
+    min_tokens: 80
+    description: "Coarse-grained chunks: 640 token target, 96 token overlap, page bounded"

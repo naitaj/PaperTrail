@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EvalQuestion",
+  "type": "object",
+  "required": [
+    "question_id",
+    "split",
+    "question",
+    "category",
+    "answerability",
+    "gold_evidence",
+    "corpus_version"
+  ],
+  "properties": {
+    "question_id": {
+      "type": "string",
+      "pattern": "^q-[a-z0-9-]+$"
+    },
+    "split": {
+      "type": "string",
+      "enum": ["dev", "test"]
+    },
+    "question": {
+      "type": "string",
+      "minLength": 8
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "direct_factual",
+        "cross_section",
+        "multi_source",
+        "partially_answerable",
+        "unanswerable_in_domain",
+        "out_of_corpus",
+        "ambiguous"
+      ]
+    },
+    "answerability": {
+      "type": "string",
+      "enum": [
+        "answerable",
+        "partial",
+        "unanswerable",
+        "out_of_corpus"
+      ]
+    },
+    "reference_answer": {
+      "type": ["string", "null"]
+    },
+    "gold_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["doc_id", "pages", "span"],
+        "properties": {
+          "doc_id": { "type": "string" },
+          "pages": {
+            "type": "array",
+            "items": { "type": "integer", "minimum": 1 }
+          },
+          "span": { "type": "string" }
+        }
+      }
+    },
+    "corpus_version": {
+      "type": "string"
+    },
+    "authored_by": {
+      "type": "string"
+    },
+    "reviewed_by": {
+      "type": ["string", "null"]
+    }
+  }
+}

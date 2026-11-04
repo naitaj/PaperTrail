@@ -1,0 +1,1531 @@
+{
+  "split": "test",
+  "k": 5,
+  "evaluated_at": "2026-11-04T19:26:19Z",
+  "configurations": {
+    "bm25_ck256": {
+      "retriever": "bm25",
+      "chunk_config": "ck256",
+      "retrieval": {
+        "HitRate@5": 46.7,
+        "Recall@5": 43.3,
+        "MRR": 0.467,
+        "Precision@5": 20.0,
+        "nDCG@5": 0.654
+      },
+      "generation": {
+        "total_claims": 15,
+        "verified_claims": 10,
+        "citation_verbatim_precision": 66.7,
+        "status_downgrades": 3,
+        "abstention_accuracy": 100.0,
+        "avg_latency_ms": 1860.3
+      },
+      "per_question": [
+        {
+          "question_id": "q-ambi-01",
+          "category": "ambiguous",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 615.7,
+          "gen_time_ms": 1489.2,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-120b",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": ""
+          }
+        },
+        {
+          "question_id": "q-cross-02",
+          "category": "cross_section",
+          "answerability": "answerable",
+          "retrieval_time_ms": 261.3,
+          "gen_time_ms": 3149.5,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-120b",
+            "decision": "abstain",
+            "original_decision": "answerable",
+            "downgraded": true,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 3,
+            "answer": "The hard\u2011negative sampling strategy described in Section\u202f3 (using BM25 passages as additional negatives) substantially b"
+          }
+        },
+        {
+          "question_id": "q-cross-03",
+          "category": "cross_section",
+          "answerability": "answerable",
+          "retrieval_time_ms": 313.6,
+          "gen_time_ms": 3060.7,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-120b",
+            "decision": "partial",
+            "original_decision": "answerable",
+            "downgraded": true,
+            "gate_triggered": false,
+            "kept_claims": 2,
+            "total_claims": 3,
+            "answer": "ColBERT\u2019s offline indexing phase works by pre\u2011computing the token\u2011level BERT embeddings for every document and storing t"
+          }
+        },
+        {
+          "question_id": "q-cross-01",
+          "category": "cross_section",
+          "answerability": "answerable",
+          "retrieval_time_ms": 269.3,
+          "gen_time_ms": 3074.5,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-20b",
+            "decision": "answerable",
+            "original_decision": "answerable",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 2,
+            "total_claims": 2,
+            "answer": "The architectural definition of RAG\u2011Sequence in Section\u202f2 states that the same retrieved document (z) is used to generat"
+          }
+        },
+        {
+          "question_id": "q-fact-04",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 264.0,
+          "gen_time_ms": 2451.7,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-120b",
+            "decision": "partial",
+            "original_decision": "answerable",
+            "downgraded": true,
+            "gate_triggered": false,
+            "kept_claims": 1,
+            "total_claims": 2,
+            "answer": "ColBERT scores relevance with a \u201cmax\u2011sim\u201d (maxsim) operation: each query token embedding is dot\u2011producted with all docum"
+          }
+        },
+        {
+          "question_id": "q-fact-05",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 1259.6,
+          "gen_time_ms": 1582.4,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-20b",
+            "decision": "answerable",
+            "original_decision": "answerable",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 1,
+            "total_claims": 1,
+            "answer": "Retrieval augmentation substantially reduces hallucination in conversational neural models, cutting hallucinated respons"
+          }
+        },
+        {
+          "question_id": "q-fact-10",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 270.6,
+          "gen_time_ms": 2052.5,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-20b",
+            "decision": "answerable",
+            "original_decision": "answerable",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 1,
+            "total_claims": 1,
+            "answer": "Self\u2011RAG generates two kinds of special reflection tokens: a retrieval token that signals the model should fetch additio"
+          }
+        },
+        {
+          "question_id": "q-fact-09",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 648.1,
+          "gen_time_ms": 559.3,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-02",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 354.9,
+          "gen_time_ms": 523.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-multi-01",
+          "category": "multi_source",
+          "answerability": "answerable",
+          "retrieval_time_ms": 271.2,
+          "gen_time_ms": 610.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-multi-05",
+          "category": "multi_source",
+          "answerability": "answerable",
+          "retrieval_time_ms": 643.5,
+          "gen_time_ms": 3472.3,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-20b",
+            "decision": "answerable",
+            "original_decision": "answerable",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 3,
+            "total_claims": 3,
+            "answer": "Self\u2011RAG and CRAG both augment retrieval\u2011augmented generation by adding a post\u2011retrieval evaluation step, but they diffe"
+          }
+        },
+        {
+          "question_id": "q-multi-02",
+          "category": "multi_source",
+          "answerability": "answerable",
+          "retrieval_time_ms": 827.7,
+          "gen_time_ms": 482.7,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-ooc-01",
+          "category": "out_of_corpus",
+          "answerability": "out_of_corpus",
+          "retrieval_time_ms": 357.2,
+          "gen_time_ms": 0.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "abstention-gate",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": true,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (5.88) below threshold (11.00)"
+          }
+        },
+        {
+          "question_id": "q-ooc-04",
+          "category": "out_of_corpus",
+          "answerability": "out_of_corpus",
+          "retrieval_time_ms": 288.2,
+          "gen_time_ms": 0.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "abstention-gate",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": true,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (7.77) below threshold (11.00)"
+          }
+        },
+        {
+          "question_id": "q-part-01",
+          "category": "partially_answerable",
+          "answerability": "partial",
+          "retrieval_time_ms": 610.2,
+          "gen_time_ms": 581.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-part-03",
+          "category": "partially_answerable",
+          "answerability": "partial",
+          "retrieval_time_ms": 532.3,
+          "gen_time_ms": 994.6,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-unans-02",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 343.7,
+          "gen_time_ms": 421.7,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-unans-08",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 1124.6,
+          "gen_time_ms": 1228.4,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-120b",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": ""
+          }
+        },
+        {
+          "question_id": "q-unans-03",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 367.5,
+          "gen_time_ms": 770.6,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-unans-07",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 623.9,
+          "gen_time_ms": 454.3,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        }
+      ]
+    },
+    "bm25_ck640": {
+      "retriever": "bm25",
+      "chunk_config": "ck640",
+      "retrieval": {
+        "HitRate@5": 46.7,
+        "Recall@5": 43.3,
+        "MRR": 0.372,
+        "Precision@5": 17.3,
+        "nDCG@5": 0.549
+      },
+      "generation": {
+        "total_claims": 1,
+        "verified_claims": 1,
+        "citation_verbatim_precision": 100.0,
+        "status_downgrades": 0,
+        "abstention_accuracy": 100.0,
+        "avg_latency_ms": 1549.1
+      },
+      "per_question": [
+        {
+          "question_id": "q-ambi-01",
+          "category": "ambiguous",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 587.9,
+          "gen_time_ms": 0.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "abstention-gate",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": true,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (10.52) below threshold (11.00)"
+          }
+        },
+        {
+          "question_id": "q-cross-02",
+          "category": "cross_section",
+          "answerability": "answerable",
+          "retrieval_time_ms": 622.8,
+          "gen_time_ms": 557.5,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-cross-03",
+          "category": "cross_section",
+          "answerability": "answerable",
+          "retrieval_time_ms": 830.3,
+          "gen_time_ms": 1519.9,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-cross-01",
+          "category": "cross_section",
+          "answerability": "answerable",
+          "retrieval_time_ms": 1014.7,
+          "gen_time_ms": 586.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-04",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 871.7,
+          "gen_time_ms": 630.8,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-05",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 747.1,
+          "gen_time_ms": 637.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-10",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 929.8,
+          "gen_time_ms": 1010.5,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-09",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 824.2,
+          "gen_time_ms": 548.4,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-02",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 882.9,
+          "gen_time_ms": 747.9,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-multi-01",
+          "category": "multi_source",
+          "answerability": "answerable",
+          "retrieval_time_ms": 740.7,
+          "gen_time_ms": 471.7,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-multi-05",
+          "category": "multi_source",
+          "answerability": "answerable",
+          "retrieval_time_ms": 483.9,
+          "gen_time_ms": 735.4,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-multi-02",
+          "category": "multi_source",
+          "answerability": "answerable",
+          "retrieval_time_ms": 671.6,
+          "gen_time_ms": 1082.8,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-ooc-01",
+          "category": "out_of_corpus",
+          "answerability": "out_of_corpus",
+          "retrieval_time_ms": 586.0,
+          "gen_time_ms": 0.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "abstention-gate",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": true,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (5.46) below threshold (11.00)"
+          }
+        },
+        {
+          "question_id": "q-ooc-04",
+          "category": "out_of_corpus",
+          "answerability": "out_of_corpus",
+          "retrieval_time_ms": 333.5,
+          "gen_time_ms": 0.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "abstention-gate",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": true,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (6.89) below threshold (11.00)"
+          }
+        },
+        {
+          "question_id": "q-part-01",
+          "category": "partially_answerable",
+          "answerability": "partial",
+          "retrieval_time_ms": 484.5,
+          "gen_time_ms": 493.2,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-part-03",
+          "category": "partially_answerable",
+          "answerability": "partial",
+          "retrieval_time_ms": 1465.6,
+          "gen_time_ms": 1819.1,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-120b",
+            "decision": "partial",
+            "original_decision": "partial",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 1,
+            "total_claims": 1,
+            "answer": "The FACTSCORE evaluation relies on DBPedia as the knowledge base for obtaining human\u2011written biographies that serve as t"
+          }
+        },
+        {
+          "question_id": "q-unans-02",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 2043.8,
+          "gen_time_ms": 549.7,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-unans-08",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 996.1,
+          "gen_time_ms": 1230.9,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-20b",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": ""
+          }
+        },
+        {
+          "question_id": "q-unans-03",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 619.4,
+          "gen_time_ms": 466.5,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-unans-07",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 1601.6,
+          "gen_time_ms": 556.7,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        }
+      ]
+    },
+    "embedding_ck256": {
+      "retriever": "embedding",
+      "chunk_config": "ck256",
+      "retrieval": {
+        "HitRate@5": 60.0,
+        "Recall@5": 56.7,
+        "MRR": 0.343,
+        "Precision@5": 17.3,
+        "nDCG@5": 0.52
+      },
+      "generation": {
+        "total_claims": 7,
+        "verified_claims": 7,
+        "citation_verbatim_precision": 100.0,
+        "status_downgrades": 0,
+        "abstention_accuracy": 100.0,
+        "avg_latency_ms": 911.4
+      },
+      "per_question": [
+        {
+          "question_id": "q-ambi-01",
+          "category": "ambiguous",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 506.3,
+          "gen_time_ms": 455.4,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-cross-02",
+          "category": "cross_section",
+          "answerability": "answerable",
+          "retrieval_time_ms": 234.8,
+          "gen_time_ms": 560.3,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-cross-03",
+          "category": "cross_section",
+          "answerability": "answerable",
+          "retrieval_time_ms": 323.5,
+          "gen_time_ms": 465.2,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-cross-01",
+          "category": "cross_section",
+          "answerability": "answerable",
+          "retrieval_time_ms": 221.6,
+          "gen_time_ms": 420.3,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-04",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 315.3,
+          "gen_time_ms": 468.7,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-05",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 479.2,
+          "gen_time_ms": 469.8,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-10",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 332.3,
+          "gen_time_ms": 3094.6,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-120b",
+            "decision": "answerable",
+            "original_decision": "answerable",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 4,
+            "total_claims": 4,
+            "answer": "Self\u2011RAG augments the language model\u2019s vocabulary with a set of special reflection tokens. First, a **retrieval token** "
+          }
+        },
+        {
+          "question_id": "q-fact-09",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 280.6,
+          "gen_time_ms": 2150.5,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-20b",
+            "decision": "answerable",
+            "original_decision": "answerable",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 3,
+            "total_claims": 3,
+            "answer": "Ragas evaluates three core quality aspects in retrieval\u2011augmented generation systems: (1) the retrieval system\u2019s ability"
+          }
+        },
+        {
+          "question_id": "q-fact-02",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 250.3,
+          "gen_time_ms": 438.3,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-multi-01",
+          "category": "multi_source",
+          "answerability": "answerable",
+          "retrieval_time_ms": 329.9,
+          "gen_time_ms": 494.7,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-multi-05",
+          "category": "multi_source",
+          "answerability": "answerable",
+          "retrieval_time_ms": 322.1,
+          "gen_time_ms": 488.5,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-multi-02",
+          "category": "multi_source",
+          "answerability": "answerable",
+          "retrieval_time_ms": 234.9,
+          "gen_time_ms": 538.2,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-ooc-01",
+          "category": "out_of_corpus",
+          "answerability": "out_of_corpus",
+          "retrieval_time_ms": 228.2,
+          "gen_time_ms": 0.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "abstention-gate",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": true,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (0.17) below threshold (0.35)"
+          }
+        },
+        {
+          "question_id": "q-ooc-04",
+          "category": "out_of_corpus",
+          "answerability": "out_of_corpus",
+          "retrieval_time_ms": 222.5,
+          "gen_time_ms": 0.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "abstention-gate",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": true,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (0.21) below threshold (0.35)"
+          }
+        },
+        {
+          "question_id": "q-part-01",
+          "category": "partially_answerable",
+          "answerability": "partial",
+          "retrieval_time_ms": 225.0,
+          "gen_time_ms": 0.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "abstention-gate",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": true,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (0.23) below threshold (0.35)"
+          }
+        },
+        {
+          "question_id": "q-part-03",
+          "category": "partially_answerable",
+          "answerability": "partial",
+          "retrieval_time_ms": 243.8,
+          "gen_time_ms": 444.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-unans-02",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 228.8,
+          "gen_time_ms": 639.5,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-unans-08",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 239.8,
+          "gen_time_ms": 479.4,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-unans-03",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 222.6,
+          "gen_time_ms": 478.2,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-unans-07",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 230.8,
+          "gen_time_ms": 470.6,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        }
+      ]
+    },
+    "embedding_ck640": {
+      "retriever": "embedding",
+      "chunk_config": "ck640",
+      "retrieval": {
+        "HitRate@5": 60.0,
+        "Recall@5": 50.0,
+        "MRR": 0.267,
+        "Precision@5": 16.0,
+        "nDCG@5": 0.385
+      },
+      "generation": {
+        "total_claims": 1,
+        "verified_claims": 1,
+        "citation_verbatim_precision": 100.0,
+        "status_downgrades": 0,
+        "abstention_accuracy": 100.0,
+        "avg_latency_ms": 1144.0
+      },
+      "per_question": [
+        {
+          "question_id": "q-ambi-01",
+          "category": "ambiguous",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 527.2,
+          "gen_time_ms": 410.4,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-cross-02",
+          "category": "cross_section",
+          "answerability": "answerable",
+          "retrieval_time_ms": 535.7,
+          "gen_time_ms": 492.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-cross-03",
+          "category": "cross_section",
+          "answerability": "answerable",
+          "retrieval_time_ms": 460.4,
+          "gen_time_ms": 579.4,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-cross-01",
+          "category": "cross_section",
+          "answerability": "answerable",
+          "retrieval_time_ms": 435.7,
+          "gen_time_ms": 464.7,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-04",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 577.9,
+          "gen_time_ms": 530.5,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-05",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 609.6,
+          "gen_time_ms": 570.3,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-10",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 1510.2,
+          "gen_time_ms": 837.4,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-09",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 498.1,
+          "gen_time_ms": 649.8,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-fact-02",
+          "category": "direct_factual",
+          "answerability": "answerable",
+          "retrieval_time_ms": 725.3,
+          "gen_time_ms": 539.8,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-multi-01",
+          "category": "multi_source",
+          "answerability": "answerable",
+          "retrieval_time_ms": 480.6,
+          "gen_time_ms": 495.7,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-multi-05",
+          "category": "multi_source",
+          "answerability": "answerable",
+          "retrieval_time_ms": 652.6,
+          "gen_time_ms": 533.5,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-multi-02",
+          "category": "multi_source",
+          "answerability": "answerable",
+          "retrieval_time_ms": 516.4,
+          "gen_time_ms": 500.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-ooc-01",
+          "category": "out_of_corpus",
+          "answerability": "out_of_corpus",
+          "retrieval_time_ms": 580.5,
+          "gen_time_ms": 0.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "abstention-gate",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": true,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (0.15) below threshold (0.35)"
+          }
+        },
+        {
+          "question_id": "q-ooc-04",
+          "category": "out_of_corpus",
+          "answerability": "out_of_corpus",
+          "retrieval_time_ms": 308.9,
+          "gen_time_ms": 0.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "abstention-gate",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": true,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (0.21) below threshold (0.35)"
+          }
+        },
+        {
+          "question_id": "q-part-01",
+          "category": "partially_answerable",
+          "answerability": "partial",
+          "retrieval_time_ms": 1024.2,
+          "gen_time_ms": 0.0,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "abstention-gate",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": true,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (0.25) below threshold (0.35)"
+          }
+        },
+        {
+          "question_id": "q-part-03",
+          "category": "partially_answerable",
+          "answerability": "partial",
+          "retrieval_time_ms": 401.4,
+          "gen_time_ms": 2060.5,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "openai/gpt-oss-120b",
+            "decision": "partial",
+            "original_decision": "partial",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 1,
+            "total_claims": 1,
+            "answer": "FACTSCORE validates atomic facts against a knowledge source, which in the reported experiments is the English Wikipedia."
+          }
+        },
+        {
+          "question_id": "q-unans-02",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 573.8,
+          "gen_time_ms": 1119.7,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-unans-08",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 345.1,
+          "gen_time_ms": 466.7,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-unans-03",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 443.1,
+          "gen_time_ms": 438.1,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        },
+        {
+          "question_id": "q-unans-07",
+          "category": "unanswerable_in_domain",
+          "answerability": "unanswerable",
+          "retrieval_time_ms": 285.4,
+          "gen_time_ms": 700.1,
+          "retrieved_count": 5,
+          "generation": {
+            "model": "fallback",
+            "decision": "abstain",
+            "original_decision": "abstain",
+            "downgraded": false,
+            "gate_triggered": false,
+            "kept_claims": 0,
+            "total_claims": 0,
+            "answer": "Model failed to produce valid response."
+          }
+        }
+      ]
+    }
+  }
+}

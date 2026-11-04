@@ -1,3 +1,4 @@
+
 """End-to-end PDF ingestion pipeline for PaperTrail."""
 
 import json
@@ -12,6 +13,7 @@ from papertrail.common.schemas import DocumentPageSchema, DocumentSchema
 from papertrail.ingest.chunk import chunk_document
 from papertrail.ingest.clean import clean_blocks
 from papertrail.ingest.dedupe import check_duplicate, compute_text_hash
+from papertrail.ingest.embed import embed_all_chunks
 from papertrail.ingest.index import update_lexical_index
 from papertrail.ingest.load import load_chunk_configs_to_db, load_document_to_db
 from papertrail.ingest.parse import parse_pdf
@@ -182,7 +184,11 @@ def run_ingestion_pipeline():
     print("\n=== Updating Lexical BM25 Statistics in Database ===")
     update_lexical_index()
 
-    # Step 9: Write Ingestion Report
+    # Step 9: Generate Local Dense Embeddings (384-d all-MiniLM-L6-v2)
+    print("\n=== Generating Local Dense Embeddings in Database ===")
+    embed_all_chunks()
+
+    # Step 10: Write Ingestion Report
     report_file = results_dir / "ingestion_report.json"
     with open(report_file, "w", encoding="utf-8") as f:
         json.dump(ingestion_report, f, indent=2)

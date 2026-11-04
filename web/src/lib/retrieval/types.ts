@@ -23,6 +23,7 @@ export type ChunkConfigId = "ck256" | "ck640";
 
 export interface RetrievalOptions {
   query: string;
+  queryVector?: number[];
   configId: ChunkConfigId;
   scopeDocId?: string | null;
   k?: number;

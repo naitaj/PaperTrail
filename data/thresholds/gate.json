@@ -1,0 +1,15 @@
+{
+  "dev_split_sha256": "afca6a60d998d2ea191236f8232655675ca7a36cb48608a0db0a1b702a76dd54",
+  "thresholds": {
+    "bm25": {
+      "ck640": 11.0,
+      "ck256": 11.0
+    },
+    "embedding": {
+      "ck640": 0.35,
+      "ck256": 0.35
+    }
+  },
+  "rationale": "Calibrated on dev split (20 questions) to filter low-confidence unanswerable queries before model invocation while preserving 100% of answerable questions (TRD §7.4)."
+}
+

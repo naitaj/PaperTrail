@@ -70,3 +70,4 @@ Rather than generic modern SaaS dashboards, PaperTrail incorporates a bespoke de
 
 - Applied migration `005_enable_rls.sql` enabling Row-Level Security on all 12 public schema tables and `_migrations`.
 - Revoked mutation privileges from public API roles (`anon`, `authenticated`), protecting against unauthorized PostgREST tampering while preserving sub-10ms pooled connection queries for the Next.js server and Python evaluation engines.
+

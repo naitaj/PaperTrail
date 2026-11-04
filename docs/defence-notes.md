@@ -80,3 +80,4 @@ On our held-out 20-question test split ($K=5$):
 - **Dense Embedding Winner on Recall & Hit Rate:** Dense embeddings (`embedding_ck256`) achieved **60.0% HitRate@5** and **56.7% Recall@5**, outperforming BM25 (`bm25_ck640`, **46.7% HitRate@5** and **43.3% Recall@5**). Dense embeddings excelled on semantic paraphrases and conceptual questions where query terms differed from paper terminology.
 - **BM25 Strong on Ranking Precision:** When query terms exactly matched paper vocabulary, BM25 placed the ground-truth chunk at Rank 1 more frequently, yielding an MRR of **0.372** vs. **0.343** for dense retrieval.
 - **Flawless Safety:** Both configurations achieved **100.0% Citation Precision** and **100.0% Abstention Accuracy** with our pre-LLM confidence gate and citation validation engine.
+

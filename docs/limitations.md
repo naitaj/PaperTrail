@@ -41,3 +41,4 @@ This document details the boundary conditions, architectural trade-offs, and emp
 - **Zero-Cost Policy:** PaperTrail strictly avoids commercial paid APIs, utilizing **Groq Cloud** for inference with `openai/gpt-oss-120b` (with automatic fallback to `openai/gpt-oss-20b`).
 - **Rate-Limit Resilience:** Groq's high-speed LPU infrastructure delivers token generation speeds (>250 tokens/sec), but free-tier quotas enforce minute-by-minute rate limits. During high-concurrency evaluation benchmarking, batch runners must apply jittered exponential backoff (implemented in `python/papertrail/evaluation/runner.py`).
 - **Model Non-Determinism:** Even with `temperature = 0.0`, minor non-deterministic floating-point variations in token generation can occur across distinct hardware clusters, though our deterministic citation validation engine standardizes and guarantees claim quote integrity regardless of minor wording variance.
+

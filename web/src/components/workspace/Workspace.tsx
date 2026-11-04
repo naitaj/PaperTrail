@@ -50,7 +50,10 @@ export function Workspace() {
         try {
           queryVector = await embedQueryClient(query);
         } catch (embedErr) {
-          console.warn("Client embedding fallback:", embedErr);
+          console.error("Client embedding generation error:", embedErr);
+          throw new Error(
+            "Failed to generate client-side embedding. Please verify your network connection to load the model weights, or select BM25 Lexical retrieval."
+          );
         }
       }
 

@@ -12,6 +12,8 @@ import { embeddingRetriever } from "@/lib/retrieval/embedding";
 import { lexicalRetriever } from "@/lib/retrieval/lexical";
 import { ChunkConfigId, ScoredChunk } from "@/lib/retrieval/types";
 
+export const maxDuration = 30;
+
 export async function POST(req: NextRequest) {
   const evalKeyHeader = req.headers.get("X-Eval-Key");
   const expectedKey = process.env.EVAL_API_KEY;

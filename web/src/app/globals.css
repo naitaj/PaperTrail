@@ -5,53 +5,38 @@
 @import "tailwindcss";
 
 @theme {
-  --color-surface: #fff8f4;
-  --color-surface-dim: #f2d5b4;
-  --color-surface-bright: #fff8f4;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #fff1e5;
-  --color-surface-container: #ffebd5;
-  --color-surface-container-high: #ffe4c5;
-  --color-surface-container-highest: #fbdebc;
-  --color-on-surface: #271904;
-  --color-on-surface-variant: #444652;
-  --color-primary: #001d5f;
-  --color-primary-container: #05308c;
-  --color-on-primary: #ffffff;
-  --color-on-primary-container: #829efe;
-  --color-secondary: #ab3600;
-  --color-secondary-container: #fe6f3b;
-  --color-on-secondary: #ffffff;
-  --color-secondary-fixed: #ffdbcf;
-  --color-on-secondary-fixed: #390c00;
-  --color-tertiary: #24241f;
-  --color-on-tertiary: #ffffff;
-  --color-outline: #747683;
-  --color-outline-variant: #c4c5d4;
+  --color-midnight: #030407;
+  --color-cobalt: #1558c9;
+  --color-acid: #d4ff24;
+
+  --color-surface: #030407;
+  --color-surface-card: #090b10;
+  --color-surface-elevated: #121520;
+  --color-surface-border: #1c2233;
 
   --font-cinzel: "Cinzel", serif;
   --font-playfair: "Playfair Display", serif;
   --font-headline: "Source Serif 4", serif;
   --font-body: "EB Garamond", serif;
   --font-mono: "JetBrains Mono", monospace;
-
-  --spacing-gutter: 1.5rem;
-  --spacing-space-xs: 0.25rem;
-  --spacing-space-sm: 0.5rem;
-  --spacing-space-md: 1rem;
-  --spacing-space-lg: 1.5rem;
-  --spacing-space-xl: 2.5rem;
 }
 
 :root {
-  --background: #fff8f4;
-  --foreground: #271904;
+  --background: #030407;
+  --foreground: #f8fafc;
 }
 
 body {
-  background: #fff8f4;
-  color: #271904;
+  background: #030407;
+  color: #f8fafc;
   font-family: "EB Garamond", serif;
+  selection-background-color: #d4ff24;
+  selection-color: #030407;
+}
+
+::selection {
+  background-color: #d4ff24;
+  color: #030407;
 }
 
 .material-symbols-outlined {

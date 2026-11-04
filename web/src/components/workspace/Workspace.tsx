@@ -97,13 +97,13 @@ export function Workspace() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-[#faf8f5] text-[#1c1917] font-serif overflow-hidden">
+    <div className="h-screen flex flex-col bg-[#030407] text-[#f8fafc] font-serif overflow-hidden">
       <Header />
 
       {/* Main 3-Column Studio Grid */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[#e7e2d7] overflow-hidden">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[#1c2233] overflow-hidden">
         {/* Left Column: Archive Index */}
-        <aside className="lg:col-span-3 xl:col-span-3 h-full overflow-hidden bg-[#f7f4ee]">
+        <aside className="lg:col-span-3 xl:col-span-3 h-full overflow-hidden bg-[#06080d]">
           <PaperList
             documents={documents}
             selectedScope={selectedScope}
@@ -112,7 +112,7 @@ export function Workspace() {
         </aside>
 
         {/* Center Column: Query Console & Grounded Synthesis */}
-        <main className="lg:col-span-6 xl:col-span-6 h-full overflow-y-auto bg-[#faf8f5] p-5 sm:p-7">
+        <main className="lg:col-span-6 xl:col-span-6 h-full overflow-y-auto bg-[#030407] p-5 sm:p-7">
           <div className="max-w-3xl mx-auto space-y-6">
             <QuestionForm
               onSubmit={handleAsk}
@@ -133,7 +133,7 @@ export function Workspace() {
         </main>
 
         {/* Right Column: Evidence Reader */}
-        <aside className="lg:col-span-3 xl:col-span-3 h-full overflow-hidden bg-[#f7f4ee]">
+        <aside className="lg:col-span-3 xl:col-span-3 h-full overflow-hidden bg-[#06080d]">
           <EvidencePanel
             passages={response?.retrieved || []}
             claims={response?.claims || []}

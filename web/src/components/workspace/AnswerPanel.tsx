@@ -42,15 +42,12 @@ export function AnswerPanel({
 }: AnswerPanelProps) {
   if (isLoading) {
     return (
-      <div className="bg-white border border-[#e7e2d7] p-8 text-center my-4 space-y-3">
-        <div className="inline-block w-7 h-7 border-2 border-[#001d5f] border-t-transparent rounded-full animate-spin"></div>
-        <h3
-          className="text-[17px] font-bold text-[#1c1917]"
-          style={{ fontFamily: "'Playfair Display', serif" }}
-        >
+      <div className="bg-[#090b10] border border-[#1c2233] p-8 text-center my-4 space-y-3 rounded-none">
+        <div className="inline-block w-7 h-7 border-2 border-[#1558c9] border-t-[#d4ff24] rounded-full animate-spin"></div>
+        <h3 className="text-[17px] font-bold text-[#f8fafc] font-sans tracking-wide">
           Synthesizing Grounded Answer
         </h3>
-        <p className="font-serif text-[13px] text-[#78716c] max-w-sm mx-auto leading-relaxed">
+        <p className="font-sans text-[13px] text-[#94a3b8] max-w-sm mx-auto leading-relaxed">
           Retrieving passage vectors, checking confidence bounds, and validating verbatim citation quotes...
         </p>
       </div>
@@ -59,16 +56,16 @@ export function AnswerPanel({
 
   if (error) {
     return (
-      <div className="border border-red-200 bg-red-50/70 p-4 text-red-900 my-4 font-serif">
+      <div className="border border-red-500/40 bg-red-950/20 p-4 text-red-200 my-4 font-sans">
         <div className="flex items-start gap-2.5">
-          <span className="material-symbols-outlined text-[18px] text-red-700 mt-0.5">
+          <span className="material-symbols-outlined text-[18px] text-red-400 mt-0.5">
             error
           </span>
           <div>
-            <h3 className="font-mono text-[11px] uppercase font-bold tracking-wider text-red-800">
+            <h3 className="font-mono text-[11px] uppercase font-bold tracking-wider text-red-400">
               Query Error
             </h3>
-            <p className="mt-1 text-[13px] text-red-700">{error}</p>
+            <p className="mt-1 text-[13px] text-red-300">{error}</p>
           </div>
         </div>
       </div>
@@ -117,33 +114,33 @@ export function AnswerPanel({
   const references = Array.from(referenceMap.values());
 
   return (
-    <article className="bg-white border border-[#e7e2d7] shadow-[0_1px_4px_rgba(0,0,0,0.03)] p-6 my-2">
+    <article className="bg-[#090b10] border border-[#1c2233] p-6 my-2 shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
       {/* Top Ledger Header */}
-      <div className="flex flex-wrap items-center justify-between pb-3.5 border-b border-[#f0ebe1] gap-2">
+      <div className="flex flex-wrap items-center justify-between pb-3.5 border-b border-[#1c2233] gap-2">
         <div className="flex items-center gap-2.5">
           <span
-            className={`font-mono text-[10px] font-bold uppercase px-2 py-0.5 tracking-wider text-white ${
+            className={`font-mono text-[10px] font-bold uppercase px-2.5 py-0.5 tracking-wider ${
               isAbstain
-                ? "bg-[#ab3600]"
+                ? "bg-red-500/20 text-red-400 border border-red-500/30"
                 : isPartial
-                ? "bg-[#d97706]"
-                : "bg-[#001d5f]"
+                ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                : "bg-[#d4ff24] text-[#030407] font-extrabold"
             }`}
           >
             {decision.toUpperCase()}
           </span>
-          <span className="font-mono text-[11px] text-[#78716c]">
-            Model: <span className="text-[#1c1917] font-medium">{model || "gpt-oss-120b"}</span>
+          <span className="font-mono text-[11px] text-[#94a3b8]">
+            Model: <span className="text-[#f8fafc] font-medium">{model || "gpt-oss-120b"}</span>
           </span>
         </div>
 
         {timings_ms && (
-          <div className="font-mono text-[10px] text-[#a8a29e] flex items-center gap-2">
-            <span>Retrieval: {timings_ms.retrieve}ms</span>
+          <div className="font-mono text-[10px] text-[#64748b] flex items-center gap-2">
+            <span>Retrieval: <span className="text-[#94a3b8]">{timings_ms.retrieve}ms</span></span>
             <span>·</span>
-            <span>Gen: {timings_ms.generate}ms</span>
+            <span>Gen: <span className="text-[#94a3b8]">{timings_ms.generate}ms</span></span>
             <span>·</span>
-            <span className="font-bold text-[#1c1917]">
+            <span className="font-bold text-[#d4ff24]">
               Total: {timings_ms.total}ms
             </span>
           </div>
@@ -152,8 +149,8 @@ export function AnswerPanel({
 
       {/* Fast Abstention Notice if Gate Triggered */}
       {gate_triggered && (
-        <div className="my-3 p-3 bg-[#fff7ed] border-l-3 border-[#f97316] text-[#9a3412] font-serif text-[13px]">
-          <span className="font-mono text-[10px] uppercase font-bold block mb-0.5 tracking-wide text-[#c2410c]">
+        <div className="my-3 p-3 bg-amber-950/20 border-l-2 border-amber-500 text-amber-200 font-sans text-[13px]">
+          <span className="font-mono text-[10px] uppercase font-bold block mb-0.5 tracking-wide text-amber-400">
             Pre-LLM Confidence Gate Fast-Abstention (~1ms · 0 Tokens)
           </span>
           Top retrieved passage score was below the calibrated threshold. Fast-abstained
@@ -163,8 +160,8 @@ export function AnswerPanel({
 
       {/* Abstention Explanation */}
       {isAbstain && abstention_reason && !gate_triggered && (
-        <div className="my-3 p-3 bg-[#f5f5f4] border-l-3 border-[#78716c] text-[#44403c] font-serif text-[13px]">
-          <span className="font-mono text-[10px] uppercase font-bold block mb-0.5 tracking-wide text-[#57534e]">
+        <div className="my-3 p-3 bg-red-950/20 border-l-2 border-red-500 text-red-200 font-sans text-[13px]">
+          <span className="font-mono text-[10px] uppercase font-bold block mb-0.5 tracking-wide text-red-400">
             Abstention Rationale
           </span>
           {abstention_reason}
@@ -173,22 +170,20 @@ export function AnswerPanel({
 
       {/* Synthesis Answer Body */}
       <div className="py-4">
-        <h3
-          className="text-[19px] font-bold text-[#1c1917] mb-2"
-          style={{ fontFamily: "'Playfair Display', serif" }}
-        >
+        <h3 className="text-[18px] font-bold text-[#f8fafc] mb-2 font-sans tracking-tight flex items-center gap-2">
+          <span className="w-1.5 h-4 bg-[#1558c9]"></span>
           {isAbstain ? "Corpus Abstention Notice" : "Synthesized Research Finding"}
         </h3>
-        <p className="font-serif text-[17px] text-[#1c1917] leading-relaxed whitespace-pre-line font-normal">
+        <p className="font-sans text-[15px] text-[#cbd5e1] leading-relaxed whitespace-pre-line font-normal">
           {answer}
         </p>
       </div>
 
       {/* Verified Bibliographic Citations Ledger */}
       {references.length > 0 && (
-        <div className="mt-4 pt-3.5 border-t border-[#f0ebe1]">
-          <h4 className="font-mono text-[10px] uppercase tracking-widest text-[#78716c] font-bold mb-2.5 flex items-center gap-1.5">
-            <span className="material-symbols-outlined text-[14px] text-[#001d5f]">
+        <div className="mt-4 pt-3.5 border-t border-[#1c2233]">
+          <h4 className="font-mono text-[10px] uppercase tracking-widest text-[#94a3b8] font-bold mb-2.5 flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[14px] text-[#1558c9]">
               fact_check
             </span>
             Verified Passages ({references.length})
@@ -201,22 +196,23 @@ export function AnswerPanel({
                 <div
                   key={ref.chunkId}
                   onClick={() => onSelectCitation(ref.chunkId)}
-                  className={`p-2.5 border transition-all cursor-pointer text-[12px] ${
+                  className={`p-3 border transition-all cursor-pointer text-[12px] ${
                     isSelected
-                      ? "bg-[#fff9f2] border-[#fe6f3b] shadow-2xs"
-                      : "bg-[#faf8f5] border-[#e7e2d7] hover:bg-white"
+                      ? "bg-[#1558c9]/15 border-[#d4ff24] shadow-[0_0_12px_rgba(212,255,36,0.15)]"
+                      : "bg-[#030407] border-[#1c2233] hover:border-[#1558c9]/60 hover:bg-[#0c0e14]"
                   }`}
                 >
                   <div className="flex items-center justify-between font-mono text-[10px] mb-1">
-                    <span className="font-bold text-[#001d5f]">
+                    <span className="font-bold text-[#1558c9] flex items-center gap-1.5">
+                      <span className="w-1 h-1 rounded-full bg-[#d4ff24]"></span>
                       [{idx + 1}] {ref.docId} (p.{ref.page})
                     </span>
-                    <span className="text-[#a8a29e]">
+                    <span className="text-[#64748b]">
                       {ref.chunkId.slice(0, 16)}...
                     </span>
                   </div>
                   {ref.quote && (
-                    <p className="italic text-[#57534e] text-[13px] leading-snug line-clamp-2">
+                    <p className="italic text-[#94a3b8] text-[12px] leading-snug line-clamp-2 pl-2 border-l border-[#1c2233]">
                       &ldquo;{ref.quote}&rdquo;
                     </p>
                   )}

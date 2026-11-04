@@ -59,17 +59,17 @@ export function EvidencePanel({
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-between bg-[#f7f4ee]">
+    <div className="w-full h-full flex flex-col justify-between bg-[#030407]">
       <div className="flex-1 flex flex-col min-h-0">
         {/* Right Column Header */}
-        <div className="p-3.5 border-b border-[#e7e2d7] bg-[#fcfbf9] flex items-center justify-between">
-          <span className="font-mono text-[11px] uppercase tracking-wider text-[#57534e] font-semibold flex items-center gap-1.5">
-            <span className="material-symbols-outlined text-[15px] text-[#001d5f]">
+        <div className="p-3.5 border-b border-[#1c2233] bg-[#090b10] flex items-center justify-between">
+          <span className="font-mono text-[11px] uppercase tracking-wider text-[#94a3b8] font-semibold flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[15px] text-[#1558c9]">
               menu_book
             </span>
             Retrieved Evidence
           </span>
-          <span className="font-mono text-[10px] bg-[#001d5f]/10 text-[#001d5f] px-2 py-0.5 rounded-xs font-semibold">
+          <span className="font-mono text-[10px] bg-[#1558c9]/20 text-[#d4ff24] border border-[#1558c9]/40 px-2 py-0.5 rounded-none font-semibold">
             {passages.length} Passages
           </span>
         </div>
@@ -77,21 +77,18 @@ export function EvidencePanel({
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto p-3.5 space-y-2.5">
           {passages.length === 0 ? (
-            /* Calm Archival Empty State */
+            /* Calm Empty State */
             <div className="flex flex-col items-center justify-center text-center py-12 px-4 space-y-3">
-              <div className="w-10 h-10 rounded-full bg-[#ede8df] flex items-center justify-center text-[#78716c]">
+              <div className="w-10 h-10 rounded-full bg-[#090b10] border border-[#1c2233] flex items-center justify-center text-[#1558c9]">
                 <span className="material-symbols-outlined text-[20px]">
                   find_in_page
                 </span>
               </div>
-              <h3
-                className="text-[16px] font-bold text-[#1c1917]"
-                style={{ fontFamily: "'Playfair Display', serif" }}
-              >
+              <h3 className="text-[15px] font-bold text-[#f8fafc] font-sans">
                 No passages retrieved
               </h3>
-              <p className="font-serif text-[13px] text-[#78716c] leading-relaxed max-w-[240px]">
-                Ask a question to see retrieved passages from the corpus with relevance scores and verified quote spans.
+              <p className="font-sans text-[13px] text-[#64748b] leading-relaxed max-w-[240px]">
+                Ask a question to see retrieved passages with relevance scores and verified quote spans.
               </p>
             </div>
           ) : (
@@ -107,43 +104,43 @@ export function EvidencePanel({
                   onClick={() => onSelectChunk(isSelected ? null : p.chunk_id)}
                   className={`p-3 border transition-all cursor-pointer ${
                     isSelected
-                      ? "bg-white border-[#001d5f] shadow-xs"
+                      ? "bg-[#1558c9]/15 border-[#d4ff24] shadow-[0_0_12px_rgba(212,255,36,0.15)]"
                       : isCited
-                      ? "bg-white border-l-3 border-l-[#fe6f3b] border-t-[#e7e2d7] border-r-[#e7e2d7] border-b-[#e7e2d7]"
-                      : "bg-[#fcfbf9] border-[#e7e2d7] hover:bg-white"
+                      ? "bg-[#0c0e16] border-l-2 border-l-[#d4ff24] border-t-[#1c2233] border-r-[#1c2233] border-b-[#1c2233]"
+                      : "bg-[#090b10] border-[#1c2233] hover:border-[#1558c9]/50 hover:bg-[#0d1017]"
                   }`}
                 >
-                  <div className="flex items-center justify-between pb-1 border-b border-[#f0ebe1] text-[10px] font-mono">
+                  <div className="flex items-center justify-between pb-1.5 border-b border-[#1c2233] text-[10px] font-mono">
                     <div className="flex items-center gap-1.5">
-                      <span className="bg-[#001d5f] text-white px-1.5 py-0.2 font-bold text-[9px]">
+                      <span className="bg-[#1558c9] text-white px-1.5 py-0.2 font-bold text-[9px]">
                         #{idx + 1}
                       </span>
-                      <span className="font-semibold text-[#1c1917] truncate max-w-[120px]">
+                      <span className="font-semibold text-[#f8fafc] truncate max-w-[120px]">
                         {p.doc_id}
                       </span>
                       {p.page_start && (
-                        <span className="text-[#a8a29e]">p.{p.page_start}</span>
+                        <span className="text-[#64748b]">p.{p.page_start}</span>
                       )}
                     </div>
-                    <span className="text-[#001d5f] font-bold">
+                    <span className="text-[#d4ff24] font-bold">
                       {typeof p.score === "number" ? p.score.toFixed(3) : p.score}
                     </span>
                   </div>
 
                   {isCited && quote && (
-                    <div className="my-1.5 bg-[#fff7ed] border-l-2 border-[#f97316] p-1.5 text-[11px] font-serif text-[#9a3412]">
-                      <span className="font-mono text-[9px] font-bold block uppercase text-[#c2410c] mb-0.5">
+                    <div className="my-2 bg-[#1558c9]/15 border-l-2 border-[#d4ff24] p-2 text-[11px] font-sans text-[#e2e8f0]">
+                      <span className="font-mono text-[9px] font-bold block uppercase text-[#d4ff24] mb-0.5">
                         Cited Verbatim Quote:
                       </span>
                       &ldquo;{quote}&rdquo;
                     </div>
                   )}
 
-                  <p className="font-serif text-[12px] text-[#44403c] mt-1.5 line-clamp-3 leading-relaxed">
+                  <p className="font-sans text-[12px] text-[#94a3b8] mt-1.5 line-clamp-3 leading-relaxed">
                     {p.text}
                   </p>
 
-                  <div className="mt-2 pt-1 border-t border-[#f0ebe1] flex items-center justify-between font-mono text-[10px] text-[#a8a29e]">
+                  <div className="mt-2 pt-1.5 border-t border-[#1c2233] flex items-center justify-between font-mono text-[10px] text-[#64748b]">
                     <span>{p.config_id} · ord {p.ordinal}</span>
                     <button
                       type="button"
@@ -151,7 +148,7 @@ export function EvidencePanel({
                         e.stopPropagation();
                         handleExpandContext(p.chunk_id);
                       }}
-                      className="text-[#001d5f] hover:underline flex items-center gap-0.5 font-semibold"
+                      className="text-[#1558c9] hover:text-[#d4ff24] hover:underline flex items-center gap-0.5 font-semibold transition-colors"
                     >
                       <span className="material-symbols-outlined text-[12px]">
                         open_in_full
@@ -167,64 +164,66 @@ export function EvidencePanel({
       </div>
 
       {/* Contract & Handshake Footer */}
-      <div className="p-3 border-t border-[#e7e2d7] bg-[#fcfbf9] text-[10px] font-mono text-[#78716c] space-y-1">
+      <div className="p-3 border-t border-[#1c2233] bg-[#090b10] text-[10px] font-mono text-[#94a3b8] space-y-1">
         <div className="flex items-center justify-between">
           <span>GET /api/documents</span>
-          <span className="text-emerald-700 font-semibold">200 OK</span>
+          <span className="text-[#d4ff24] font-semibold">200 OK</span>
         </div>
         <div className="flex items-center justify-between">
           <span>POST /api/ask</span>
-          <span>{hasExecutedQuery ? "200 OK" : "IDLE"}</span>
+          <span className={hasExecutedQuery ? "text-[#d4ff24] font-semibold" : "text-[#64748b]"}>
+            {hasExecutedQuery ? "200 OK" : "IDLE"}
+          </span>
         </div>
       </div>
 
       {/* Context Expansion Modal Sheet */}
       {modalChunkId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-2xl max-h-[85vh] bg-[#fcfbf9] border border-[#d4cdbc] shadow-xl flex flex-col">
-            <div className="p-4 border-b border-[#e7e2d7] bg-white flex items-center justify-between">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-4">
+          <div className="w-full max-w-2xl max-h-[85vh] bg-[#090b10] border border-[#1c2233] shadow-2xl flex flex-col">
+            <div className="p-4 border-b border-[#1c2233] bg-[#0c0e14] flex items-center justify-between">
               <div>
-                <h3 className="font-mono text-[12px] uppercase tracking-wider font-bold text-[#1c1917]">
+                <h3 className="font-mono text-[12px] uppercase tracking-wider font-bold text-[#f8fafc]">
                   Surrounding Context (Ordinal ±1)
                 </h3>
-                <span className="font-mono text-[10px] text-[#78716c]">
+                <span className="font-mono text-[10px] text-[#64748b]">
                   Target: {modalChunkId}
                 </span>
               </div>
               <button
                 onClick={closeModal}
-                className="text-[#78716c] hover:text-[#1c1917] font-mono text-[13px] font-bold px-2 py-1"
+                className="text-[#94a3b8] hover:text-[#d4ff24] font-mono text-[13px] font-bold px-2 py-1 transition-colors"
               >
                 ✕ Close
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-5 space-y-3 font-serif text-[14px] leading-relaxed">
+            <div className="flex-1 overflow-y-auto p-5 space-y-3 font-sans text-[13px] leading-relaxed">
               {loadingContext ? (
-                <div className="p-8 text-center font-mono text-[11px] text-[#78716c]">
+                <div className="p-8 text-center font-mono text-[11px] text-[#94a3b8]">
                   Loading adjacent chunks from database...
                 </div>
               ) : contextData ? (
                 <div className="space-y-3">
                   {contextData.prev_chunk && (
-                    <div className="p-3 bg-white border border-[#e7e2d7] text-[#57534e]">
-                      <span className="font-mono text-[9px] text-[#a8a29e] uppercase block mb-1">
+                    <div className="p-3 bg-[#030407] border border-[#1c2233] text-[#94a3b8]">
+                      <span className="font-mono text-[9px] text-[#64748b] uppercase block mb-1">
                         Preceding Chunk (Ordinal {String(contextData.prev_chunk.ordinal)})
                       </span>
                       <p>{String(contextData.prev_chunk.text)}</p>
                     </div>
                   )}
 
-                  <div className="p-3.5 bg-white border-2 border-[#001d5f] text-[#1c1917]">
-                    <span className="font-mono text-[9px] text-[#001d5f] font-bold uppercase block mb-1">
+                  <div className="p-3.5 bg-[#1558c9]/15 border-2 border-[#d4ff24] text-[#f8fafc]">
+                    <span className="font-mono text-[9px] text-[#d4ff24] font-bold uppercase block mb-1">
                       Retrieved Passage (Ordinal {String(contextData.chunk?.ordinal)})
                     </span>
                     <p className="font-medium">{String(contextData.chunk?.text)}</p>
                   </div>
 
                   {contextData.next_chunk && (
-                    <div className="p-3 bg-white border border-[#e7e2d7] text-[#57534e]">
-                      <span className="font-mono text-[9px] text-[#a8a29e] uppercase block mb-1">
+                    <div className="p-3 bg-[#030407] border border-[#1c2233] text-[#94a3b8]">
+                      <span className="font-mono text-[9px] text-[#64748b] uppercase block mb-1">
                         Succeeding Chunk (Ordinal {String(contextData.next_chunk.ordinal)})
                       </span>
                       <p>{String(contextData.next_chunk.text)}</p>
@@ -232,16 +231,16 @@ export function EvidencePanel({
                   )}
                 </div>
               ) : (
-                <div className="p-4 text-center text-red-600 font-mono text-[11px]">
+                <div className="p-4 text-center text-red-400 font-mono text-[11px]">
                   Failed to load adjacent context.
                 </div>
               )}
             </div>
 
-            <div className="p-3 border-t border-[#e7e2d7] bg-white flex justify-end">
+            <div className="p-3 border-t border-[#1c2233] bg-[#0c0e14] flex justify-end">
               <button
                 onClick={closeModal}
-                className="bg-[#001d5f] text-white px-4 py-1.5 font-mono text-[11px] font-bold uppercase"
+                className="bg-[#d4ff24] text-[#030407] px-4 py-1.5 font-mono text-[11px] font-bold uppercase hover:bg-[#bceb16] transition-colors"
               >
                 Done
               </button>

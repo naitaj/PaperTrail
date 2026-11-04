@@ -67,19 +67,19 @@ export function QuestionForm({
 
   return (
     <div className="space-y-4">
-      {/* Scope Pill Banner (Only shown when scoped to a specific document) */}
+      {/* Scope Pill Banner (Shown when scoped to a specific document) */}
       {selectedScopeTitle && (
-        <div className="bg-[#fff1e5] border border-[#f3d9c2] px-3.5 py-1.5 flex items-center justify-between text-[12px]">
+        <div className="bg-[#0b1324] border border-[#1558c9]/50 px-3.5 py-1.5 flex items-center justify-between text-[12px] shadow-[0_0_12px_rgba(21,88,201,0.2)]">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#fe6f3b]"></span>
-            <span className="font-mono text-[#57534e]">Scoped to paper:</span>
-            <span className="font-serif font-semibold text-[#1c1917] truncate max-w-md">
+            <span className="w-2 h-2 rounded-full bg-[#d4ff24]"></span>
+            <span className="font-mono text-[#94a3b8]">Scoped Document:</span>
+            <span className="font-serif font-semibold text-[#f8fafc] truncate max-w-md">
               {selectedScopeTitle}
             </span>
           </div>
           <button
             onClick={onClearScope}
-            className="font-mono text-[11px] text-[#001d5f] hover:underline font-semibold"
+            className="font-mono text-[11px] text-[#60a5fa] hover:text-[#d4ff24] hover:underline font-semibold"
           >
             [Search All Papers]
           </button>
@@ -88,19 +88,20 @@ export function QuestionForm({
 
       {/* Hero Title (Compact when answer is displayed) */}
       {!hasAnswer && (
-        <div className="pt-1 pb-2">
-          <div className="flex items-center gap-2 text-[#001d5f] mb-1">
-            <span className="font-mono text-[11px] uppercase tracking-widest font-bold">
+        <div className="pt-2 pb-2">
+          <div className="flex items-center gap-2 text-[#60a5fa] mb-1.5">
+            <span className="font-mono text-[11px] uppercase tracking-widest font-bold flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#1558c9]"></span>
               Scholarly Query Desk
             </span>
           </div>
           <h1
-            className="text-[28px] sm:text-[34px] font-bold text-[#1c1917] leading-tight"
+            className="text-[32px] sm:text-[40px] font-bold text-[#f8fafc] leading-tight"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            Ask your research.
+            Ask your <span className="text-[#d4ff24]">research.</span>
           </h1>
-          <p className="font-serif text-[15px] text-[#57534e] mt-1 leading-relaxed">
+          <p className="font-serif text-[15px] text-[#94a3b8] mt-1.5 leading-relaxed max-w-2xl">
             Synthesizes answers strictly from retrieved passage spans with verbatim
             citations and automated verification guardrails.
           </p>
@@ -108,12 +109,12 @@ export function QuestionForm({
       )}
 
       {/* Query Console Card */}
-      <div className="bg-white border border-[#e7e2d7] shadow-[0_1px_3px_rgba(0,0,0,0.03)] p-4 sm:p-5">
-        <div className="flex items-center justify-between pb-2 border-b border-[#f0ebe1] text-[#78716c]">
-          <span className="font-mono text-[11px] uppercase tracking-wider font-semibold text-[#57534e]">
-            {hasAnswer ? "Ask another question" : "Research Question"}
+      <div className="bg-[#090b10] border border-[#1c2233] focus-within:border-[#1558c9] shadow-[0_4px_20px_rgba(0,0,0,0.4)] p-4 sm:p-5 transition-colors">
+        <div className="flex items-center justify-between pb-2 border-b border-[#141824] text-[#94a3b8]">
+          <span className="font-mono text-[11px] uppercase tracking-wider font-semibold text-[#94a3b8]">
+            {hasAnswer ? "Ask Another Question" : "Research Question Specification"}
           </span>
-          <span className="font-mono text-[11px]">
+          <span className="font-mono text-[11px] text-[#64748b]">
             {query.length} / 500
           </span>
         </div>
@@ -126,22 +127,22 @@ export function QuestionForm({
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           disabled={isLoading}
-          placeholder="Ask a question grounded in the corpus (e.g. attention mechanisms, BM25 saturation, LoRA rank)..."
-          className="w-full bg-transparent border-0 pt-3 text-[16px] sm:text-[17px] text-[#1c1917] placeholder:text-[#a8a29e] focus:ring-0 focus:outline-none resize-none leading-relaxed font-serif"
+          placeholder="Ask a technical question across the corpus (e.g. attention mechanisms, BM25 saturation, LoRA rank)..."
+          className="w-full bg-transparent border-0 pt-3 text-[16px] sm:text-[17px] text-[#f8fafc] placeholder:text-[#475569] focus:ring-0 focus:outline-none resize-none leading-relaxed font-serif"
         />
 
         {/* Action & Strategy Bar */}
-        <div className="pt-3 border-t border-[#f0ebe1] flex flex-wrap items-center justify-between gap-3">
+        <div className="pt-3 border-t border-[#141824] flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             {/* Retriever Toggle Pill */}
-            <div className="inline-flex border border-[#e7e2d7] p-0.5 bg-[#f7f4ee]">
+            <div className="inline-flex border border-[#1c2233] p-0.5 bg-[#030407]">
               <button
                 type="button"
                 onClick={() => handleRetrieverChange("embedding")}
-                className={`px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider transition-colors ${
+                className={`px-3 py-1 font-mono text-[11px] uppercase tracking-wider transition-all ${
                   retriever === "embedding"
-                    ? "bg-[#001d5f] text-white font-semibold"
-                    : "text-[#57534e] hover:text-[#1c1917]"
+                    ? "bg-[#1558c9] text-white font-semibold shadow-[0_0_10px_rgba(21,88,201,0.6)]"
+                    : "text-[#94a3b8] hover:text-[#f8fafc]"
                 }`}
               >
                 Dense MiniLM
@@ -149,34 +150,34 @@ export function QuestionForm({
               <button
                 type="button"
                 onClick={() => handleRetrieverChange("lexical")}
-                className={`px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider transition-colors ${
+                className={`px-3 py-1 font-mono text-[11px] uppercase tracking-wider transition-all ${
                   retriever === "lexical"
-                    ? "bg-[#001d5f] text-white font-semibold"
-                    : "text-[#57534e] hover:text-[#1c1917]"
+                    ? "bg-[#1558c9] text-white font-semibold shadow-[0_0_10px_rgba(21,88,201,0.6)]"
+                    : "text-[#94a3b8] hover:text-[#f8fafc]"
                 }`}
               >
                 BM25 Lexical
               </button>
             </div>
 
-            {/* Advanced toggle */}
+            {/* Advanced Settings Toggle */}
             <button
               type="button"
               onClick={() => setShowAdvanced(!showAdvanced)}
-              className="px-2 py-1 font-mono text-[11px] text-[#78716c] hover:text-[#1c1917] border border-transparent hover:border-[#e7e2d7] transition-colors"
+              className="px-2 py-1 font-mono text-[11px] text-[#94a3b8] hover:text-[#d4ff24] border border-transparent hover:border-[#1c2233] transition-colors"
             >
               {showAdvanced ? "▾ Settings" : "▸ Settings"}
             </button>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit Button - Acid Lime with Midnight Black text */}
           <button
             onClick={handleSubmit}
             disabled={!query.trim() || isLoading}
-            className="bg-[#001d5f] hover:bg-[#1a365d] disabled:opacity-40 text-white px-5 py-2 transition-all flex items-center gap-2 cursor-pointer font-sans text-[13px] font-semibold tracking-wide"
+            className="bg-[#d4ff24] hover:bg-[#e2ff5e] active:scale-[0.98] disabled:opacity-40 text-[#030407] px-6 py-2 transition-all flex items-center gap-2 cursor-pointer font-sans text-[13px] font-bold tracking-wide shadow-[0_0_20px_rgba(212,255,36,0.3)]"
           >
             <span>{isLoading ? "Synthesizing..." : "Ask Question"}</span>
-            <span className="material-symbols-outlined text-[16px]">
+            <span className="material-symbols-outlined text-[17px] font-bold">
               arrow_forward
             </span>
           </button>
@@ -184,22 +185,22 @@ export function QuestionForm({
 
         {/* Collapsible Advanced Settings (Chunking & Top-K) */}
         {showAdvanced && (
-          <div className="mt-3 pt-3 border-t border-[#f0ebe1] grid grid-cols-2 gap-4 bg-[#fcfbf9] p-3 text-[12px] font-mono text-[#57534e]">
+          <div className="mt-3 pt-3 border-t border-[#141824] grid grid-cols-2 gap-4 bg-[#030407] p-3 border border-[#1c2233] text-[12px] font-mono text-[#94a3b8]">
             <div>
-              <span className="block text-[10px] text-[#78716c] uppercase mb-1">
+              <span className="block text-[10px] text-[#64748b] uppercase mb-1">
                 Context Chunk Configuration
               </span>
               <select
                 value={chunkConfig}
                 onChange={(e) => setChunkConfig(e.target.value)}
-                className="w-full bg-white border border-[#e7e2d7] px-2 py-1 text-[#1c1917] text-[11px] focus:outline-none focus:border-[#001d5f]"
+                className="w-full bg-[#090b10] border border-[#1c2233] px-2.5 py-1 text-[#f8fafc] text-[11px] focus:outline-none focus:border-[#1558c9]"
               >
                 <option value="ck256">ck256 (256 tok · 32 overlap)</option>
                 <option value="ck640">ck640 (640 tok · 64 overlap)</option>
               </select>
             </div>
             <div>
-              <span className="block text-[10px] text-[#78716c] uppercase mb-1">
+              <span className="block text-[10px] text-[#64748b] uppercase mb-1">
                 Passages to Retrieve (Top-K: {topK})
               </span>
               <input
@@ -208,33 +209,33 @@ export function QuestionForm({
                 max="10"
                 value={topK}
                 onChange={(e) => setTopK(Number(e.target.value))}
-                className="w-full accent-[#001d5f] cursor-pointer mt-1.5"
+                className="w-full accent-[#d4ff24] cursor-pointer mt-1.5"
               />
             </div>
           </div>
         )}
       </div>
 
-      {/* Suggested Canonical Queries (Only shown when no answer is displayed) */}
+      {/* Suggested Canonical Queries */}
       {!hasAnswer && (
         <div className="space-y-2 pt-2">
-          <div className="flex items-center justify-between text-[#78716c] text-[11px] font-mono uppercase tracking-wider">
+          <div className="flex items-center justify-between text-[#94a3b8] text-[11px] font-mono uppercase tracking-wider">
             <span>Curated Benchmarking Queries:</span>
-            <span className="text-[#a8a29e]">Click to populate</span>
+            <span className="text-[#64748b]">Click to populate</span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {CANONICAL_QUERIES.map((item, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => setQuery(item.text)}
-                className="text-left p-3 bg-white hover:bg-[#fff9f2] border border-[#e7e2d7] hover:border-[#f3d9c2] transition-colors group cursor-pointer"
+                className="text-left p-3.5 bg-[#090b10] hover:bg-[#10131c] border border-[#1c2233] hover:border-[#1558c9] transition-all group cursor-pointer shadow-xs"
               >
-                <span className="font-mono text-[10px] uppercase font-bold text-[#ab3600] block mb-1">
+                <span className="font-mono text-[10px] uppercase font-bold text-[#d4ff24] block mb-1 tracking-wider">
                   {item.category}
                 </span>
-                <p className="font-serif text-[13px] text-[#292524] group-hover:text-[#001d5f] leading-snug line-clamp-2">
+                <p className="font-serif text-[13px] text-[#cbd5e1] group-hover:text-[#f8fafc] leading-snug line-clamp-2 transition-colors">
                   &ldquo;{item.text}&rdquo;
                 </p>
               </button>

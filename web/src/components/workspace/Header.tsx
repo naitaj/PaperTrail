@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 export function Header() {
@@ -12,9 +13,16 @@ export function Header() {
         {/* Brand & Masthead */}
         <div className="flex items-center gap-4">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <span className="material-symbols-outlined text-[#d4ff24] text-[22px] transition-transform group-hover:scale-105">
-              menu_book
-            </span>
+            <div className="relative w-7 h-7 flex items-center justify-center transition-transform group-hover:scale-105">
+              <Image
+                src="/logo.png"
+                alt="PaperTrail Logo"
+                width={28}
+                height={28}
+                className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(212,255,36,0.35)]"
+                priority
+              />
+            </div>
             <span
               className="text-[#f8fafc] group-hover:text-[#d4ff24] transition-colors uppercase tracking-widest text-[16px] font-bold"
               style={{ fontFamily: "'Cinzel', serif", letterSpacing: "0.15em" }}

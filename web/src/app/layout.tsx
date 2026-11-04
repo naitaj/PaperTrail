@@ -5,6 +5,15 @@ export const metadata: Metadata = {
   title: "PaperTrail: Evaluated Research-Paper Assistant",
   description:
     "An evaluated, grounded research-paper assistant with verified citations and abstention.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "128x128" },
+      { url: "/logo.png", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+    shortcut: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

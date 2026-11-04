@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Header } from "@/components/workspace/Header";
 
 export default function ResultsPage() {
@@ -141,7 +142,10 @@ export default function ResultsPage() {
 
       <footer className="w-full bg-[#090b10] border-t border-[#1c2233] py-4 mt-8">
         <div className="w-full max-w-6xl mx-auto px-6 flex items-center justify-between font-mono text-[11px] text-[#64748b]">
-          <span>PaperTrail Evaluated Neural Corpus</span>
+          <div className="flex items-center gap-2">
+            <Image src="/logo.png" alt="PaperTrail" width={16} height={16} className="w-4 h-4 object-contain" />
+            <span className="text-[#94a3b8]">PaperTrail Evaluated Neural Corpus</span>
+          </div>
           <span>Archival Invariant v3.8</span>
         </div>
       </footer>

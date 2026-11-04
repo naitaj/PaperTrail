@@ -52,25 +52,6 @@ export function QuestionForm({
 
   return (
     <div className="space-y-4">
-      {/* Scope Pill Banner (Shown when scoped to a specific document) */}
-      {selectedScopeTitle && (
-        <div className="bg-[#0b1324] border border-[#1558c9]/50 px-3.5 py-1.5 flex items-center justify-between text-[12px] shadow-[0_0_12px_rgba(21,88,201,0.2)]">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#d4ff24]"></span>
-            <span className="font-mono text-[#94a3b8]">Scoped Document:</span>
-            <span className="font-serif font-semibold text-[#f8fafc] truncate max-w-md">
-              {selectedScopeTitle}
-            </span>
-          </div>
-          <button
-            onClick={onClearScope}
-            className="font-mono text-[11px] text-[#60a5fa] hover:text-[#d4ff24] hover:underline font-semibold"
-          >
-            [Search All Documents]
-          </button>
-        </div>
-      )}
-
       {/* Hero Title (Compact when answer is displayed) */}
       {!hasAnswer && (
         <div className="pt-2 pb-2">

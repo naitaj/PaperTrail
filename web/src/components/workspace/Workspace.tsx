@@ -119,6 +119,29 @@ export function Workspace() {
         {/* Center Column: Query Console & Grounded Synthesis */}
         <main className="lg:col-span-6 xl:col-span-6 h-full overflow-y-auto bg-[#030407] p-5 sm:p-7">
           <div className="max-w-3xl mx-auto space-y-6">
+            {selectedScope && (
+              <div className="flex items-center justify-between pb-3 border-b border-[#1c2233]">
+                <div>
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-[#d4ff24] font-bold block">
+                    Active Scoped Paper
+                  </span>
+                  <h2 className="font-sans text-[16px] font-bold text-[#f8fafc] truncate max-w-xl">
+                    {selectedDoc?.title || selectedDoc?.doc_id}
+                  </h2>
+                </div>
+                <button
+                  onClick={() => {
+                    setSelectedScope(null);
+                    setResponse(null);
+                    setHasExecutedQuery(false);
+                  }}
+                  className="font-mono text-[10px] text-[#d4ff24] hover:underline uppercase font-bold tracking-wider cursor-pointer"
+                >
+                  Search all papers
+                </button>
+              </div>
+            )}
+
             <QuestionForm
               onSubmit={handleAsk}
               isLoading={isLoading}

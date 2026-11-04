@@ -492,12 +492,26 @@ export function PdfUploadWorkspace() {
                       {selectedDoc?.title || "All Custom Documents"}
                     </h2>
                   </div>
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className="font-mono text-[10px] text-[#1558c9] hover:text-[#d4ff24] uppercase font-bold tracking-wider hover:underline"
-                  >
-                    + Upload Another
-                  </button>
+                  <div className="flex flex-col items-end gap-1">
+                    {selectedDocId && (
+                      <button
+                        onClick={() => {
+                          setSelectedDocId(null);
+                          setResponse(null);
+                          setHasExecutedQuery(false);
+                        }}
+                        className="font-mono text-[10px] text-[#d4ff24] hover:underline uppercase font-bold tracking-wider cursor-pointer"
+                      >
+                        Search all papers
+                      </button>
+                    )}
+                    <button
+                      onClick={() => fileInputRef.current?.click()}
+                      className="font-mono text-[10px] text-[#1558c9] hover:text-[#d4ff24] uppercase font-bold tracking-wider hover:underline cursor-pointer"
+                    >
+                      + Upload Another
+                    </button>
+                  </div>
                 </div>
 
                 <QuestionForm

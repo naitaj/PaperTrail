@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
     // Extract pages via unpdf (zero native dependencies, serverless & Vercel ready)
     const uint8Array = new Uint8Array(arrayBuffer);
     const pdf = await getDocumentProxy(uint8Array);
-    const { text: pageTexts, totalPages } = await extractText(pdf, { mergePages: false });
+    const { text: pageTexts } = await extractText(pdf, { mergePages: false });
 
     if (!pageTexts || (Array.isArray(pageTexts) && pageTexts.length === 0)) {
       return NextResponse.json(

@@ -58,34 +58,34 @@ export function PdfUploadWorkspace() {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const fetchDocs = async () => {
-    try {
-      const res = await fetch("/api/documents");
-      if (res.ok) {
-        const data = await res.json();
-        const allDocs: DocumentItem[] = data.documents || [];
-        // Filter to user-uploaded documents (or all if none)
-        const userDocs = allDocs.filter(
-          (d) =>
-            d.doc_id.startsWith("user-") ||
-            d.source_url?.startsWith("upload://") ||
-            d.venue === "In-Browser Workspace"
-        );
-        setDocuments(userDocs);
-
-        // Auto-select the first user doc if nothing is selected
-        if (!selectedDocId && userDocs.length > 0) {
-          setSelectedDocId(userDocs[0].doc_id);
-        }
-      }
-    } catch (err) {
-      console.error("Failed to load documents:", err);
-    }
-  };
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    fetchDocs();
-  }, []);
+    let ignore = false;
+    async function load() {
+      try {
+        const res = await fetch("/api/documents");
+        if (res.ok && !ignore) {
+          const data = await res.json();
+          const allDocs: DocumentItem[] = data.documents || [];
+          const userDocs = allDocs.filter(
+            (d) =>
+              d.doc_id.startsWith("user-") ||
+              d.source_url?.startsWith("upload://") ||
+              d.venue === "In-Browser Workspace"
+          );
+          setDocuments(userDocs);
+          setSelectedDocId((current) => current || (userDocs.length > 0 ? userDocs[0].doc_id : null));
+        }
+      } catch (err) {
+        console.error("Failed to load documents:", err);
+      }
+    }
+    load();
+    return () => {
+      ignore = true;
+    };
+  }, [refreshKey]);
 
   const handleDeleteDoc = async (docId: string) => {
     if (!confirm("Are you sure you want to delete this document and all its indexed data?")) {
@@ -201,7 +201,7 @@ export function PdfUploadWorkspace() {
       });
 
       // Refresh list and select new document
-      await fetchDocs();
+      setRefreshKey((k) => k + 1);
       setSelectedDocId(parseData.doc.doc_id);
       setResponse(null);
       setHasExecutedQuery(false);
@@ -517,8 +517,6 @@ export function PdfUploadWorkspace() {
                 <QuestionForm
                   onSubmit={handleAsk}
                   isLoading={isLoading}
-                  selectedScopeTitle={selectedDoc ? selectedDoc.title || selectedDoc.doc_id : null}
-                  onClearScope={() => setSelectedDocId(null)}
                   hasAnswer={!!response}
                   lockRetriever="embedding"
                 />

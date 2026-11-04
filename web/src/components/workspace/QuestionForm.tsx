@@ -10,8 +10,6 @@ interface QuestionFormProps {
     topK?: number
   ) => void;
   isLoading: boolean;
-  selectedScopeTitle: string | null;
-  onClearScope: () => void;
   hasAnswer?: boolean;
   lockRetriever?: "embedding" | "lexical";
 }
@@ -19,8 +17,6 @@ interface QuestionFormProps {
 export function QuestionForm({
   onSubmit,
   isLoading,
-  selectedScopeTitle,
-  onClearScope,
   hasAnswer = false,
   lockRetriever,
 }: QuestionFormProps) {

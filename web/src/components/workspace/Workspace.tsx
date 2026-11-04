@@ -145,8 +145,6 @@ export function Workspace() {
             <QuestionForm
               onSubmit={handleAsk}
               isLoading={isLoading}
-              selectedScopeTitle={selectedDoc ? selectedDoc.title || selectedDoc.doc_id : null}
-              onClearScope={() => setSelectedScope(null)}
               hasAnswer={!!response}
             />
 

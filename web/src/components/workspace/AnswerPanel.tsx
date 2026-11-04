@@ -82,7 +82,6 @@ export function AnswerPanel({
     claims,
     abstention_reason,
     timings_ms,
-    model,
     gate_triggered,
   } = response;
 

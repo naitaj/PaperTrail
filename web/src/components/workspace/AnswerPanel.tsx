@@ -119,13 +119,12 @@ export function AnswerPanel({
       <div className="flex flex-wrap items-center justify-between pb-3.5 border-b border-[#1c2233] gap-2">
         <div className="flex items-center gap-2.5">
           <span
-            className={`font-mono text-[10px] font-bold uppercase px-2.5 py-0.5 tracking-wider ${
-              isAbstain
+            className={`font-mono text-[10px] font-bold uppercase px-2.5 py-0.5 tracking-wider ${isAbstain
                 ? "bg-red-500/20 text-red-400 border border-red-500/30"
                 : isPartial
-                ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                : "bg-[#d4ff24] text-[#030407] font-extrabold"
-            }`}
+                  ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                  : "bg-[#d4ff24] text-[#030407] font-extrabold"
+              }`}
           >
             {decision.toUpperCase()}
           </span>
@@ -172,7 +171,7 @@ export function AnswerPanel({
       <div className="py-4">
         <h3 className="text-[18px] font-bold text-[#f8fafc] mb-2 font-sans tracking-tight flex items-center gap-2">
           <span className="w-1.5 h-4 bg-[#1558c9]"></span>
-          {isAbstain ? "Corpus Abstention Notice" : "Synthesized Research Finding"}
+          {isAbstain ? "Abstention Notice" : "Synthesized Research Finding"}
         </h3>
         <p className="font-sans text-[15px] text-[#cbd5e1] leading-relaxed whitespace-pre-line font-normal">
           {answer}
@@ -196,11 +195,10 @@ export function AnswerPanel({
                 <div
                   key={ref.chunkId}
                   onClick={() => onSelectCitation(ref.chunkId)}
-                  className={`p-3 border transition-all cursor-pointer text-[12px] ${
-                    isSelected
+                  className={`p-3 border transition-all cursor-pointer text-[12px] ${isSelected
                       ? "bg-[#1558c9]/15 border-[#d4ff24] shadow-[0_0_12px_rgba(212,255,36,0.15)]"
                       : "bg-[#030407] border-[#1c2233] hover:border-[#1558c9]/60 hover:bg-[#0c0e14]"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center justify-between font-mono text-[10px] mb-1">
                     <span className="font-bold text-[#1558c9] flex items-center gap-1.5">

@@ -62,12 +62,16 @@ export async function POST(req: NextRequest) {
     const tRetrieve = Date.now();
     const retrieveMs = tRetrieve - t0;
 
+    const isScoped = !!scopeDocId;
+
     // TRD §7.4 Abstention Gate: Reject before LLM call if evidence is clearly insufficient
-    const gate = evaluateAbstentionGate(retrieved, retriever, chunkConfig);
+    const gate = evaluateAbstentionGate(retrieved, retriever, chunkConfig, isScoped);
     if (gate.shouldAbstain) {
       return NextResponse.json({
         decision: "abstain",
-        answer: "The available research paper corpus contains insufficient evidence to answer this question.",
+        answer: isScoped
+          ? "The selected document contains insufficient evidence to answer this question."
+          : "The available research paper corpus contains insufficient evidence to answer this question.",
         claims: [],
         abstention_reason: gate.abstentionReason,
         retrieved,

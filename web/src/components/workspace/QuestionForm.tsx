@@ -13,6 +13,7 @@ interface QuestionFormProps {
   selectedScopeTitle: string | null;
   onClearScope: () => void;
   hasAnswer?: boolean;
+  lockRetriever?: "embedding" | "lexical";
 }
 
 const CANONICAL_QUERIES = [
@@ -40,9 +41,12 @@ export function QuestionForm({
   selectedScopeTitle,
   onClearScope,
   hasAnswer = false,
+  lockRetriever,
 }: QuestionFormProps) {
   const [query, setQuery] = useState("");
-  const [retriever, setRetriever] = useState<"lexical" | "embedding">("embedding");
+  const [retriever, setRetriever] = useState<"lexical" | "embedding">(
+    lockRetriever || "embedding"
+  );
   const [chunkConfig, setChunkConfig] = useState<string>("ck256");
   const [topK, setTopK] = useState<number>(5);
   const [showAdvanced, setShowAdvanced] = useState(false);
@@ -135,30 +139,39 @@ export function QuestionForm({
         <div className="pt-3 border-t border-[#141824] flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             {/* Retriever Toggle Pill */}
-            <div className="inline-flex border border-[#1c2233] p-0.5 bg-[#030407]">
-              <button
-                type="button"
-                onClick={() => handleRetrieverChange("embedding")}
-                className={`px-3 py-1 font-mono text-[11px] uppercase tracking-wider transition-all ${
-                  retriever === "embedding"
-                    ? "bg-[#1558c9] text-white font-semibold shadow-[0_0_10px_rgba(21,88,201,0.6)]"
-                    : "text-[#94a3b8] hover:text-[#f8fafc]"
-                }`}
-              >
-                Dense MiniLM
-              </button>
-              <button
-                type="button"
-                onClick={() => handleRetrieverChange("lexical")}
-                className={`px-3 py-1 font-mono text-[11px] uppercase tracking-wider transition-all ${
-                  retriever === "lexical"
-                    ? "bg-[#1558c9] text-white font-semibold shadow-[0_0_10px_rgba(21,88,201,0.6)]"
-                    : "text-[#94a3b8] hover:text-[#f8fafc]"
-                }`}
-              >
-                BM25 Lexical
-              </button>
-            </div>
+            {lockRetriever ? (
+              <div className="inline-flex items-center gap-1.5 border border-[#1558c9]/40 bg-[#0c101c] px-3 py-1 font-mono text-[11px] text-[#f8fafc] shadow-[0_0_8px_rgba(21,88,201,0.2)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#d4ff24]"></span>
+                <span className="uppercase tracking-wider font-semibold">
+                  {lockRetriever === "embedding" ? "Dense MiniLM (384-d)" : "BM25 Lexical"}
+                </span>
+              </div>
+            ) : (
+              <div className="inline-flex border border-[#1c2233] p-0.5 bg-[#030407]">
+                <button
+                  type="button"
+                  onClick={() => handleRetrieverChange("embedding")}
+                  className={`px-3 py-1 font-mono text-[11px] uppercase tracking-wider transition-all ${
+                    retriever === "embedding"
+                      ? "bg-[#1558c9] text-white font-semibold shadow-[0_0_10px_rgba(21,88,201,0.6)]"
+                      : "text-[#94a3b8] hover:text-[#f8fafc]"
+                  }`}
+                >
+                  Dense MiniLM
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleRetrieverChange("lexical")}
+                  className={`px-3 py-1 font-mono text-[11px] uppercase tracking-wider transition-all ${
+                    retriever === "lexical"
+                      ? "bg-[#1558c9] text-white font-semibold shadow-[0_0_10px_rgba(21,88,201,0.6)]"
+                      : "text-[#94a3b8] hover:text-[#f8fafc]"
+                  }`}
+                >
+                  BM25 Lexical
+                </button>
+              </div>
+            )}
 
             {/* Advanced Settings Toggle */}
             <button

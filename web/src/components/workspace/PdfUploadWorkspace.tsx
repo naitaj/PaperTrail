@@ -463,6 +463,7 @@ export function PdfUploadWorkspace() {
                   selectedScopeTitle={selectedDoc ? selectedDoc.title || selectedDoc.doc_id : null}
                   onClearScope={() => setSelectedDocId(null)}
                   hasAnswer={!!response}
+                  lockRetriever="embedding"
                 />
 
                 <AnswerPanel

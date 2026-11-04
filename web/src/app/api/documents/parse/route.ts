@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
+import { getDocumentProxy, extractText } from "unpdf";
 import { chunkDocument } from "@/lib/ingest/chunk";
 
 export const maxDuration = 30;
@@ -52,13 +53,12 @@ export async function POST(req: NextRequest) {
     // SHA-256 of the raw file
     const fileSha256 = crypto.createHash("sha256").update(buffer).digest("hex");
 
-    // Dynamic import of pdf-parse
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { PDFParse } = require("pdf-parse");
-    const parser = new PDFParse({ data: buffer });
-    const parsed = await parser.getText();
+    // Extract pages via unpdf (zero native dependencies, serverless & Vercel ready)
+    const uint8Array = new Uint8Array(arrayBuffer);
+    const pdf = await getDocumentProxy(uint8Array);
+    const { text: pageTexts, totalPages } = await extractText(pdf, { mergePages: false });
 
-    if (!parsed || !parsed.pages || parsed.pages.length === 0) {
+    if (!pageTexts || (Array.isArray(pageTexts) && pageTexts.length === 0)) {
       return NextResponse.json(
         { error: "Could not extract text from PDF. The document may be scanned or image-only." },
         { status: 400 }
@@ -66,14 +66,13 @@ export async function POST(req: NextRequest) {
     }
 
     // Process pages
-    const rawPages: { num: number; text: string }[] = parsed.pages;
+    const rawPages: string[] = Array.isArray(pageTexts) ? pageTexts : [pageTexts];
     const pages: { pageIndex: number; text: string; charCount: number }[] = [];
     let fullText = "";
 
     for (let i = 0; i < rawPages.length; i++) {
-      const p = rawPages[i];
-      const pageIndex = p.num || i + 1;
-      const cleaned = cleanText(p.text || "");
+      const pageIndex = i + 1;
+      const cleaned = cleanText(rawPages[i] || "");
       if (cleaned.length > 0) {
         pages.push({
           pageIndex,

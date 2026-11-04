@@ -113,7 +113,10 @@ export function PdfUploadWorkspace() {
 
       if (!parseRes.ok) {
         const errJson = await parseRes.json().catch(() => ({}));
-        throw new Error(errJson.error || errJson.detail || `Server returned ${parseRes.status}`);
+        const msg = errJson.detail
+          ? `${errJson.error}: ${errJson.detail}`
+          : errJson.error || `Server returned ${parseRes.status}`;
+        throw new Error(msg);
       }
 
       const parseData: {
@@ -160,7 +163,10 @@ export function PdfUploadWorkspace() {
 
       if (!saveRes.ok) {
         const saveErrJson = await saveRes.json().catch(() => ({}));
-        throw new Error(saveErrJson.error || saveErrJson.detail || "Failed to save document");
+        const msg = saveErrJson.detail
+          ? `${saveErrJson.error}: ${saveErrJson.detail}`
+          : saveErrJson.error || "Failed to save document";
+        throw new Error(msg);
       }
 
       setUploadProgress({

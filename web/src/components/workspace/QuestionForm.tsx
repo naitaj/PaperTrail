@@ -12,23 +12,24 @@ interface QuestionFormProps {
   isLoading: boolean;
   selectedScopeTitle: string | null;
   onClearScope: () => void;
+  hasAnswer?: boolean;
 }
 
 const CANONICAL_QUERIES = [
   {
-    category: "Architecture & Attention",
+    category: "Architecture",
     text: "How does multi-head attention prevent catastrophic token dilution compared to single-vector self-attention?",
   },
   {
-    category: "Lexical IR Failure Modes",
+    category: "Lexical IR",
     text: "What are the observed failure modes of BM25 on paraphrased technical definitions in out-of-vocabulary contexts?",
   },
   {
-    category: "Vector vs Hybrid Evaluation",
+    category: "Dense Retrieval",
     text: "Compare dense vector cosine similarity against hybrid retrieval on out-of-domain academic papers.",
   },
   {
-    category: "Long-Context Decay",
+    category: "Context Decay",
     text: "What is the token context window tested in Liu et al. (Lost in the Middle) and where is recall minimum?",
   },
 ];
@@ -38,11 +39,13 @@ export function QuestionForm({
   isLoading,
   selectedScopeTitle,
   onClearScope,
+  hasAnswer = false,
 }: QuestionFormProps) {
   const [query, setQuery] = useState("");
   const [retriever, setRetriever] = useState<"lexical" | "embedding">("embedding");
   const [chunkConfig, setChunkConfig] = useState<string>("ck256");
   const [topK, setTopK] = useState<number>(5);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleRetrieverChange = (newRetriever: "lexical" | "embedding") => {
     setRetriever(newRetriever);
@@ -64,72 +67,53 @@ export function QuestionForm({
 
   return (
     <div className="space-y-4">
-      {/* Scope Banner */}
-      <div className="border border-[#747683] bg-[#ffe4c5] px-4 py-2 flex flex-wrap items-center justify-between gap-1">
-        <div className="flex items-center gap-2">
-          <span className="inline-block w-2.5 h-2.5 bg-[#fe6f3b] border border-[#ab3600]"></span>
-          <span className="font-mono text-[11px] uppercase tracking-wider text-[#271904] font-bold">
-            {selectedScopeTitle ? (
-              <>
-                Scope: Document Focus ({selectedScopeTitle}){" "}
-                <button
-                  onClick={onClearScope}
-                  className="ml-2 underline text-[#001d5f] hover:text-[#ab3600]"
-                >
-                  [Reset to Corpus]
-                </button>
-              </>
-            ) : (
-              "Scope: Corpus Index (12 Papers Indexed · 2,015 Chunks)"
-            )}
-          </span>
-        </div>
-        <span className="font-mono text-[11px] text-white bg-[#fe6f3b] px-2 py-0.5 font-bold tracking-wider">
-          Deterministic Pass-Through Active
-        </span>
-      </div>
-
-      {/* Section Lead / Broadsheet Hero Title */}
-      <div className="border-b border-[#747683] pb-4">
-        <div className="flex items-center gap-1.5 text-[#001d5f] mb-1">
-          <span className="material-symbols-outlined text-[18px]">psychology</span>
-          <span
-            className="font-mono text-[11px] uppercase tracking-widest font-bold text-[#001d5f]"
-            style={{
-              fontFamily: "Cinzel, serif",
-              letterSpacing: "0.14em",
-              fontWeight: 700,
-            }}
+      {/* Scope Pill Banner (Only shown when scoped to a specific document) */}
+      {selectedScopeTitle && (
+        <div className="bg-[#fff1e5] border border-[#f3d9c2] px-3.5 py-1.5 flex items-center justify-between text-[12px]">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#fe6f3b]"></span>
+            <span className="font-mono text-[#57534e]">Scoped to paper:</span>
+            <span className="font-serif font-semibold text-[#1c1917] truncate max-w-md">
+              {selectedScopeTitle}
+            </span>
+          </div>
+          <button
+            onClick={onClearScope}
+            className="font-mono text-[11px] text-[#001d5f] hover:underline font-semibold"
           >
-            Scholarly Query Desk
-          </span>
+            [Search All Papers]
+          </button>
         </div>
-        <h1
-          className="text-[34px] md:text-[40px] text-[#271904] tracking-tight mt-1 font-bold leading-tight"
-          style={{
-            fontFamily: "'Playfair Display', 'Source Serif 4', serif",
-            letterSpacing: "-0.03em",
-          }}
-        >
-          Ask your research.
-        </h1>
-        <p className="font-serif text-[17px] text-[#444652] mt-2 max-w-2xl leading-relaxed">
-          Formulate queries grounded in peer-reviewed literature. Answers are
-          synthesized strictly from retrieved passages with verbatim citations
-          and traceable chunk spans.
-        </p>
-      </div>
+      )}
 
-      {/* Query Input Console */}
-      <div className="border border-[#747683] bg-white p-4">
-        <div className="flex items-center justify-between pb-1.5 border-b border-[#747683] text-[#444652]">
-          <label
-            htmlFor="research-query-box"
-            className="font-mono text-[11px] uppercase tracking-wider font-semibold"
+      {/* Hero Title (Compact when answer is displayed) */}
+      {!hasAnswer && (
+        <div className="pt-1 pb-2">
+          <div className="flex items-center gap-2 text-[#001d5f] mb-1">
+            <span className="font-mono text-[11px] uppercase tracking-widest font-bold">
+              Scholarly Query Desk
+            </span>
+          </div>
+          <h1
+            className="text-[28px] sm:text-[34px] font-bold text-[#1c1917] leading-tight"
+            style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            Query Specification Box
-          </label>
-          <span className="font-mono text-[11px] text-[#747683]">
+            Ask your research.
+          </h1>
+          <p className="font-serif text-[15px] text-[#57534e] mt-1 leading-relaxed">
+            Synthesizes answers strictly from retrieved passage spans with verbatim
+            citations and automated verification guardrails.
+          </p>
+        </div>
+      )}
+
+      {/* Query Console Card */}
+      <div className="bg-white border border-[#e7e2d7] shadow-[0_1px_3px_rgba(0,0,0,0.03)] p-4 sm:p-5">
+        <div className="flex items-center justify-between pb-2 border-b border-[#f0ebe1] text-[#78716c]">
+          <span className="font-mono text-[11px] uppercase tracking-wider font-semibold text-[#57534e]">
+            {hasAnswer ? "Ask another question" : "Research Question"}
+          </span>
+          <span className="font-mono text-[11px]">
             {query.length} / 500
           </span>
         </div>
@@ -137,133 +121,127 @@ export function QuestionForm({
         <textarea
           id="research-query-box"
           maxLength={500}
-          rows={3}
+          rows={hasAnswer ? 2 : 3}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           disabled={isLoading}
-          placeholder="Type your hypothesis or academic question (e.g. Compare dense vector cosine similarity against hybrid retrieval on out-of-domain technical definitions)..."
-          className="w-full bg-transparent border-0 pt-2 font-serif text-[18px] text-[#271904] placeholder:text-[#747683] focus:ring-0 focus:outline-none resize-none leading-relaxed"
+          placeholder="Ask a question grounded in the corpus (e.g. attention mechanisms, BM25 saturation, LoRA rank)..."
+          className="w-full bg-transparent border-0 pt-3 text-[16px] sm:text-[17px] text-[#1c1917] placeholder:text-[#a8a29e] focus:ring-0 focus:outline-none resize-none leading-relaxed font-serif"
         />
 
-        {/* Controls Sub-Bar */}
-        <div className="pt-3 border-t border-[#747683] flex flex-col md:flex-row md:items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-4 text-[#271904]">
-            {/* Retrieval Mode */}
-            <div className="flex flex-col gap-0.5">
-              <span className="font-mono text-[10px] text-[#747683] uppercase">
-                Index Retrieval
-              </span>
-              <select
-                value={retriever}
-                onChange={(e) =>
-                  handleRetrieverChange(e.target.value as "lexical" | "embedding")
-                }
-                className="bg-[#ffebd5] border border-[#747683] font-mono text-[11px] px-2 py-1 text-[#271904] focus:outline-none focus:border-[#001d5f]"
+        {/* Action & Strategy Bar */}
+        <div className="pt-3 border-t border-[#f0ebe1] flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Retriever Toggle Pill */}
+            <div className="inline-flex border border-[#e7e2d7] p-0.5 bg-[#f7f4ee]">
+              <button
+                type="button"
+                onClick={() => handleRetrieverChange("embedding")}
+                className={`px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider transition-colors ${
+                  retriever === "embedding"
+                    ? "bg-[#001d5f] text-white font-semibold"
+                    : "text-[#57534e] hover:text-[#1c1917]"
+                }`}
               >
-                <option value="embedding">Dense (all-MiniLM-L6-v2)</option>
-                <option value="lexical">BM25 (Lexical Inverted)</option>
-              </select>
+                Dense MiniLM
+              </button>
+              <button
+                type="button"
+                onClick={() => handleRetrieverChange("lexical")}
+                className={`px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider transition-colors ${
+                  retriever === "lexical"
+                    ? "bg-[#001d5f] text-white font-semibold"
+                    : "text-[#57534e] hover:text-[#1c1917]"
+                }`}
+              >
+                BM25 Lexical
+              </button>
             </div>
 
-            {/* Chunk Size */}
-            <div className="flex flex-col gap-0.5">
-              <span className="font-mono text-[10px] text-[#747683] uppercase">
-                Context Chunking
-              </span>
-              <select
-                value={chunkConfig}
-                onChange={(e) => setChunkConfig(e.target.value)}
-                className="bg-[#ffebd5] border border-[#747683] font-mono text-[11px] px-2 py-1 text-[#271904] focus:outline-none focus:border-[#001d5f]"
-              >
-                <option value="ck256">256 Tok · 32 Overlap</option>
-                <option value="ck640">640 Tok · 64 Overlap</option>
-              </select>
-            </div>
-
-            {/* Top-K Setting */}
-            <div className="flex flex-col gap-0.5">
-              <span className="font-mono text-[10px] text-[#747683] uppercase">
-                Passages (Top-k)
-              </span>
-              <div className="flex items-center gap-1.5">
-                <input
-                  type="range"
-                  min="1"
-                  max="10"
-                  value={topK}
-                  onChange={(e) => setTopK(Number(e.target.value))}
-                  className="accent-[#001d5f] h-2 w-20 cursor-pointer"
-                />
-                <span className="font-mono text-[11px] font-bold text-[#001d5f] w-4 text-right">
-                  {topK}
-                </span>
-              </div>
-            </div>
+            {/* Advanced toggle */}
+            <button
+              type="button"
+              onClick={() => setShowAdvanced(!showAdvanced)}
+              className="px-2 py-1 font-mono text-[11px] text-[#78716c] hover:text-[#1c1917] border border-transparent hover:border-[#e7e2d7] transition-colors"
+            >
+              {showAdvanced ? "▾ Settings" : "▸ Settings"}
+            </button>
           </div>
 
-          {/* Submit Primary Button */}
+          {/* Submit Button */}
           <button
             onClick={handleSubmit}
             disabled={!query.trim() || isLoading}
-            className="self-end md:self-auto bg-[#001d5f] hover:bg-[#24241f] disabled:opacity-50 text-white px-5 py-2 transition-colors border border-[#001d5f] flex items-center gap-2 cursor-pointer shadow-none font-bold text-[15px]"
-            style={{
-              fontFamily: "Cinzel, serif",
-              letterSpacing: "0.05em",
-            }}
+            className="bg-[#001d5f] hover:bg-[#1a365d] disabled:opacity-40 text-white px-5 py-2 transition-all flex items-center gap-2 cursor-pointer font-sans text-[13px] font-semibold tracking-wide"
           >
             <span>{isLoading ? "Synthesizing..." : "Ask Question"}</span>
-            <span className="material-symbols-outlined text-[18px]">
+            <span className="material-symbols-outlined text-[16px]">
               arrow_forward
             </span>
           </button>
         </div>
-      </div>
 
-      {/* Curated Research Queries (Prompt Leads) */}
-      <div className="space-y-2 pt-1">
-        <div className="flex items-center justify-between border-b border-[#747683] pb-1">
-          <h4 className="font-mono text-[11px] uppercase tracking-widest text-[#444652] font-bold flex items-center gap-1.5">
-            <span className="w-1.5 h-3 bg-[#fe6f3b] inline-block"></span> Curated
-            Canonical Queries (Click to Populate)
-          </h4>
-          <span className="font-mono text-[10px] bg-[#ffdbcf] text-[#390c00] px-2 py-0.5 border border-[#fe6f3b] font-semibold">
-            Verified Evaluation Set
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          {CANONICAL_QUERIES.map((item, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => setQuery(item.text)}
-              className="text-left p-3 bg-[#ffebd5] hover:bg-[#ffe4c5] border border-[#747683] transition-colors group cursor-pointer"
-            >
-              <span className="font-mono text-[11px] text-[#ab3600] font-bold block mb-1">
-                {item.category}
+        {/* Collapsible Advanced Settings (Chunking & Top-K) */}
+        {showAdvanced && (
+          <div className="mt-3 pt-3 border-t border-[#f0ebe1] grid grid-cols-2 gap-4 bg-[#fcfbf9] p-3 text-[12px] font-mono text-[#57534e]">
+            <div>
+              <span className="block text-[10px] text-[#78716c] uppercase mb-1">
+                Context Chunk Configuration
               </span>
-              <p className="font-serif text-[14px] text-[#271904] group-hover:text-[#001d5f] transition-colors leading-snug">
-                &quot;{item.text}&quot;
-              </p>
-            </button>
-          ))}
-        </div>
+              <select
+                value={chunkConfig}
+                onChange={(e) => setChunkConfig(e.target.value)}
+                className="w-full bg-white border border-[#e7e2d7] px-2 py-1 text-[#1c1917] text-[11px] focus:outline-none focus:border-[#001d5f]"
+              >
+                <option value="ck256">ck256 (256 tok · 32 overlap)</option>
+                <option value="ck640">ck640 (640 tok · 64 overlap)</option>
+              </select>
+            </div>
+            <div>
+              <span className="block text-[10px] text-[#78716c] uppercase mb-1">
+                Passages to Retrieve (Top-K: {topK})
+              </span>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                value={topK}
+                onChange={(e) => setTopK(Number(e.target.value))}
+                className="w-full accent-[#001d5f] cursor-pointer mt-1.5"
+              />
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Centre Col Bottom Margin Status Indicator */}
-      <div className="pt-2 border-t border-[#747683] flex items-center justify-between text-[#444652] font-mono text-[11px]">
-        <span>
-          Evaluator:{" "}
-          <strong className="text-[#271904]">
-            PaperTrail Grounded Truth Engine v3.8
-          </strong>
-        </span>
-        <span className="flex items-center gap-1.5 text-[#001d5f] font-semibold">
-          <span className="w-1.5 h-1.5 bg-[#001d5f] rounded-full animate-pulse"></span>
-          {isLoading ? "Executing Grounded Synthesis..." : "Ready for Query Execution"}
-        </span>
-      </div>
+      {/* Suggested Canonical Queries (Only shown when no answer is displayed) */}
+      {!hasAnswer && (
+        <div className="space-y-2 pt-2">
+          <div className="flex items-center justify-between text-[#78716c] text-[11px] font-mono uppercase tracking-wider">
+            <span>Curated Benchmarking Queries:</span>
+            <span className="text-[#a8a29e]">Click to populate</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {CANONICAL_QUERIES.map((item, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setQuery(item.text)}
+                className="text-left p-3 bg-white hover:bg-[#fff9f2] border border-[#e7e2d7] hover:border-[#f3d9c2] transition-colors group cursor-pointer"
+              >
+                <span className="font-mono text-[10px] uppercase font-bold text-[#ab3600] block mb-1">
+                  {item.category}
+                </span>
+                <p className="font-serif text-[13px] text-[#292524] group-hover:text-[#001d5f] leading-snug line-clamp-2">
+                  &ldquo;{item.text}&rdquo;
+                </p>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

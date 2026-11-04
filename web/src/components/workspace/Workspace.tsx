@@ -97,60 +97,31 @@ export function Workspace() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fff8f4] text-[#271904] font-serif">
+    <div className="h-screen flex flex-col bg-[#faf8f5] text-[#1c1917] font-serif overflow-hidden">
       <Header />
 
-      {/* Top Archival Strip / Breadcrumb Ledger */}
-      <div
-        className="w-full bg-[#ffe4c5] px-6 py-2 flex flex-wrap items-center justify-between gap-2 border-b border-[#747683] border-l-4"
-        style={{ borderLeftColor: "#fe6f3b" }}
-      >
-        <div className="flex items-center gap-4">
-          <span
-            className="font-mono text-[11px] uppercase tracking-widest text-[#444652] font-bold"
-            style={{ fontFamily: "Cinzel, serif", letterSpacing: "0.14em", fontWeight: 700 }}
-          >
-            Folio Reference: PTR-2025-09
-          </span>
-          <span className="text-[#747683]">/</span>
-          <span className="font-mono text-[11px] uppercase tracking-wider text-[#001d5f] font-semibold flex items-center gap-1">
-            <span className="material-symbols-outlined text-[14px]">database</span>
-            Active Corpus: Computational Linguistics &amp; RAG Evaluative Tier
-          </span>
-        </div>
-        <div className="flex items-center gap-6 text-[#444652] font-mono text-[11px]">
-          <span>
-            Ledger Status: <strong className="text-[#001d5f] font-bold">SYNCHRONIZED</strong>
-          </span>
-          <span>
-            Tokens Indexed: <strong className="text-[#271904]">364,810</strong>
-          </span>
-          <span>
-            Verification Engine: <strong className="text-[#271904]">Deterministic L2</strong>
-          </span>
-        </div>
-      </div>
-
-      {/* Primary Broadsheet Three-Column Grid */}
-      <div className="w-full flex-1 grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[#747683] bg-[#fff8f4]">
-        {/* LEFT COLUMN: Archive Index (Paper Collection) */}
-        <div className="lg:col-span-3 xl:col-span-3 h-[calc(100vh-170px)] sticky top-0 overflow-hidden">
+      {/* Main 3-Column Studio Grid */}
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[#e7e2d7] overflow-hidden">
+        {/* Left Column: Archive Index */}
+        <aside className="lg:col-span-3 xl:col-span-3 h-full overflow-hidden bg-[#f7f4ee]">
           <PaperList
             documents={documents}
             selectedScope={selectedScope}
             onSelectScope={(id) => setSelectedScope(id)}
           />
-        </div>
+        </aside>
 
-        {/* CENTRE COLUMN: Flexible Q&A Workspace */}
-        <main className="lg:col-span-6 xl:col-span-6 p-6 flex flex-col justify-between overflow-y-auto min-h-[calc(100vh-170px)]">
-          <div className="space-y-6">
+        {/* Center Column: Query Console & Grounded Synthesis */}
+        <main className="lg:col-span-6 xl:col-span-6 h-full overflow-y-auto bg-[#faf8f5] p-5 sm:p-7">
+          <div className="max-w-3xl mx-auto space-y-6">
             <QuestionForm
               onSubmit={handleAsk}
               isLoading={isLoading}
               selectedScopeTitle={selectedDoc ? selectedDoc.title || selectedDoc.doc_id : null}
               onClearScope={() => setSelectedScope(null)}
+              hasAnswer={!!response}
             />
+
             <AnswerPanel
               response={response}
               isLoading={isLoading}
@@ -161,8 +132,8 @@ export function Workspace() {
           </div>
         </main>
 
-        {/* RIGHT COLUMN: Evidence Reader (Idle & Active States) */}
-        <div className="lg:col-span-3 xl:col-span-3 h-[calc(100vh-170px)] sticky top-0 overflow-hidden">
+        {/* Right Column: Evidence Reader */}
+        <aside className="lg:col-span-3 xl:col-span-3 h-full overflow-hidden bg-[#f7f4ee]">
           <EvidencePanel
             passages={response?.retrieved || []}
             claims={response?.claims || []}
@@ -170,30 +141,8 @@ export function Workspace() {
             onSelectChunk={(id) => setSelectedCitationChunkId(id)}
             hasExecutedQuery={hasExecutedQuery}
           />
-        </div>
+        </aside>
       </div>
-
-      {/* Footer */}
-      <footer className="w-full bg-[#fff1e5] border-t border-[#747683] py-4">
-        <div className="w-full px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 font-mono text-[11px] text-[#444652]">
-          <div className="flex flex-col gap-1">
-            <span
-              className="uppercase text-[#001d5f]"
-              style={{ fontFamily: "Cinzel, serif", letterSpacing: "0.14em", fontWeight: 800 }}
-            >
-              PaperTrail Bibliographic Press
-            </span>
-            <span className="font-serif text-[13px] text-[#444652]">
-              Scholarly provenance ledger, automated citation cross-referencing, and truth-evaluations.
-            </span>
-          </div>
-          <div className="flex items-center gap-6 text-[#747683]">
-            <span className="border-b border-[#747683]">Archival Invariant v3.8</span>
-            <span className="border-b border-[#747683]">ISSN 2940-1122</span>
-            <span>© 2025 PaperTrail Foundation</span>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

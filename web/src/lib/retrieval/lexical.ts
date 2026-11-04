@@ -14,8 +14,10 @@ WITH q AS (
 cand AS (
   SELECT c.chunk_id, c.lex_len, c.content_tsv
   FROM chunks c
+  JOIN documents d ON d.doc_id = c.doc_id
   WHERE c.config_id = $2 AND NOT c.is_references
     AND ($3::text IS NULL OR c.doc_id = $3)
+    AND ($8::text IS NULL OR d.corpus_version = $8)
     AND c.content_tsv @@ (SELECT to_tsquery('simple', string_agg(quote_literal(lexeme), ' | ')) FROM q)
 ),
 tf AS (
@@ -49,6 +51,7 @@ export class LexicalRetriever implements Retriever {
       query: queryString,
       configId,
       scopeDocId = null,
+      corpusVersion = null,
       k = 5,
       k1 = 1.2,
       b = 0.75,
@@ -75,6 +78,7 @@ export class LexicalRetriever implements Retriever {
       stoplist,
       k1,
       b,
+      corpusVersion,
     ]);
 
     if (!rankedRows || rankedRows.length === 0) {

@@ -26,6 +26,7 @@ export interface RetrievalOptions {
   queryVector?: number[];
   configId: ChunkConfigId;
   scopeDocId?: string | null;
+  corpusVersion?: string | null;
   k?: number;
   k1?: number; // BM25 term frequency saturation (default 1.2)
   b?: number;  // BM25 document length normalization (default 0.75)

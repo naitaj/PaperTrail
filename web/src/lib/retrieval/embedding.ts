@@ -31,6 +31,7 @@ WHERE c.config_id = $2
   AND e.embedding_model = $3 
   AND NOT c.is_references
   AND ($4::text IS NULL OR c.doc_id = $4)
+  AND ($6::text IS NULL OR d.corpus_version = $6)
 ORDER BY e.embedding <=> $1::vector ASC, c.chunk_id
 LIMIT $5;
 `;
@@ -41,6 +42,7 @@ export class EmbeddingRetriever implements Retriever {
       configId,
       queryVector,
       scopeDocId = null,
+      corpusVersion = null,
       k = 5,
     } = options;
 
@@ -78,6 +80,7 @@ export class EmbeddingRetriever implements Retriever {
       DEFAULT_EMBEDDING_MODEL,
       scopeDocId,
       k,
+      corpusVersion,
     ]);
 
     return rows.map((r) => ({

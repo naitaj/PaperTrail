@@ -66,7 +66,7 @@ export function QuestionForm({
             onClick={onClearScope}
             className="font-mono text-[11px] text-[#60a5fa] hover:text-[#d4ff24] hover:underline font-semibold"
           >
-            [Search All Papers]
+            [Search All Documents]
           </button>
         </div>
       )}

@@ -273,6 +273,7 @@ export function PdfUploadWorkspace() {
           chunkConfig,
           queryVector,
           scopeDocId: selectedDocId,
+          corpusVersion: "user-upload",
           k: topK,
         }),
       });

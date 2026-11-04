@@ -70,6 +70,7 @@ export function Workspace() {
           chunkConfig,
           queryVector,
           scopeDocId: selectedScope,
+          corpusVersion: "v1.0",
           k: topK,
         }),
       });

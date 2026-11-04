@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
       chunkConfig = "ck256",
       queryVector,
       scopeDocId = null,
+      corpusVersion = null,
       k = 5,
     } = body;
 
@@ -36,6 +37,7 @@ export async function POST(req: NextRequest) {
         query,
         configId: chunkConfig as ChunkConfigId,
         scopeDocId,
+        corpusVersion,
         k,
       });
     } else if (retriever === "embedding") {
@@ -53,6 +55,7 @@ export async function POST(req: NextRequest) {
         queryVector,
         configId: chunkConfig as ChunkConfigId,
         scopeDocId,
+        corpusVersion,
         k,
       });
     } else {
@@ -62,7 +65,7 @@ export async function POST(req: NextRequest) {
     const tRetrieve = Date.now();
     const retrieveMs = tRetrieve - t0;
 
-    const isScoped = !!scopeDocId;
+    const isScoped = !!scopeDocId || corpusVersion === "user-upload";
 
     // TRD §7.4 Abstention Gate: Reject before LLM call if evidence is clearly insufficient
     const gate = evaluateAbstentionGate(retrieved, retriever, chunkConfig, isScoped);
@@ -70,7 +73,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         decision: "abstain",
         answer: isScoped
-          ? "The selected document contains insufficient evidence to answer this question."
+          ? "The uploaded document contains insufficient evidence to answer this question."
           : "The available research paper corpus contains insufficient evidence to answer this question.",
         claims: [],
         abstention_reason: gate.abstentionReason,

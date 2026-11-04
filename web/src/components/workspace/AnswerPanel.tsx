@@ -115,34 +115,24 @@ export function AnswerPanel({
 
   return (
     <article className="bg-[#090b10] border border-[#1c2233] p-6 my-2 shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
-      {/* Top Ledger Header */}
-      <div className="flex flex-wrap items-center justify-between pb-3.5 border-b border-[#1c2233] gap-2">
-        <div className="flex items-center gap-2.5">
-          <span
-            className={`font-mono text-[10px] font-bold uppercase px-2.5 py-0.5 tracking-wider ${isAbstain
-                ? "bg-red-500/20 text-red-400 border border-red-500/30"
-                : isPartial
-                  ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                  : "bg-[#d4ff24] text-[#030407] font-extrabold"
-              }`}
-          >
-            {decision.toUpperCase()}
-          </span>
-          <span className="font-mono text-[11px] text-[#94a3b8]">
-            Model: <span className="text-[#f8fafc] font-medium">{model || "gpt-oss-120b"}</span>
-          </span>
-        </div>
+      {/* Top Status Header */}
+      <div className="flex items-center justify-between pb-3.5 border-b border-[#1c2233]">
+        <span
+          className={`font-mono text-[10px] font-bold uppercase px-2.5 py-0.5 tracking-wider ${
+            isAbstain
+              ? "bg-red-500/20 text-red-400 border border-red-500/30"
+              : isPartial
+              ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+              : "bg-[#d4ff24] text-[#030407] font-extrabold"
+          }`}
+        >
+          {isAbstain ? "ABSTAIN" : isPartial ? "PARTIAL EVIDENCE" : "VERIFIED ANSWER"}
+        </span>
 
         {timings_ms && (
-          <div className="font-mono text-[10px] text-[#64748b] flex items-center gap-2">
-            <span>Retrieval: <span className="text-[#94a3b8]">{timings_ms.retrieve}ms</span></span>
-            <span>·</span>
-            <span>Gen: <span className="text-[#94a3b8]">{timings_ms.generate}ms</span></span>
-            <span>·</span>
-            <span className="font-bold text-[#d4ff24]">
-              Total: {timings_ms.total}ms
-            </span>
-          </div>
+          <span className="font-mono text-[10px] text-[#64748b]">
+            {timings_ms.total}ms
+          </span>
         )}
       </div>
 

@@ -38,10 +38,7 @@ export function Header() {
           </Link>
           <span className="h-4 w-px bg-[#1c2233] hidden sm:block"></span>
           <span className="hidden sm:inline-flex items-center gap-2 font-mono text-[11px] text-[#94a3b8] uppercase tracking-wider">
-            <span>Evaluated Research Assistant</span>
-            <span className="bg-[#1558c9] text-white px-1.5 py-0.2 rounded-xs font-bold text-[9px] tracking-widest">
-              RAG
-            </span>
+            <span>RAG assistant</span>
           </span>
         </div>
 
@@ -61,14 +58,6 @@ export function Header() {
             </Link>
           ))}
         </nav>
-
-        {/* Right Status Pill */}
-        <div className="hidden lg:flex items-center gap-3">
-          <span className="inline-flex items-center gap-2 font-mono text-[11px] text-[#f8fafc] bg-[#0c101c] border border-[#1558c9]/50 px-2.5 py-1 shadow-[0_0_8px_rgba(21,88,201,0.2)]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#d4ff24] animate-pulse"></span>
-            <span>System Online</span>
-          </span>
-        </div>
       </div>
     </header>
   );

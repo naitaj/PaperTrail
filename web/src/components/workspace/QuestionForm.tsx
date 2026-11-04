@@ -74,12 +74,6 @@ export function QuestionForm({
       {/* Hero Title (Compact when answer is displayed) */}
       {!hasAnswer && (
         <div className="pt-2 pb-2">
-          <div className="flex items-center gap-2 text-[#60a5fa] mb-1.5">
-            <span className="font-mono text-[11px] uppercase tracking-widest font-bold flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#1558c9]"></span>
-              Scholarly Query Desk
-            </span>
-          </div>
           <h1
             className="text-[32px] sm:text-[40px] font-bold text-[#f8fafc] leading-tight"
             style={{ fontFamily: "'Playfair Display', serif" }}
@@ -87,8 +81,7 @@ export function QuestionForm({
             Ask your <span className="text-[#d4ff24]">research.</span>
           </h1>
           <p className="font-serif text-[15px] text-[#94a3b8] mt-1.5 leading-relaxed max-w-2xl">
-            Synthesizes answers strictly from retrieved passage spans with verbatim
-            citations and automated verification guardrails.
+            Answers grounded in retrieved documents with verified citations.
           </p>
         </div>
       )}

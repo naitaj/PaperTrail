@@ -87,6 +87,31 @@ export function PdfUploadWorkspace() {
     fetchDocs();
   }, []);
 
+  const handleDeleteDoc = async (docId: string) => {
+    if (!confirm("Are you sure you want to delete this document and all its indexed data?")) {
+      return;
+    }
+    try {
+      const res = await fetch(`/api/documents/${encodeURIComponent(docId)}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setDocuments((prev) => prev.filter((d) => d.doc_id !== docId));
+        if (selectedDocId === docId) {
+          setSelectedDocId(null);
+          setResponse(null);
+          setHasExecutedQuery(false);
+        }
+      } else {
+        const err = await res.json().catch(() => ({}));
+        alert(err.detail || err.error || "Failed to delete document");
+      }
+    } catch (e) {
+      console.error("Failed to delete doc:", e);
+      alert("Error deleting document");
+    }
+  };
+
   const handleFileProcess = async (file: File) => {
     if (!file.name.toLowerCase().endsWith(".pdf") && file.type !== "application/pdf") {
       setUploadError("Please upload a valid PDF document (.pdf).");
@@ -351,9 +376,20 @@ export function PdfUploadWorkspace() {
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <h4 className="font-sans text-[13px] font-semibold leading-snug line-clamp-2">
+                        <h4 className="font-sans text-[13px] font-semibold leading-snug line-clamp-2 flex-1">
                           {doc.title || doc.doc_id}
                         </h4>
+                        <button
+                          type="button"
+                          title="Delete PDF"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteDoc(doc.doc_id);
+                          }}
+                          className="text-[#64748b] hover:text-red-400 p-1 -mr-1 transition-colors cursor-pointer shrink-0"
+                        >
+                          <span className="material-symbols-outlined text-[16px]">delete</span>
+                        </button>
                       </div>
                       <div className="mt-2 flex items-center justify-between font-mono text-[10px] text-[#64748b]">
                         <span className="text-[#1558c9] font-semibold">

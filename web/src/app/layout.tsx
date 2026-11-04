@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PaperTrail: Evaluated Research-Paper Assistant",
+  title: "PaperTrail: RAG assistant",
   description:
     "An evaluated, grounded research-paper assistant with verified citations and abstention.",
   icons: {

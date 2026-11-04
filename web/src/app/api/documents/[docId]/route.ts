@@ -1,6 +1,6 @@
 /**
- * GET /api/documents/[docId] (TRD §9.2, FR-COL-02, FR-COL-03).
- * Returns single paper details and page records.
+ * GET & DELETE /api/documents/[docId] (TRD §9.2, FR-COL-02, FR-COL-03).
+ * Returns single paper details or deletes an uploaded document with cascaded chunks.
  */
 
 import { NextRequest, NextResponse } from "next/server";
@@ -39,5 +39,36 @@ export async function GET(
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json({ error: "Internal Server Error", detail: message }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ docId: string }> }
+) {
+  try {
+    const { docId } = await params;
+
+    // Delete chunks, embeddings, pages, and document in cascade
+    await query(
+      `DELETE FROM chunk_embeddings WHERE chunk_id IN (SELECT chunk_id FROM chunks WHERE doc_id = $1);`,
+      [docId]
+    );
+    await query(`DELETE FROM chunks WHERE doc_id = $1;`, [docId]);
+    await query(`DELETE FROM document_pages WHERE doc_id = $1;`, [docId]);
+    const res = await query(`DELETE FROM documents WHERE doc_id = $1 RETURNING doc_id;`, [docId]);
+
+    if (!res || res.length === 0) {
+      return NextResponse.json({ error: "Document not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, doc_id: docId });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("Failed to delete document:", message);
+    return NextResponse.json(
+      { error: "Failed to delete document", detail: message },
+      { status: 500 }
+    );
   }
 }

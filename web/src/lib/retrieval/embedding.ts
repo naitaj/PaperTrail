@@ -9,30 +9,39 @@ import { RetrievalOptions, Retriever, ScoredChunk } from "./types";
 export const DEFAULT_EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2";
 
 const VECTOR_QUERY = `
-SELECT c.chunk_id, 
-       1.0 - (e.embedding <=> $1::vector) AS score,
-       c.doc_id, 
-       c.config_id, 
-       c.page_start, 
-       c.page_end, 
-       c.ordinal, 
-       c.section_title, 
-       c.text,
-       p.page_label, 
-       d.title AS doc_title, 
-       d.authors AS doc_authors, 
-       d.year AS doc_year, 
-       d.source_url AS doc_source_url
-FROM chunk_embeddings e 
-JOIN chunks c USING (chunk_id)
-JOIN documents d ON d.doc_id = c.doc_id
-LEFT JOIN document_pages p ON p.doc_id = c.doc_id AND p.page_index = c.page_start
-WHERE c.config_id = $2 
-  AND e.embedding_model = $3 
-  AND NOT c.is_references
-  AND ($4::text IS NULL OR c.doc_id = $4)
-  AND ($6::text IS NULL OR d.corpus_version = $6)
-ORDER BY e.embedding <=> $1::vector ASC, c.chunk_id
+WITH candidates AS (
+  SELECT c.chunk_id, 
+         1.0 - (e.embedding <=> $1::vector) AS score,
+         c.doc_id, 
+         c.config_id, 
+         c.page_start, 
+         c.page_end, 
+         c.ordinal, 
+         c.section_title, 
+         c.text,
+         p.page_label, 
+         d.title AS doc_title, 
+         d.authors AS doc_authors, 
+         d.year AS doc_year, 
+         d.source_url AS doc_source_url,
+         ROW_NUMBER() OVER (
+           PARTITION BY c.doc_id 
+           ORDER BY e.embedding <=> $1::vector ASC, c.chunk_id
+         ) AS doc_rank
+  FROM chunk_embeddings e 
+  JOIN chunks c USING (chunk_id)
+  JOIN documents d ON d.doc_id = c.doc_id
+  LEFT JOIN document_pages p ON p.doc_id = c.doc_id AND p.page_index = c.page_start
+  WHERE c.config_id = $2 
+    AND e.embedding_model = $3 
+    AND NOT c.is_references
+    AND ($4::text IS NULL OR c.doc_id = $4)
+    AND ($6::text IS NULL OR d.corpus_version = $6)
+)
+SELECT chunk_id, score, doc_id, config_id, page_start, page_end, ordinal, section_title, text, page_label, doc_title, doc_authors, doc_year, doc_source_url
+FROM candidates
+WHERE ($4::text IS NOT NULL OR doc_rank <= 3)
+ORDER BY score DESC, chunk_id
 LIMIT $5;
 `;
 

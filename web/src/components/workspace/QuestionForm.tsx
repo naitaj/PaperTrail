@@ -16,25 +16,6 @@ interface QuestionFormProps {
   lockRetriever?: "embedding" | "lexical";
 }
 
-const CANONICAL_QUERIES = [
-  {
-    category: "Architecture",
-    text: "How does multi-head attention prevent catastrophic token dilution compared to single-vector self-attention?",
-  },
-  {
-    category: "Lexical IR",
-    text: "What are the observed failure modes of BM25 on paraphrased technical definitions in out-of-vocabulary contexts?",
-  },
-  {
-    category: "Dense Retrieval",
-    text: "Compare dense vector cosine similarity against hybrid retrieval on out-of-domain academic papers.",
-  },
-  {
-    category: "Context Decay",
-    text: "What is the token context window tested in Liu et al. (Lost in the Middle) and where is recall minimum?",
-  },
-];
-
 export function QuestionForm({
   onSubmit,
   isLoading,
@@ -228,34 +209,6 @@ export function QuestionForm({
           </div>
         )}
       </div>
-
-      {/* Suggested Canonical Queries */}
-      {!hasAnswer && (
-        <div className="space-y-2 pt-2">
-          <div className="flex items-center justify-between text-[#94a3b8] text-[11px] font-mono uppercase tracking-wider">
-            <span>Curated Benchmarking Queries:</span>
-            <span className="text-[#64748b]">Click to populate</span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            {CANONICAL_QUERIES.map((item, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => setQuery(item.text)}
-                className="text-left p-3.5 bg-[#090b10] hover:bg-[#10131c] border border-[#1c2233] hover:border-[#1558c9] transition-all group cursor-pointer shadow-xs"
-              >
-                <span className="font-mono text-[10px] uppercase font-bold text-[#d4ff24] block mb-1 tracking-wider">
-                  {item.category}
-                </span>
-                <p className="font-serif text-[13px] text-[#cbd5e1] group-hover:text-[#f8fafc] leading-snug line-clamp-2 transition-colors">
-                  &ldquo;{item.text}&rdquo;
-                </p>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

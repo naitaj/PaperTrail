@@ -161,7 +161,7 @@ export function PaperList({
       <div className="px-3.5 py-2.5 border-t border-[#1c2233] bg-[#090b10] flex items-center justify-between text-[11px] font-mono text-[#94a3b8]">
         <span>Scope:</span>
         <span className="font-semibold text-[#d4ff24]">
-          {selectedScope ? "1 Focused" : "12 Active"}
+          {selectedScope ? "1 Focused" : `${documents.length} Active`}
         </span>
       </div>
     </div>

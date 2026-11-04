@@ -7,6 +7,12 @@ import { usePathname } from "next/navigation";
 export function Header() {
   const pathname = usePathname();
 
+  const tabs = [
+    { href: "/", label: "Workspace" },
+    { href: "/corpus", label: "Research Corpus" },
+    { href: "/results", label: "Benchmark Results" },
+  ];
+
   return (
     <header className="w-full bg-[#030407]/95 backdrop-blur-md border-b border-[#1c2233] sticky top-0 z-40">
       <div className="w-full max-w-[1720px] mx-auto px-5 h-14 flex items-center justify-between">
@@ -41,43 +47,26 @@ export function Header() {
 
         {/* Navigation Tabs */}
         <nav className="flex items-center gap-1.5">
-          <Link
-            href="/"
-            className={`px-3 py-1 font-mono text-[12px] uppercase tracking-wider transition-all ${
-              pathname === "/"
-                ? "bg-[#1558c9] text-white font-semibold shadow-[0_0_12px_rgba(21,88,201,0.5)]"
-                : "text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#121520]"
-            }`}
-          >
-            Workspace
-          </Link>
-          <Link
-            href="/results"
-            className={`px-3 py-1 font-mono text-[12px] uppercase tracking-wider transition-all ${
-              pathname === "/results"
-                ? "bg-[#1558c9] text-white font-semibold shadow-[0_0_12px_rgba(21,88,201,0.5)]"
-                : "text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#121520]"
-            }`}
-          >
-            Benchmark Results
-          </Link>
-          <Link
-            href="/about"
-            className={`px-3 py-1 font-mono text-[12px] uppercase tracking-wider transition-all ${
-              pathname === "/about"
-                ? "bg-[#1558c9] text-white font-semibold shadow-[0_0_12px_rgba(21,88,201,0.5)]"
-                : "text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#121520]"
-            }`}
-          >
-            Methodology
-          </Link>
+          {tabs.map((tab) => (
+            <Link
+              key={tab.href}
+              href={tab.href}
+              className={`px-3 py-1 font-mono text-[12px] uppercase tracking-wider transition-all ${
+                pathname === tab.href
+                  ? "bg-[#1558c9] text-white font-semibold shadow-[0_0_12px_rgba(21,88,201,0.5)]"
+                  : "text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#121520]"
+              }`}
+            >
+              {tab.label}
+            </Link>
+          ))}
         </nav>
 
         {/* Right Status Pill */}
         <div className="hidden lg:flex items-center gap-3">
           <span className="inline-flex items-center gap-2 font-mono text-[11px] text-[#f8fafc] bg-[#0c101c] border border-[#1558c9]/50 px-2.5 py-1 shadow-[0_0_8px_rgba(21,88,201,0.2)]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#d4ff24] animate-pulse"></span>
-            <span>Corpus: 12 Papers Active</span>
+            <span>System Online</span>
           </span>
         </div>
       </div>

@@ -23,7 +23,11 @@ export function Workspace() {
         const res = await fetch("/api/documents");
         if (res.ok) {
           const data = await res.json();
-          setDocuments(data.documents || []);
+          // Filter to fixed benchmark corpus papers (non-user uploaded)
+          const fixedDocs = (data.documents || []).filter(
+            (d: DocumentItem) => !d.doc_id.startsWith("user-") && d.venue !== "In-Browser Workspace"
+          );
+          setDocuments(fixedDocs);
         }
       } catch (err) {
         console.error("Failed to load documents:", err);

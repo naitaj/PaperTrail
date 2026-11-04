@@ -1,5 +1,5 @@
-import { Workspace } from "@/components/workspace/Workspace";
+import { PdfUploadWorkspace } from "@/components/workspace/PdfUploadWorkspace";
 
 export default function Home() {
-  return <Workspace />;
+  return <PdfUploadWorkspace />;
 }

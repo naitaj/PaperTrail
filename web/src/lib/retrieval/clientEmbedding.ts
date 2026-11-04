@@ -37,3 +37,23 @@ export async function embedQueryClient(text: string): Promise<number[]> {
   return Array.from(output.data as Float32Array);
 }
 
+/**
+ * Generate 384-dimensional dense vectors for a batch of text chunks in the browser.
+ * Uses WebAssembly / ONNX client-side inference with progress reporting.
+ */
+export async function embedBatchClient(
+  texts: string[],
+  onProgress?: (current: number, total: number) => void
+): Promise<number[][]> {
+  const extractor = await getEmbeddingPipeline();
+  const vectors: number[][] = [];
+  for (let i = 0; i < texts.length; i++) {
+    const output = await extractor(texts[i], { pooling: "mean", normalize: true });
+    vectors.push(Array.from(output.data as Float32Array));
+    if (onProgress) {
+      onProgress(i + 1, texts.length);
+    }
+  }
+  return vectors;
+}
+

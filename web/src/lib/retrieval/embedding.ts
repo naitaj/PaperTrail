@@ -40,7 +40,7 @@ WITH candidates AS (
 )
 SELECT chunk_id, score, doc_id, config_id, page_start, page_end, ordinal, section_title, text, page_label, doc_title, doc_authors, doc_year, doc_source_url
 FROM candidates
-WHERE ($4::text IS NOT NULL OR doc_rank <= 3)
+WHERE ($4::text IS NOT NULL OR doc_rank <= 5)
 ORDER BY score DESC, chunk_id
 LIMIT $5;
 `;

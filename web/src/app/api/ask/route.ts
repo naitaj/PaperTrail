@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     const t0 = Date.now();
     let retrieved: ScoredChunk[] = [];
-    const effectiveK = !scopeDocId && k <= 5 ? 6 : k;
+    const effectiveK = !scopeDocId ? Math.max(k, 10) : k;
 
     if (retriever === "lexical") {
       retrieved = await lexicalRetriever.retrieve({

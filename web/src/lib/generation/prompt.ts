@@ -19,6 +19,10 @@ CRITICAL RULES:
    - "doc_id": The document ID from the passage attribute.
    - "page": The integer page number from the passage attribute.
    - "evidence_quote": An exact, verbatim substring quoted directly from the passage text that proves the claim.
+7. For comparative or cross-document questions (e.g. comparing entities, people, methods, or documents, or identifying similarities/differences):
+   - Synthesize a comprehensive, multi-dimensional response covering all shared and contrasting aspects evidenced in the passages (such as education, organizations, projects, roles, and technical skill sets).
+   - Do not terminate prematurely at a single similarity when multiple connections exist in the retrieved evidence.
+   - Ground and cite all corresponding claims with verbatim evidence quotes from each respective document.
 
 You MUST respond with a valid JSON object matching this schema:
 {

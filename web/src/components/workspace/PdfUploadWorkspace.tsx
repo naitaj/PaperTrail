@@ -343,6 +343,40 @@ export function PdfUploadWorkspace() {
                 className="hidden"
                 onChange={handleFileInputChange}
               />
+
+              {/* Corpus Scope Toggle */}
+              <div className="grid grid-cols-2 gap-1 bg-[#030407] border border-[#1c2233] p-0.5 text-[11px] font-mono">
+                <button
+                  onClick={() => {
+                    setSelectedDocId(null);
+                    setResponse(null);
+                    setHasExecutedQuery(false);
+                  }}
+                  className={`py-1 px-2 text-center uppercase tracking-wider transition-all cursor-pointer ${
+                    selectedDocId === null
+                      ? "bg-[#1558c9] text-white font-bold shadow-[0_0_8px_rgba(21,88,201,0.5)]"
+                      : "text-[#94a3b8] hover:text-[#f8fafc]"
+                  }`}
+                >
+                  Entire Corpus
+                </button>
+                <button
+                  onClick={() => {
+                    if (selectedDocId === null && documents.length > 0) {
+                      setSelectedDocId(documents[0].doc_id);
+                      setResponse(null);
+                      setHasExecutedQuery(false);
+                    }
+                  }}
+                  className={`py-1 px-2 text-center uppercase tracking-wider transition-all cursor-pointer ${
+                    selectedDocId !== null
+                      ? "bg-[#1558c9] text-white font-bold shadow-[0_0_8px_rgba(21,88,201,0.5)]"
+                      : "text-[#94a3b8] hover:text-[#f8fafc]"
+                  }`}
+                >
+                  Single Paper
+                </button>
+              </div>
             </div>
 
             {/* Document List */}
@@ -366,7 +400,7 @@ export function PdfUploadWorkspace() {
                     <div
                       key={doc.doc_id}
                       onClick={() => {
-                        setSelectedDocId(doc.doc_id);
+                        setSelectedDocId(isSelected ? null : doc.doc_id);
                         setResponse(null);
                         setHasExecutedQuery(false);
                       }}
@@ -483,7 +517,7 @@ export function PdfUploadWorkspace() {
             ) : (
               /* Query Console for Selected Document */
               <>
-                <div className="flex items-center justify-between pb-3 border-b border-[#1c2233]">
+                <div className="flex items-start justify-between pb-3 border-b border-[#1c2233]">
                   <div>
                     <span className="font-mono text-[10px] uppercase tracking-wider text-[#d4ff24] font-bold block">
                       Active Scoped Document
@@ -492,26 +526,12 @@ export function PdfUploadWorkspace() {
                       {selectedDoc?.title || "All Custom Documents"}
                     </h2>
                   </div>
-                  <div className="flex flex-col items-end gap-1">
-                    {selectedDocId && (
-                      <button
-                        onClick={() => {
-                          setSelectedDocId(null);
-                          setResponse(null);
-                          setHasExecutedQuery(false);
-                        }}
-                        className="font-mono text-[10px] text-[#d4ff24] hover:underline uppercase font-bold tracking-wider cursor-pointer"
-                      >
-                        Search all papers
-                      </button>
-                    )}
-                    <button
-                      onClick={() => fileInputRef.current?.click()}
-                      className="font-mono text-[10px] text-[#1558c9] hover:text-[#d4ff24] uppercase font-bold tracking-wider hover:underline cursor-pointer"
-                    >
-                      + Upload Another
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="font-mono text-[11px] text-[#1558c9] hover:text-[#d4ff24] uppercase font-bold tracking-wider hover:underline cursor-pointer pt-0.5"
+                  >
+                    + Upload Another
+                  </button>
                 </div>
 
                 <QuestionForm

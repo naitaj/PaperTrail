@@ -48,6 +48,11 @@ ROOT_DIR = Path(__file__).resolve().parents[2]
 TRACE_OUTPUT_PATH = RESULTS_DIR / "dynamic_rag_verification_traces.json"
 STAGING_CORPUS = "staging-test-ephemeral"
 
+pytestmark = pytest.mark.skipif(
+    os.environ.get("CI") == "true" or os.environ.get("RUN_LIVE_RAG_TESTS") != "1",
+    reason="Live DB + Groq dynamic RAG integration tests require RUN_LIVE_RAG_TESTS=1",
+)
+
 
 @pytest.fixture(scope="module")
 def embed_model():
@@ -56,7 +61,10 @@ def embed_model():
 
 @pytest.fixture(scope="module")
 def db_conn():
-    db_url = get_database_url()
+    try:
+        db_url = get_database_url()
+    except ValueError:
+        pytest.skip("DATABASE_URL / DIRECT_URL not configured; skipping live DB integration test")
     conn = psycopg.connect(db_url)
     yield conn
     conn.close()

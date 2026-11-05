@@ -112,6 +112,23 @@ export function PdfUploadWorkspace() {
     }
   };
 
+  const extractPdfPagesInBrowser = async (
+    file: File
+  ): Promise<{ fileSha256: string; pageTexts: string[] }> => {
+    const arrayBuffer = await file.arrayBuffer();
+    const hashBuffer = await window.crypto.subtle.digest("SHA-256", arrayBuffer);
+    const fileSha256 = Array.from(new Uint8Array(hashBuffer))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+
+    const { getDocumentProxy, extractText } = await import("unpdf");
+    const pdf = await getDocumentProxy(new Uint8Array(arrayBuffer));
+    const { text: rawPages } = await extractText(pdf, { mergePages: false });
+    const pageTexts = Array.isArray(rawPages) ? rawPages : [rawPages];
+
+    return { fileSha256, pageTexts };
+  };
+
   const handleFileProcess = async (file: File) => {
     if (!file.name.toLowerCase().endsWith(".pdf") && file.type !== "application/pdf") {
       setUploadError("Please upload a valid PDF document (.pdf).");
@@ -120,21 +137,61 @@ export function PdfUploadWorkspace() {
 
     setIsUploading(true);
     setUploadError(null);
+
+    const CLIENT_PARSE_THRESHOLD_BYTES = 4 * 1024 * 1024; // 4 MB (Vercel body limit is 4.5 MB)
+    const useClientSideExtraction = file.size > CLIENT_PARSE_THRESHOLD_BYTES;
+
     setUploadProgress({
       stage: "Parsing Document",
       percent: 15,
-      detail: "Extracting pages & normalising text...",
+      detail: useClientSideExtraction
+        ? `Large PDF (${(file.size / (1024 * 1024)).toFixed(1)} MB) — extracting text in browser...`
+        : "Extracting pages & normalising text...",
     });
 
     try {
-      // Step 1: Parse and chunk on the server
-      const formData = new FormData();
-      formData.append("file", file);
+      let parseRes: Response;
 
-      const parseRes = await fetch("/api/documents/parse", {
-        method: "POST",
-        body: formData,
-      });
+      if (useClientSideExtraction) {
+        // Extract text in browser so request body is tiny JSON (< 100 KB) instead of raw PDF bytes
+        const { fileSha256, pageTexts } = await extractPdfPagesInBrowser(file);
+        parseRes = await fetch("/api/documents/parse", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fileName: file.name,
+            fileSha256,
+            pageTexts,
+          }),
+        });
+      } else {
+        // Step 1: Parse and chunk on the server (with automatic fallback on 413)
+        const formData = new FormData();
+        formData.append("file", file);
+
+        parseRes = await fetch("/api/documents/parse", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (parseRes.status === 413) {
+          setUploadProgress({
+            stage: "Parsing Document",
+            percent: 25,
+            detail: "Payload exceeded server gateway limit — switching to in-browser text extraction...",
+          });
+          const { fileSha256, pageTexts } = await extractPdfPagesInBrowser(file);
+          parseRes = await fetch("/api/documents/parse", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              fileName: file.name,
+              fileSha256,
+              pageTexts,
+            }),
+          });
+        }
+      }
 
       if (!parseRes.ok) {
         const errJson = await parseRes.json().catch(() => ({}));
@@ -159,7 +216,7 @@ export function PdfUploadWorkspace() {
 
       // Step 2: Compute 384-d dense vectors in browser using Xenova ONNX
       const chunkTexts = parseData.chunks.map((c) => c.text);
-      const embeddings = await embedBatchClient(chunkTexts, (current, total) => {
+      const rawEmbeddings = await embedBatchClient(chunkTexts, (current, total) => {
         const pct = 45 + Math.round((current / total) * 35);
         setUploadProgress({
           stage: "Neural Embedding",
@@ -168,30 +225,50 @@ export function PdfUploadWorkspace() {
         });
       });
 
+      // Compact float precision to 6 decimals to reduce JSON payload size by ~60%
+      const compactEmbeddings = rawEmbeddings.map((vec) =>
+        vec.map((v) => Number(v.toFixed(6)))
+      );
+
       setUploadProgress({
         stage: "Vector Indexing",
         percent: 85,
         detail: "Indexing passages and vectors in Supabase PostgreSQL...",
       });
 
-      // Step 3: Save atomically to database
-      const saveRes = await fetch("/api/documents/save", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          doc: parseData.doc,
-          pages: parseData.pages,
-          chunks: parseData.chunks,
-          embeddings,
-        }),
-      });
+      // Step 3: Save atomically to database (batched at 120 chunks/request to stay well under 4.5 MB)
+      const SAVE_BATCH_SIZE = 120;
+      const totalChunks = parseData.chunks.length;
 
-      if (!saveRes.ok) {
-        const saveErrJson = await saveRes.json().catch(() => ({}));
-        const msg = saveErrJson.detail
-          ? `${saveErrJson.error}: ${saveErrJson.detail}`
-          : saveErrJson.error || "Failed to save document";
-        throw new Error(msg);
+      for (let start = 0; start < totalChunks; start += SAVE_BATCH_SIZE) {
+        const end = Math.min(start + SAVE_BATCH_SIZE, totalChunks);
+        if (totalChunks > SAVE_BATCH_SIZE) {
+          const batchPct = 85 + Math.round((start / totalChunks) * 14);
+          setUploadProgress({
+            stage: "Vector Indexing",
+            percent: batchPct,
+            detail: `Indexing chunks ${start + 1}–${end} of ${totalChunks} in Supabase PostgreSQL...`,
+          });
+        }
+
+        const saveRes = await fetch("/api/documents/save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            doc: parseData.doc,
+            pages: start === 0 ? parseData.pages : [],
+            chunks: parseData.chunks.slice(start, end),
+            embeddings: compactEmbeddings.slice(start, end),
+          }),
+        });
+
+        if (!saveRes.ok) {
+          const saveErrJson = await saveRes.json().catch(() => ({}));
+          const msg = saveErrJson.detail
+            ? `${saveErrJson.error}: ${saveErrJson.detail}`
+            : saveErrJson.error || `Failed to save document (HTTP ${saveRes.status})`;
+          throw new Error(msg);
+        }
       }
 
       setUploadProgress({

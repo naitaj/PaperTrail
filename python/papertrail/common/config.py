@@ -10,9 +10,9 @@ from dotenv import load_dotenv
 # Resolve project root (4 levels up from this file: python/papertrail/common/config.py -> root)
 ROOT_DIR = Path(__file__).resolve().parents[3]
 
-# Load root .env (override=True so the latest value in .env wins)
-load_dotenv(ROOT_DIR / ".env", override=True)
-load_dotenv(ROOT_DIR / "python" / ".env", override=True)
+# Load root .env (do not override explicit environment variables set in CI/shell)
+load_dotenv(ROOT_DIR / ".env")
+load_dotenv(ROOT_DIR / "python" / ".env")
 
 MANIFEST_PATH = ROOT_DIR / "data" / "manifest" / "corpus.yaml"
 CHUNK_CONFIGS_PATH = ROOT_DIR / "data" / "manifest" / "chunk_configs.yaml"

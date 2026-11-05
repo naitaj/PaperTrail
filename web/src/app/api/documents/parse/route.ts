@@ -28,45 +28,83 @@ function slugify(name: string): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.formData();
-    const file = formData.get("file") as File | null;
-    const customTitle = formData.get("title") as string | null;
+    const contentType = req.headers.get("content-type") || "";
+    let fileName: string;
+    let customTitle: string | null = null;
+    let fileSha256: string;
+    let rawPages: string[];
 
-    if (!file) {
-      return NextResponse.json({ error: "No PDF file provided" }, { status: 400 });
-    }
+    if (contentType.includes("application/json")) {
+      // Large-PDF path: the browser extracted page text locally (unpdf) so the
+      // multi-megabyte binary never crosses the network (avoids HTTP 413 limits).
+      const body = await req.json();
+      fileName = String(body.fileName || "uploaded-paper.pdf");
+      customTitle = typeof body.title === "string" ? body.title : null;
+      fileSha256 = String(body.fileSha256 || "");
+      rawPages = Array.isArray(body.pageTexts) ? body.pageTexts.map((t: unknown) => String(t ?? "")) : [];
 
-    if (!file.name.toLowerCase().endsWith(".pdf") && file.type !== "application/pdf") {
-      return NextResponse.json(
-        { error: "Invalid file type. Only PDF documents are supported." },
-        { status: 400 }
-      );
-    }
+      if (!fileName.toLowerCase().endsWith(".pdf")) {
+        return NextResponse.json(
+          { error: "Invalid file type. Only PDF documents are supported." },
+          { status: 400 }
+        );
+      }
+      if (!/^[a-f0-9]{64}$/.test(fileSha256)) {
+        return NextResponse.json(
+          { error: "Invalid or missing 'fileSha256' (expected 64-char hex SHA-256)." },
+          { status: 400 }
+        );
+      }
+      if (rawPages.length === 0) {
+        return NextResponse.json(
+          { error: "Could not extract text from PDF. The document may be scanned or image-only." },
+          { status: 400 }
+        );
+      }
+    } else {
+      // Standard path: small PDF binary uploaded via multipart/form-data
+      const formData = await req.formData();
+      const file = formData.get("file") as File | null;
+      customTitle = formData.get("title") as string | null;
 
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+      if (!file) {
+        return NextResponse.json({ error: "No PDF file provided" }, { status: 400 });
+      }
 
-    if (buffer.length === 0) {
-      return NextResponse.json({ error: "The uploaded PDF file is empty." }, { status: 400 });
-    }
+      if (!file.name.toLowerCase().endsWith(".pdf") && file.type !== "application/pdf") {
+        return NextResponse.json(
+          { error: "Invalid file type. Only PDF documents are supported." },
+          { status: 400 }
+        );
+      }
 
-    // SHA-256 of the raw file
-    const fileSha256 = crypto.createHash("sha256").update(buffer).digest("hex");
+      const arrayBuffer = await file.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
 
-    // Extract pages via unpdf (zero native dependencies, serverless & Vercel ready)
-    const uint8Array = new Uint8Array(arrayBuffer);
-    const pdf = await getDocumentProxy(uint8Array);
-    const { text: pageTexts } = await extractText(pdf, { mergePages: false });
+      if (buffer.length === 0) {
+        return NextResponse.json({ error: "The uploaded PDF file is empty." }, { status: 400 });
+      }
 
-    if (!pageTexts || (Array.isArray(pageTexts) && pageTexts.length === 0)) {
-      return NextResponse.json(
-        { error: "Could not extract text from PDF. The document may be scanned or image-only." },
-        { status: 400 }
-      );
+      fileName = file.name;
+      // SHA-256 of the raw file
+      fileSha256 = crypto.createHash("sha256").update(buffer).digest("hex");
+
+      // Extract pages via unpdf (zero native dependencies, serverless & Vercel ready)
+      const uint8Array = new Uint8Array(arrayBuffer);
+      const pdf = await getDocumentProxy(uint8Array);
+      const { text: pageTexts } = await extractText(pdf, { mergePages: false });
+
+      if (!pageTexts || (Array.isArray(pageTexts) && pageTexts.length === 0)) {
+        return NextResponse.json(
+          { error: "Could not extract text from PDF. The document may be scanned or image-only." },
+          { status: 400 }
+        );
+      }
+
+      rawPages = Array.isArray(pageTexts) ? pageTexts : [pageTexts];
     }
 
     // Process pages
-    const rawPages: string[] = Array.isArray(pageTexts) ? pageTexts : [pageTexts];
     const pages: { pageIndex: number; text: string; charCount: number }[] = [];
     let fullText = "";
 
@@ -96,11 +134,11 @@ export async function POST(req: NextRequest) {
     const textHash = crypto.createHash("sha256").update(fullText).digest("hex");
 
     // Derive document title & ID
-    const baseSlug = slugify(file.name.replace(/\.pdf$/i, "")) || "uploaded-paper";
+    const baseSlug = slugify(fileName.replace(/\.pdf$/i, "")) || "uploaded-paper";
     const docId = `user-${baseSlug}-${fileSha256.slice(0, 8)}`.slice(0, 60);
     const title =
       customTitle?.trim() ||
-      file.name
+      fileName
         .replace(/\.pdf$/i, "")
         .replace(/[-_]+/g, " ")
         .replace(/\b\w/g, (c) => c.toUpperCase());
@@ -121,7 +159,7 @@ export async function POST(req: NextRequest) {
         year: new Date().getFullYear(),
         venue: "In-Browser Workspace",
         doi: null,
-        source_url: `upload://${file.name}`,
+        source_url: `upload://${fileName}`,
         sha256: fileSha256,
         text_hash: textHash,
         n_pages: pages.length,

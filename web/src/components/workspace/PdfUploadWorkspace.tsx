@@ -358,7 +358,7 @@ export function PdfUploadWorkspace() {
                       : "text-[#94a3b8] hover:text-[#f8fafc]"
                   }`}
                 >
-                  Entire Corpus
+                  Entire Docs
                 </button>
                 <button
                   onClick={() => {

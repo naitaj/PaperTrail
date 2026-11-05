@@ -9,6 +9,8 @@ from rapidfuzz import fuzz
 ROOT_DIR = Path(__file__).resolve().parents[3]
 DEV_PATH = ROOT_DIR / "data" / "eval" / "questions.dev.jsonl"
 TEST_PATH = ROOT_DIR / "data" / "eval" / "questions.test.jsonl"
+GOLD_ANNOTATIONS_PATH = ROOT_DIR / "data" / "eval" / "gold_annotations.json"
+
 
 def load_eval_split(split: str = "dev") -> list[dict[str, Any]]:
     path = DEV_PATH if split == "dev" else TEST_PATH
@@ -23,12 +25,24 @@ def load_eval_split(split: str = "dev") -> list[dict[str, Any]]:
                 records.append(json.loads(line))
     return records
 
-def is_chunk_relevant(chunk: dict[str, Any], gold_evidence: list[dict[str, Any]]) -> bool:
-    """
-    Checks if a retrieved chunk matches any gold evidence record.
-    Matches if:
-      - doc_id matches AND (page matches OR text overlap with gold span > 75%)
-    """
+
+def load_gold_annotations() -> dict[str, Any]:
+    if not GOLD_ANNOTATIONS_PATH.exists():
+        return {}
+    with open(GOLD_ANNOTATIONS_PATH, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def is_chunk_relevant(
+    chunk: dict[str, Any],
+    gold_evidence: list[dict[str, Any]],
+    gold_chunk_ids: list[str] | None = None,
+) -> bool:
+    """Checks if a retrieved chunk matches any gold evidence record or verified gold chunk ID."""
+    chunk_id = chunk.get("chunk_id")
+    if gold_chunk_ids and chunk_id in gold_chunk_ids:
+        return True
+
     if not gold_evidence:
         return False
 

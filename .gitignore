@@ -15,6 +15,7 @@ python/.env
 
 # ---- Corpus data (large files) ----
 data/raw/
+data/backups/
 
 # ---- IDE ----
 .vscode/

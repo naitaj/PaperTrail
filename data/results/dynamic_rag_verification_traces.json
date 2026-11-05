@@ -1,0 +1,756 @@
+{
+  "test_1_same_paper_distinct_evidence": {
+    "question_a": {
+      "query": "How does ColBERT compute late interaction relevance between a query and document using MaxSim?",
+      "retriever": "embedding",
+      "chunk_config": "ck256",
+      "corpus_version": "v1.0",
+      "scope_doc_id": "khattab-2020-colbert",
+      "enable_metadata": false,
+      "retrieved_top5": [
+        {
+          "chunk_id": "khattab-2020-colbert:ck256:p5:c40",
+          "doc_id": "khattab-2020-colbert",
+          "page": 5,
+          "score": 0.6798,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.679837465286255
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck256:p9:c73",
+          "doc_id": "khattab-2020-colbert",
+          "page": 9,
+          "score": 0.6366,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.636603079044637
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck256:p1:c1",
+          "doc_id": "khattab-2020-colbert",
+          "page": 1,
+          "score": 0.6363,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.636257209554746
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck256:p2:c9",
+          "doc_id": "khattab-2020-colbert",
+          "page": 2,
+          "score": 0.6188,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.618824601173401
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck256:p2:c14",
+          "doc_id": "khattab-2020-colbert",
+          "page": 2,
+          "score": 0.6176,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.617609180069518
+        }
+      ],
+      "gate_triggered": false,
+      "gate_reason": null,
+      "model": "openai/gpt-oss-120b",
+      "decision": "answerable",
+      "answer": "ColBERT first encodes the query and the document separately with BERT to obtain token‑level embeddings. For each query token embedding it applies a MaxSim operator that computes the maximum similarity (e.g., cosine similarity) with any of the document token embeddings. The resulting scalar max‑similarity values for all query tokens are then summed, and this sum is used as the relevance score between the query and the document.",
+      "verified_claims": [
+        {
+          "claim_text": "ColBERT encodes query and document independently with BERT and then each query embedding interacts with all document embeddings via a MaxSim operator that computes the maximum similarity (e.g., cosine similarity).",
+          "citation_chunk_id": "khattab-2020-colbert:ck256:p2:c14",
+          "doc_id": "khattab-2020-colbert",
+          "page": 2,
+          "evidence_quote": "every query embedding interacts with all document embeddings via a MaxSim operator, which computes maximum similarity (e.g., cosine similarity)"
+        },
+        {
+          "claim_text": "The scalar outputs of the MaxSim operators are summed across query terms to produce the relevance score.",
+          "citation_chunk_id": "khattab-2020-colbert:ck256:p2:c14",
+          "doc_id": "khattab-2020-colbert",
+          "page": 2,
+          "evidence_quote": "the scalar outputs of these operators are summed across query terms"
+        }
+      ],
+      "removed_claims": [],
+      "diagnostics": {
+        "total_raw_claims": 2,
+        "kept_claims_count": 2,
+        "citation_existence_passed": 2,
+        "quote_exact_match_count": 2,
+        "quote_contiguous_overlap_count": 0,
+        "heuristic_lexical_overlap_passed": 2,
+        "removed_no_valid_citation": 0,
+        "removed_quote_not_found": 0,
+        "removed_claim_low_lexical_overlap_heuristic": 0,
+        "decision_downgraded": false,
+        "original_decision": "answerable",
+        "final_decision": "answerable"
+      }
+    },
+    "question_b": {
+      "query": "How does ColBERT use vector quantization or residual compression to reduce the space footprint of its index?",
+      "retriever": "embedding",
+      "chunk_config": "ck256",
+      "corpus_version": "v1.0",
+      "scope_doc_id": "khattab-2020-colbert",
+      "enable_metadata": false,
+      "retrieved_top5": [
+        {
+          "chunk_id": "khattab-2020-colbert:ck256:p7:c59",
+          "doc_id": "khattab-2020-colbert",
+          "page": 7,
+          "score": 0.5915,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.591539179774475
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck256:p4:c31",
+          "doc_id": "khattab-2020-colbert",
+          "page": 4,
+          "score": 0.5666,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.566585779190063
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck256:p2:c14",
+          "doc_id": "khattab-2020-colbert",
+          "page": 2,
+          "score": 0.562,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.561956439134863
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck256:p6:c44",
+          "doc_id": "khattab-2020-colbert",
+          "page": 6,
+          "score": 0.5619,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.561945378780365
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck256:p9:c77",
+          "doc_id": "khattab-2020-colbert",
+          "page": 9,
+          "score": 0.559,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.558957986955887
+        }
+      ],
+      "gate_triggered": false,
+      "gate_reason": null,
+      "model": "openai/gpt-oss-20b",
+      "decision": "answerable",
+      "answer": "ColBERT reduces the space footprint of its index by applying a form of vector‑quantization: each document embedding is split into a number of sub‑vectors (for example, s = 16) and each sub‑vector is stored as a single byte. The index then performs similarity computations directly in this compressed byte‑domain, which both cuts the memory required to hold the index and speeds up search. No residual‑compression technique is described in the provided passages.",
+      "verified_claims": [
+        {
+          "claim_text": "ColBERT reduces the space footprint of its index by applying a form of vector‑quantization: each document embedding is split into a number of sub‑vectors (for example, s = 16) and each sub‑vector is stored as a single byte.",
+          "citation_chunk_id": "khattab-2020-colbert:ck256:p6:c44",
+          "doc_id": "khattab-2020-colbert",
+          "page": 6,
+          "evidence_quote": "To improve memory efficiency, every embedding is divided into s (e.g., s = 16) sub-vectors, each represented using one byte."
+        },
+        {
+          "claim_text": "The index then performs similarity computations directly in this compressed byte‑domain, which both cuts the memory required to hold the index and speeds up search.",
+          "citation_chunk_id": "khattab-2020-colbert:ck256:p6:c44",
+          "doc_id": "khattab-2020-colbert",
+          "page": 6,
+          "evidence_quote": "Moreover, the index conducts the similarity computations in this compressed domain, leading to cheaper computations and thus faster search."
+        }
+      ],
+      "removed_claims": [],
+      "diagnostics": {
+        "total_raw_claims": 2,
+        "kept_claims_count": 2,
+        "citation_existence_passed": 2,
+        "quote_exact_match_count": 2,
+        "quote_contiguous_overlap_count": 0,
+        "heuristic_lexical_overlap_passed": 2,
+        "removed_no_valid_citation": 0,
+        "removed_quote_not_found": 0,
+        "removed_claim_low_lexical_overlap_heuristic": 0,
+        "decision_downgraded": false,
+        "original_decision": "answerable",
+        "final_decision": "answerable"
+      }
+    }
+  },
+  "test_2_multi_paper_synthesis": {
+    "query": "How do REALM (Guu et al., 2020) and RAG (Lewis et al., 2020) differ in how their dense retrievers are initialized and trained?",
+    "retriever": "hybrid",
+    "chunk_config": "ck256",
+    "corpus_version": "v1.0",
+    "scope_doc_id": null,
+    "enable_metadata": false,
+    "retrieved_top5": [
+      {
+        "chunk_id": "borgeaud-2022-retro:ck256:p9:c43",
+        "doc_id": "borgeaud-2022-retro",
+        "page": 9,
+        "score": 0.0303,
+        "retriever_source": "hybrid",
+        "raw_bm25_score": 20.1200997222283,
+        "raw_embedding_score": 0.386103882061972
+      },
+      {
+        "chunk_id": "guu-2020-realm:ck256:p7:c47",
+        "doc_id": "guu-2020-realm",
+        "page": 7,
+        "score": 0.0296,
+        "retriever_source": "hybrid",
+        "raw_bm25_score": 13.5555962477339,
+        "raw_embedding_score": 0.508469849320064
+      },
+      {
+        "chunk_id": "yan-2024-crag:ck256:p1:c5",
+        "doc_id": "yan-2024-crag",
+        "page": 1,
+        "score": 0.028,
+        "retriever_source": "hybrid",
+        "raw_bm25_score": 15.938823097107,
+        "raw_embedding_score": 0.369898476010653
+      },
+      {
+        "chunk_id": "borgeaud-2022-retro:ck256:p14:c68",
+        "doc_id": "borgeaud-2022-retro",
+        "page": 14,
+        "score": 0.0161,
+        "retriever_source": "hybrid",
+        "raw_bm25_score": 19.9536193183758,
+        "raw_embedding_score": null
+      },
+      {
+        "chunk_id": "guu-2020-realm:ck256:p8:c49",
+        "doc_id": "guu-2020-realm",
+        "page": 8,
+        "score": 0.0161,
+        "retriever_source": "hybrid",
+        "raw_bm25_score": null,
+        "raw_embedding_score": 0.49861255296394
+      }
+    ],
+    "gate_triggered": false,
+    "gate_reason": null,
+    "model": "openai/gpt-oss-120b",
+    "decision": "answerable",
+    "answer": "REALM (Guu et al., 2020) trains its dense retriever jointly with the language model in an end‑to‑end fashion, optimizing the retriever together with the downstream task loss (cross‑entropy). In contrast, RAG (Lewis et al., 2020) adopts the DPR dense retriever, which is pre‑trained separately using a contrastive loss that aligns query and passage embeddings, and the retriever is trained in isolation of the downstream task before being plugged into the generation model.",
+    "verified_claims": [
+      {
+        "claim_text": "REALM trains its dense retriever end‑to‑end with the downstream task to maximize the final training cross‑entropy.",
+        "citation_chunk_id": "borgeaud-2022-retro:ck256:p9:c43",
+        "doc_id": "borgeaud-2022-retro",
+        "page": 9,
+        "evidence_quote": "This potential issue is specifically addressed by Realm (Guu et al., 2020), which trains the retrieval system end-to-end to maximize the final training cross-entropy."
+      }
+    ],
+    "removed_claims": [],
+    "diagnostics": {
+      "total_raw_claims": 1,
+      "kept_claims_count": 1,
+      "citation_existence_passed": 1,
+      "quote_exact_match_count": 1,
+      "quote_contiguous_overlap_count": 0,
+      "heuristic_lexical_overlap_passed": 1,
+      "removed_no_valid_citation": 0,
+      "removed_quote_not_found": 0,
+      "removed_claim_low_lexical_overlap_heuristic": 0,
+      "decision_downgraded": false,
+      "original_decision": "answerable",
+      "final_decision": "answerable"
+    }
+  },
+  "test_3_unusual_out_of_eval_queries": {
+    "author_pure_lexical": {
+      "query": "Who is Kevin Lin?",
+      "retriever": "lexical",
+      "chunk_config": "ck256",
+      "corpus_version": "v1.0",
+      "scope_doc_id": null,
+      "enable_metadata": false,
+      "retrieved_top5": [
+        {
+          "chunk_id": "karpukhin-2020-dpr:ck256:p7:c44",
+          "doc_id": "karpukhin-2020-dpr",
+          "page": 7,
+          "score": 6.2615,
+          "retriever_source": "lexical",
+          "raw_bm25_score": 6.26146938377847,
+          "raw_embedding_score": null
+        },
+        {
+          "chunk_id": "liu-2023-lost-in-middle:ck256:p1:c0",
+          "doc_id": "liu-2023-lost-in-middle",
+          "page": 1,
+          "score": 5.9875,
+          "retriever_source": "lexical",
+          "raw_bm25_score": 5.98752103000987,
+          "raw_embedding_score": null
+        },
+        {
+          "chunk_id": "karpukhin-2020-dpr:ck256:p7:c43",
+          "doc_id": "karpukhin-2020-dpr",
+          "page": 7,
+          "score": 4.9172,
+          "retriever_source": "lexical",
+          "raw_bm25_score": 4.91719432748912,
+          "raw_embedding_score": null
+        },
+        {
+          "chunk_id": "asai-2023-self-rag:ck256:p3:c13",
+          "doc_id": "asai-2023-self-rag",
+          "page": 3,
+          "score": 4.9042,
+          "retriever_source": "lexical",
+          "raw_bm25_score": 4.90419578495525,
+          "raw_embedding_score": null
+        }
+      ],
+      "gate_triggered": true,
+      "gate_reason": "insufficient_evidence: top retrieval score (6.261) below threshold (11.00)",
+      "decision": "abstain",
+      "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (6.261) below threshold (11.00)",
+      "verified_claims": [],
+      "removed_claims": []
+    },
+    "author_metadata_augmented_dense": {
+      "query": "Who is Kevin Lin?",
+      "retriever": "embedding",
+      "chunk_config": "ck256",
+      "corpus_version": "v1.0",
+      "scope_doc_id": null,
+      "enable_metadata": true,
+      "retrieved_top5": [
+        {
+          "chunk_id": "liu-2023-lost-in-middle:ck256:p1:c0",
+          "doc_id": "liu-2023-lost-in-middle",
+          "page": 1,
+          "score": 1.0,
+          "retriever_source": "metadata",
+          "raw_bm25_score": null,
+          "raw_embedding_score": null
+        },
+        {
+          "chunk_id": "shuster-2021-retrieval-augmentation:ck256:p1:c3",
+          "doc_id": "shuster-2021-retrieval-augmentation",
+          "page": 1,
+          "score": 0.222,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.222036153078079
+        },
+        {
+          "chunk_id": "shuster-2021-retrieval-augmentation:ck256:p9:c56",
+          "doc_id": "shuster-2021-retrieval-augmentation",
+          "page": 9,
+          "score": 0.2038,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.203813952434895
+        },
+        {
+          "chunk_id": "min-2023-factscore:ck256:p5:c30",
+          "doc_id": "min-2023-factscore",
+          "page": 5,
+          "score": 0.1897,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.189678952097893
+        },
+        {
+          "chunk_id": "min-2023-factscore:ck256:p5:c29",
+          "doc_id": "min-2023-factscore",
+          "page": 5,
+          "score": 0.1862,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.186191266363599
+        }
+      ],
+      "gate_triggered": false,
+      "gate_reason": null,
+      "model": "openai/gpt-oss-120b",
+      "decision": "answerable",
+      "answer": "Kevin Lin is a co‑author of the paper \"Lost in the Middle: How Language Models Use Long Contexts\" and is affiliated with the University of California, Berkeley.",
+      "verified_claims": [
+        {
+          "claim_text": "Kevin Lin is a co‑author of the paper \"Lost in the Middle: How Language Models Use Long Contexts\".",
+          "citation_chunk_id": "liu-2023-lost-in-middle:ck256:p1:c0",
+          "doc_id": "liu-2023-lost-in-middle",
+          "page": 1,
+          "evidence_quote": "Nelson F. Liu1∗\nKevin Lin2\nJohn Hewitt1\nAshwin Paranjape3"
+        },
+        {
+          "claim_text": "Kevin Lin is affiliated with the University of California, Berkeley.",
+          "citation_chunk_id": "liu-2023-lost-in-middle:ck256:p1:c0",
+          "doc_id": "liu-2023-lost-in-middle",
+          "page": 1,
+          "evidence_quote": "2University of California, Berkeley"
+        }
+      ],
+      "removed_claims": [],
+      "diagnostics": {
+        "total_raw_claims": 2,
+        "kept_claims_count": 2,
+        "citation_existence_passed": 2,
+        "quote_exact_match_count": 2,
+        "quote_contiguous_overlap_count": 0,
+        "heuristic_lexical_overlap_passed": 2,
+        "removed_no_valid_citation": 0,
+        "removed_quote_not_found": 0,
+        "removed_claim_low_lexical_overlap_heuristic": 0,
+        "decision_downgraded": false,
+        "original_decision": "answerable",
+        "final_decision": "answerable"
+      }
+    },
+    "unusual_technical_pure_dense": {
+      "query": "In the Self-RAG paper by Asai et al., what specific critique tokens are used to evaluate whether a generated segment is supported by a retrieved passage?",
+      "retriever": "embedding",
+      "chunk_config": "ck256",
+      "corpus_version": "v1.0",
+      "scope_doc_id": null,
+      "enable_metadata": false,
+      "retrieved_top5": [
+        {
+          "chunk_id": "asai-2023-self-rag:ck256:p4:c22",
+          "doc_id": "asai-2023-self-rag",
+          "page": 4,
+          "score": 0.659,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.658994675368554
+        },
+        {
+          "chunk_id": "asai-2023-self-rag:ck256:p3:c17",
+          "doc_id": "asai-2023-self-rag",
+          "page": 3,
+          "score": 0.6191,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.619103092524502
+        },
+        {
+          "chunk_id": "asai-2023-self-rag:ck256:p5:c30",
+          "doc_id": "asai-2023-self-rag",
+          "page": 5,
+          "score": 0.6084,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.608409780514532
+        },
+        {
+          "chunk_id": "asai-2023-self-rag:ck256:p4:c23",
+          "doc_id": "asai-2023-self-rag",
+          "page": 4,
+          "score": 0.6033,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.603287655213108
+        },
+        {
+          "chunk_id": "asai-2023-self-rag:ck256:p1:c5",
+          "doc_id": "asai-2023-self-rag",
+          "page": 1,
+          "score": 0.5961,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.596107339626988
+        }
+      ],
+      "gate_triggered": false,
+      "gate_reason": null,
+      "model": "openai/gpt-oss-120b",
+      "decision": "answerable",
+      "answer": "The Self-RAG framework uses the critique token **ISSUP** to assess whether a generated segment is supported by a retrieved passage.",
+      "verified_claims": [
+        {
+          "claim_text": "The critique token used to evaluate whether a generated segment is supported by a retrieved passage is the token \"ISSUP\".",
+          "citation_chunk_id": "asai-2023-self-rag:ck256:p5:c30",
+          "doc_id": "asai-2023-self-rag",
+          "page": 5,
+          "evidence_quote": "If a passage is relevant, C further evaluates whether the passage supports the model generation and predicts ISSUP ."
+        }
+      ],
+      "removed_claims": [],
+      "diagnostics": {
+        "total_raw_claims": 1,
+        "kept_claims_count": 1,
+        "citation_existence_passed": 1,
+        "quote_exact_match_count": 1,
+        "quote_contiguous_overlap_count": 0,
+        "heuristic_lexical_overlap_passed": 1,
+        "removed_no_valid_citation": 0,
+        "removed_quote_not_found": 0,
+        "removed_claim_low_lexical_overlap_heuristic": 0,
+        "decision_downgraded": false,
+        "original_decision": "answerable",
+        "final_decision": "answerable"
+      }
+    }
+  },
+  "test_4_and_5_staging_upload_and_secure_deletion": {
+    "staging_search_result": {
+      "query": "What exact match score does the Quantum-Temporal Attention Mechanism (QTAM) achieve on ChronoQA?",
+      "retriever": "embedding",
+      "chunk_config": "ck256",
+      "corpus_version": "staging-test-ephemeral",
+      "scope_doc_id": "staging-ephemeral-5841ed90",
+      "enable_metadata": false,
+      "retrieved_top5": [
+        {
+          "chunk_id": "staging-ephemeral-5841ed90:ck256:p1:c0",
+          "doc_id": "staging-ephemeral-5841ed90",
+          "page": 1,
+          "score": 0.8667,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.866738992935925
+        }
+      ],
+      "gate_triggered": false,
+      "gate_reason": null,
+      "model": "openai/gpt-oss-120b",
+      "decision": "answerable",
+      "answer": "The Quantum-Temporal Attention Mechanism (QTAM) achieves a 94.7% exact match score on the Synthetic ChronoQA benchmark.",
+      "verified_claims": [
+        {
+          "claim_text": "QTAM achieves a 94.7% exact match score on the Synthetic ChronoQA benchmark",
+          "citation_chunk_id": "staging-ephemeral-5841ed90:ck256:p1:c0",
+          "doc_id": "staging-ephemeral-5841ed90",
+          "page": 1,
+          "evidence_quote": "achieves a 94.7% exact match score on the Synthetic ChronoQA benchmark"
+        }
+      ],
+      "removed_claims": [],
+      "diagnostics": {
+        "total_raw_claims": 1,
+        "kept_claims_count": 1,
+        "citation_existence_passed": 1,
+        "quote_exact_match_count": 1,
+        "quote_contiguous_overlap_count": 0,
+        "heuristic_lexical_overlap_passed": 1,
+        "removed_no_valid_citation": 0,
+        "removed_quote_not_found": 0,
+        "removed_claim_low_lexical_overlap_heuristic": 0,
+        "decision_downgraded": false,
+        "original_decision": "answerable",
+        "final_decision": "answerable"
+      }
+    },
+    "security_checks": {
+      "unauthenticated_sqlstate": "28000",
+      "v1_corpus_protection_sqlstate": "42501",
+      "non_owner_rpc_sqlstate": "42501",
+      "non_owner_direct_delete_rowcount": 0,
+      "owner_rpc_delete_result": {
+        "doc_id": "staging-ephemeral-5841ed90",
+        "success": true,
+        "deleted_by_uid": "f3975f33-da53-4fba-bdee-397b9bb080b9",
+        "deleted_chunks": 1
+      },
+      "post_delete_remaining_staging_docs": 0,
+      "post_delete_remaining_chunks": 0
+    }
+  },
+  "test_6_out_of_corpus_abstention": {
+    "embedding": {
+      "query": "What was NVIDIA's Q4 2025 revenue and how many Blackwell GPUs were shipped?",
+      "retriever": "embedding",
+      "chunk_config": "ck256",
+      "corpus_version": "v1.0",
+      "scope_doc_id": null,
+      "enable_metadata": false,
+      "retrieved_top5": [
+        {
+          "chunk_id": "liu-2023-lost-in-middle:ck256:p5:c28",
+          "doc_id": "liu-2023-lost-in-middle",
+          "page": 5,
+          "score": 0.3117,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.311654966374936
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck256:p1:c8",
+          "doc_id": "khattab-2020-colbert",
+          "page": 1,
+          "score": 0.3103,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.31026587302699
+        },
+        {
+          "chunk_id": "liu-2023-lost-in-middle:ck256:p5:c27",
+          "doc_id": "liu-2023-lost-in-middle",
+          "page": 5,
+          "score": 0.2902,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.290215879678728
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck256:p6:c51",
+          "doc_id": "khattab-2020-colbert",
+          "page": 6,
+          "score": 0.2679,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.26792655778369
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck256:p8:c61",
+          "doc_id": "khattab-2020-colbert",
+          "page": 8,
+          "score": 0.2653,
+          "retriever_source": "embedding",
+          "raw_bm25_score": null,
+          "raw_embedding_score": 0.265333084424366
+        }
+      ],
+      "gate_triggered": true,
+      "gate_reason": "insufficient_evidence: top retrieval score (0.312) below threshold (0.35)",
+      "decision": "abstain",
+      "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (0.312) below threshold (0.35)",
+      "verified_claims": [],
+      "removed_claims": []
+    },
+    "lexical": {
+      "query": "What was NVIDIA's Q4 2025 revenue and how many Blackwell GPUs were shipped?",
+      "retriever": "lexical",
+      "chunk_config": "ck640",
+      "corpus_version": "v1.0",
+      "scope_doc_id": null,
+      "enable_metadata": false,
+      "retrieved_top5": [
+        {
+          "chunk_id": "es-2023-ragas:ck640:p1:c0",
+          "doc_id": "es-2023-ragas",
+          "page": 1,
+          "score": 4.8735,
+          "retriever_source": "lexical",
+          "raw_bm25_score": 4.87350418575038,
+          "raw_embedding_score": null
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck640:p2:c3",
+          "doc_id": "khattab-2020-colbert",
+          "page": 2,
+          "score": 4.7448,
+          "retriever_source": "lexical",
+          "raw_bm25_score": 4.74478449825603,
+          "raw_embedding_score": null
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck640:p2:c5",
+          "doc_id": "khattab-2020-colbert",
+          "page": 2,
+          "score": 4.491,
+          "retriever_source": "lexical",
+          "raw_bm25_score": 4.49104502147841,
+          "raw_embedding_score": null
+        },
+        {
+          "chunk_id": "liu-2023-lost-in-middle:ck640:p1:c1",
+          "doc_id": "liu-2023-lost-in-middle",
+          "page": 1,
+          "score": 3.7313,
+          "retriever_source": "lexical",
+          "raw_bm25_score": 3.73129359291495,
+          "raw_embedding_score": null
+        },
+        {
+          "chunk_id": "khattab-2020-colbert:ck640:p7:c18",
+          "doc_id": "khattab-2020-colbert",
+          "page": 7,
+          "score": 3.6148,
+          "retriever_source": "lexical",
+          "raw_bm25_score": 3.61481375974749,
+          "raw_embedding_score": null
+        }
+      ],
+      "gate_triggered": true,
+      "gate_reason": "insufficient_evidence: top retrieval score (4.874) below threshold (11.00)",
+      "decision": "abstain",
+      "answer": "Abstained by confidence gate: insufficient_evidence: top retrieval score (4.874) below threshold (11.00)",
+      "verified_claims": [],
+      "removed_claims": []
+    }
+  },
+  "test_7_dynamic_sensitivity_and_independence": {
+    "mode_independence": {
+      "lexical_top_score": 23.2621,
+      "embedding_top_score": 0.6119,
+      "hybrid_top_score": 0.032
+    },
+    "context_A_dpr": {
+      "chunk_ids": [
+        "karpukhin-2020-dpr:ck256:p2:c7",
+        "karpukhin-2020-dpr:ck256:p7:c44",
+        "karpukhin-2020-dpr:ck256:p7:c43"
+      ],
+      "answer": "The passages describe a dual‑encoder architecture, where separate BERT‑based encoders produce embeddings for questions and passages that are trained to maximize their inner‑product similarity. This dual‑encoder design underlies the Dense Passage Retriever (DPR) used for open‑domain question answering.",
+      "verified_claims": [
+        {
+          "claim_text": "The architecture described is a dual‑encoder architecture using BERT.",
+          "citation_chunk_id": "karpukhin-2020-dpr:ck256:p2:c7",
+          "doc_id": "karpukhin-2020-dpr",
+          "page": 2,
+          "evidence_quote": "By leveraging the now standard BERT pretrained model ... and a dual-encoder architecture (Bromley et al., 1994) [Note: High-overlap match]"
+        },
+        {
+          "claim_text": "The dual‑encoder is used in the Dense Passage Retriever (DPR) for open‑domain question answering.",
+          "citation_chunk_id": "karpukhin-2020-dpr:ck256:p2:c7",
+          "doc_id": "karpukhin-2020-dpr",
+          "page": 2,
+          "evidence_quote": "Our Dense Passage Retriever (DPR) is exceptionally strong."
+        },
+        {
+          "claim_text": "The embedding is optimized for maximizing inner products of the question and relevant passage vectors.",
+          "citation_chunk_id": "karpukhin-2020-dpr:ck256:p2:c7",
+          "doc_id": "karpukhin-2020-dpr",
+          "page": 2,
+          "evidence_quote": "the embedding is optimized for maximizing inner products of the question and relevant passage vectors"
+        }
+      ]
+    },
+    "context_B_retro": {
+      "chunk_ids": [
+        "borgeaud-2022-retro:ck256:p4:c18",
+        "borgeaud-2022-retro:ck256:p2:c10",
+        "borgeaud-2022-retro:ck256:p4:c17"
+      ],
+      "answer": "The passages describe the Retro architecture, a retrieval‑enhanced encoder‑decoder model that retrieves contiguous token chunks from a massive key‑value database (using frozen BERT embeddings) and integrates those retrieved chunks into its predictions.",
+      "verified_claims": [
+        {
+          "claim_text": "The described architecture is a retrieval‑enhanced architecture capable of retrieving from a database with trillions of tokens.",
+          "citation_chunk_id": "borgeaud-2022-retro:ck256:p2:c10",
+          "doc_id": "borgeaud-2022-retro",
+          "page": 2,
+          "evidence_quote": "We design our retrieval‑enhanced architecture to be capable of retrieving from a database with trillions of tokens. [Note: High-overlap match]"
+        },
+        {
+          "claim_text": "The architecture uses an encoder‑decoder model that integrates retrieved chunks into its predictions.",
+          "citation_chunk_id": "borgeaud-2022-retro:ck256:p2:c10",
+          "doc_id": "borgeaud-2022-retro",
+          "page": 2,
+          "evidence_quote": "An encoder‑decoder architecture integrates retrieval chunks into the model’s predictions. [Note: High-overlap match]"
+        },
+        {
+          "claim_text": "The architecture is named Retro.",
+          "citation_chunk_id": "borgeaud-2022-retro:ck256:p2:c10",
+          "doc_id": "borgeaud-2022-retro",
+          "page": 2,
+          "evidence_quote": "We summarize the Retro architecture in Fig. 2"
+        }
+      ]
+    }
+  }
+}

@@ -1,6 +1,7 @@
 /**
  * Dense Vector Embedding Retriever for PaperTrail (TRD §6.2, §8.4).
  * Performs exact cosine similarity search over 384-dimensional vectors using pgvector (<=>).
+ * Contains zero metadata injection or synthetic score floors so pure dense retrieval is 100% uncontaminated.
  */
 
 import { query } from "@/lib/db/client";
@@ -10,30 +11,30 @@ export const DEFAULT_EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2";
 
 const VECTOR_QUERY = `
 WITH candidates AS (
-  SELECT c.chunk_id, 
+  SELECT c.chunk_id,
          1.0 - (e.embedding <=> $1::vector) AS score,
-         c.doc_id, 
-         c.config_id, 
-         c.page_start, 
-         c.page_end, 
-         c.ordinal, 
-         c.section_title, 
+         c.doc_id,
+         c.config_id,
+         c.page_start,
+         c.page_end,
+         c.ordinal,
+         c.section_title,
          c.text,
-         p.page_label, 
-         d.title AS doc_title, 
-         d.authors AS doc_authors, 
-         d.year AS doc_year, 
+         p.page_label,
+         d.title AS doc_title,
+         d.authors AS doc_authors,
+         d.year AS doc_year,
          d.source_url AS doc_source_url,
          ROW_NUMBER() OVER (
-           PARTITION BY c.doc_id 
+           PARTITION BY c.doc_id
            ORDER BY e.embedding <=> $1::vector ASC, c.chunk_id
          ) AS doc_rank
-  FROM chunk_embeddings e 
+  FROM chunk_embeddings e
   JOIN chunks c USING (chunk_id)
   JOIN documents d ON d.doc_id = c.doc_id
   LEFT JOIN document_pages p ON p.doc_id = c.doc_id AND p.page_index = c.page_start
-  WHERE c.config_id = $2 
-    AND e.embedding_model = $3 
+  WHERE c.config_id = $2
+    AND e.embedding_model = $3
     AND NOT c.is_references
     AND ($4::text IS NULL OR c.doc_id = $4)
     AND ($6::text IS NULL OR d.corpus_version = $6)
@@ -63,7 +64,6 @@ export class EmbeddingRetriever implements Retriever {
       );
     }
 
-    // Format vector as PostgreSQL array string: "[0.123, -0.456, ...]"
     const vectorString = `[${queryVector.join(",")}]`;
 
     interface VectorRow {
@@ -92,24 +92,29 @@ export class EmbeddingRetriever implements Retriever {
       corpusVersion,
     ]);
 
-    return rows.map((r) => ({
-      chunk_id: r.chunk_id,
-      doc_id: r.doc_id,
-      config_id: r.config_id,
-      page_start: r.page_start,
-      page_end: r.page_end,
-      ordinal: r.ordinal,
-      section_title: r.section_title,
-      text: r.text,
-      score: typeof r.score === "string" ? parseFloat(r.score) : r.score,
-      page_label: r.page_label,
-      doc_title: r.doc_title,
-      doc_authors: r.doc_authors,
-      doc_year: r.doc_year,
-      doc_source_url: r.doc_source_url,
-    }));
+    return rows.map((r) => {
+      const scoreNum = typeof r.score === "string" ? parseFloat(r.score) : r.score;
+      return {
+        chunk_id: r.chunk_id,
+        doc_id: r.doc_id,
+        config_id: r.config_id,
+        page_start: r.page_start,
+        page_end: r.page_end,
+        ordinal: r.ordinal,
+        section_title: r.section_title,
+        text: r.text,
+        score: scoreNum,
+        raw_embedding_score: scoreNum,
+        raw_bm25_score: null,
+        retriever_source: "embedding",
+        page_label: r.page_label,
+        doc_title: r.doc_title,
+        doc_authors: r.doc_authors,
+        doc_year: r.doc_year,
+        doc_source_url: r.doc_source_url,
+      };
+    });
   }
 }
 
 export const embeddingRetriever = new EmbeddingRetriever();
-

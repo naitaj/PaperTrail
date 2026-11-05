@@ -1,8 +1,9 @@
 /**
  * Evaluation route handler: POST /api/eval/ask (TRD §9.3).
  * Protected by X-Eval-Key header.
- * Supports retrieveOnly mode to benchmark retrievers without LLM calls,
- * and full grounded generation via Groq.
+ * Supports retrieveOnly mode to benchmark retrievers (lexical, embedding, hybrid)
+ * without LLM calls, and full grounded generation via Groq.
+ * Enforces corpusVersion = "v1.0" by default to isolate benchmarks from user uploads.
  */
 
 import { NextRequest, NextResponse } from "next/server";
@@ -10,7 +11,12 @@ import { evaluateAbstentionGate } from "@/lib/abstention/gate";
 import { generateGroundedAnswer } from "@/lib/generation/groq";
 import { embeddingRetriever } from "@/lib/retrieval/embedding";
 import { lexicalRetriever } from "@/lib/retrieval/lexical";
-import { ChunkConfigId, ScoredChunk } from "@/lib/retrieval/types";
+import { hybridRetriever } from "@/lib/retrieval/hybrid";
+import {
+  augmentWithMetadataChunks,
+  retrieveMetadataAnchorChunks,
+} from "@/lib/retrieval/metadata";
+import { ChunkConfigId, RetrieverMode, ScoredChunk } from "@/lib/retrieval/types";
 
 export const maxDuration = 30;
 
@@ -33,8 +39,10 @@ export async function POST(req: NextRequest) {
       chunkConfig = "ck256",
       queryVector,
       scopeDocId = null,
+      corpusVersion = "v1.0",
       k = 5,
       retrieveOnly = false,
+      enableMetadataAugmentation = false,
     } = body;
 
     if (!query || typeof query !== "string") {
@@ -52,6 +60,7 @@ export async function POST(req: NextRequest) {
         query,
         configId: chunkConfig as ChunkConfigId,
         scopeDocId,
+        corpusVersion,
         k,
       });
     } else if (retriever === "embedding") {
@@ -66,6 +75,22 @@ export async function POST(req: NextRequest) {
         queryVector,
         configId: chunkConfig as ChunkConfigId,
         scopeDocId,
+        corpusVersion,
+        k,
+      });
+    } else if (retriever === "hybrid") {
+      if (!queryVector || !Array.isArray(queryVector) || queryVector.length !== 384) {
+        return NextResponse.json(
+          { error: "Hybrid retrieval requires 384-dimensional 'queryVector'" },
+          { status: 400 }
+        );
+      }
+      retrieved = await hybridRetriever.retrieve({
+        query,
+        queryVector,
+        configId: chunkConfig as ChunkConfigId,
+        scopeDocId,
+        corpusVersion,
         k,
       });
     } else {
@@ -75,11 +100,26 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    let metadataAnchorCount = 0;
+    if (enableMetadataAugmentation) {
+      const metaChunks = await retrieveMetadataAnchorChunks({
+        query,
+        configId: chunkConfig as ChunkConfigId,
+        scopeDocId,
+        corpusVersion,
+      });
+      metadataAnchorCount = metaChunks.length;
+      if (metaChunks.length > 0) {
+        retrieved = augmentWithMetadataChunks(retrieved, metaChunks, k);
+      }
+    }
+
     const retrieveMs = Date.now() - startRetrieve;
 
     if (retrieveOnly) {
       return NextResponse.json({
         retrieved,
+        metadata_augmentation_used: metadataAnchorCount > 0,
         timings_ms: {
           retrieve: retrieveMs,
           total: retrieveMs,
@@ -87,11 +127,22 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    const isScoped = !!scopeDocId || corpusVersion === "user-upload";
+
     // TRD §7.4 Abstention Gate
-    const gate = evaluateAbstentionGate(retrieved, retriever, chunkConfig);
+    const gate =
+      metadataAnchorCount > 0
+        ? { shouldAbstain: false, abstentionReason: null, topScore: retrieved[0]?.score ?? 1.0, threshold: 0, sufficiency: "sufficient" as const }
+        : evaluateAbstentionGate(
+            retrieved,
+            retriever as RetrieverMode,
+            chunkConfig,
+            isScoped
+          );
     if (gate.shouldAbstain) {
       return NextResponse.json({
         retrieved,
+        metadata_augmentation_used: metadataAnchorCount > 0,
         response: {
           decision: "abstain",
           answer: "The available research paper corpus contains insufficient evidence to answer this question.",
@@ -114,12 +165,14 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       retrieved,
+      metadata_augmentation_used: metadataAnchorCount > 0,
       response: {
         decision: result.decision,
         answer: result.answer,
         claims: result.claims,
         abstention_reason: result.abstention_reason,
       },
+      diagnostics: result.diagnostics,
       model: result.model,
       usage: result.usage,
       timings_ms: {

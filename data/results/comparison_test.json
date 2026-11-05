@@ -1,0 +1,1142 @@
+{
+  "bm25": {
+    "ck256": {
+      "mean_hit_rate": 0.5384615384615384,
+      "mean_recall_at_k": 0.5,
+      "mean_mrr": 0.5384615384615384,
+      "mean_precision_at_k": 0.23076923076923078,
+      "mean_ndcg_at_k": 0.75460094115586,
+      "per_question": [
+        {
+          "question_id": "q-cross-02",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-cross-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-cross-01",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.6,
+          "ndcg": 2.0616063116448506
+        },
+        {
+          "question_id": "q-fact-04",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-fact-05",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.3868528072345416
+        },
+        {
+          "question_id": "q-fact-10",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.3868528072345416
+        },
+        {
+          "question_id": "q-fact-09",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.4306765580733931
+        },
+        {
+          "question_id": "q-fact-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.6,
+          "ndcg": 1.9306765580733931
+        },
+        {
+          "question_id": "q-multi-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-multi-05",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 0.6131471927654584
+        },
+        {
+          "question_id": "q-multi-02",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-part-01",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.0
+        },
+        {
+          "question_id": "q-part-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        }
+      ]
+    },
+    "ck640": {
+      "mean_hit_rate": 0.5384615384615384,
+      "mean_recall_at_k": 0.5,
+      "mean_mrr": 0.42948717948717946,
+      "mean_precision_at_k": 0.2,
+      "mean_ndcg_at_k": 0.6336675456218364,
+      "per_question": [
+        {
+          "question_id": "q-cross-02",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-cross-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-cross-01",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.6309297535714575
+        },
+        {
+          "question_id": "q-fact-04",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-fact-05",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.5
+        },
+        {
+          "question_id": "q-fact-10",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.25,
+          "precision": 0.2,
+          "ndcg": 0.43067655807339306
+        },
+        {
+          "question_id": "q-fact-09",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.6,
+          "ndcg": 2.0616063116448506
+        },
+        {
+          "question_id": "q-fact-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.4306765580733931
+        },
+        {
+          "question_id": "q-multi-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-multi-05",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.4,
+          "ndcg": 0.5706417189553201
+        },
+        {
+          "question_id": "q-multi-02",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-part-01",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 0.6131471927654584
+        },
+        {
+          "question_id": "q-part-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        }
+      ]
+    }
+  },
+  "embedding": {
+    "ck256": {
+      "mean_hit_rate": 0.6923076923076923,
+      "mean_recall_at_k": 0.6538461538461539,
+      "mean_mrr": 0.3961538461538462,
+      "mean_precision_at_k": 0.2,
+      "mean_ndcg_at_k": 0.6001195081384096,
+      "per_question": [
+        {
+          "question_id": "q-cross-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.25,
+          "precision": 0.4,
+          "ndcg": 0.8175293653079347
+        },
+        {
+          "question_id": "q-cross-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-cross-01",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.6309297535714575
+        },
+        {
+          "question_id": "q-fact-04",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 1.0
+        },
+        {
+          "question_id": "q-fact-05",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.5,
+          "precision": 0.6,
+          "ndcg": 1.5616063116448506
+        },
+        {
+          "question_id": "q-fact-10",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "ndcg": 0.6309297535714575
+        },
+        {
+          "question_id": "q-fact-09",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.2,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-fact-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.2,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-multi-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-multi-05",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-multi-02",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-part-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-part-03",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 1.0
+        }
+      ]
+    },
+    "ck640": {
+      "mean_hit_rate": 0.6923076923076923,
+      "mean_recall_at_k": 0.5769230769230769,
+      "mean_mrr": 0.3076923076923077,
+      "mean_precision_at_k": 0.18461538461538465,
+      "mean_ndcg_at_k": 0.44416411946898726,
+      "per_question": [
+        {
+          "question_id": "q-cross-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.2,
+          "ndcg": 0.5
+        },
+        {
+          "question_id": "q-cross-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-cross-01",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.5,
+          "precision": 0.4,
+          "ndcg": 1.0616063116448506
+        },
+        {
+          "question_id": "q-fact-04",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-fact-05",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.5,
+          "precision": 0.4,
+          "ndcg": 1.1309297535714575
+        },
+        {
+          "question_id": "q-fact-10",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.2,
+          "ndcg": 0.5
+        },
+        {
+          "question_id": "q-fact-09",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.25,
+          "precision": 0.2,
+          "ndcg": 0.43067655807339306
+        },
+        {
+          "question_id": "q-fact-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.4,
+          "ndcg": 0.8868528072345416
+        },
+        {
+          "question_id": "q-multi-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-multi-05",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-multi-02",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 0.6131471927654584
+        },
+        {
+          "question_id": "q-part-01",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 0.25,
+          "precision": 0.2,
+          "ndcg": 0.2640681225725909
+        },
+        {
+          "question_id": "q-part-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        }
+      ]
+    }
+  },
+  "hybrid": {
+    "ck256": {
+      "mean_hit_rate": 0.7692307692307693,
+      "mean_recall_at_k": 0.6923076923076923,
+      "mean_mrr": 0.5217948717948718,
+      "mean_precision_at_k": 0.23076923076923078,
+      "mean_ndcg_at_k": 0.7006936569679243,
+      "per_question": [
+        {
+          "question_id": "q-cross-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "ndcg": 0.6309297535714575
+        },
+        {
+          "question_id": "q-cross-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-cross-01",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.6,
+          "ndcg": 1.8868528072345416
+        },
+        {
+          "question_id": "q-fact-04",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.4,
+          "ndcg": 0.8868528072345416
+        },
+        {
+          "question_id": "q-fact-05",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.5
+        },
+        {
+          "question_id": "q-fact-10",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.3868528072345416
+        },
+        {
+          "question_id": "q-fact-09",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 1.0
+        },
+        {
+          "question_id": "q-fact-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.2,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-multi-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-multi-05",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 0.6131471927654584
+        },
+        {
+          "question_id": "q-multi-02",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-part-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-part-03",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.25,
+          "precision": 0.2,
+          "ndcg": 0.43067655807339306
+        }
+      ]
+    },
+    "ck640": {
+      "mean_hit_rate": 0.6153846153846154,
+      "mean_recall_at_k": 0.5384615384615384,
+      "mean_mrr": 0.4128205128205128,
+      "mean_precision_at_k": 0.16923076923076924,
+      "mean_ndcg_at_k": 0.5440392029910177,
+      "per_question": [
+        {
+          "question_id": "q-cross-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.2,
+          "ndcg": 0.5
+        },
+        {
+          "question_id": "q-cross-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-cross-01",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 1.0
+        },
+        {
+          "question_id": "q-fact-04",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-fact-05",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.4306765580733931
+        },
+        {
+          "question_id": "q-fact-10",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.2,
+          "ndcg": 0.5
+        },
+        {
+          "question_id": "q-fact-09",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.3868528072345416
+        },
+        {
+          "question_id": "q-fact-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.6309297535714575
+        },
+        {
+          "question_id": "q-multi-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-multi-05",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-multi-02",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-part-01",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 0.2,
+          "precision": 0.2,
+          "ndcg": 0.23719771276929622
+        },
+        {
+          "question_id": "q-part-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        }
+      ]
+    }
+  },
+  "embedding_plus_metadata": {
+    "ck256": {
+      "mean_hit_rate": 0.6923076923076923,
+      "mean_recall_at_k": 0.6538461538461539,
+      "mean_mrr": 0.3961538461538462,
+      "mean_precision_at_k": 0.2,
+      "mean_ndcg_at_k": 0.6001195081384096,
+      "per_question": [
+        {
+          "question_id": "q-cross-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.25,
+          "precision": 0.4,
+          "ndcg": 0.8175293653079347
+        },
+        {
+          "question_id": "q-cross-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-cross-01",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.6309297535714575
+        },
+        {
+          "question_id": "q-fact-04",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 1.0
+        },
+        {
+          "question_id": "q-fact-05",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.5,
+          "precision": 0.6,
+          "ndcg": 1.5616063116448506
+        },
+        {
+          "question_id": "q-fact-10",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "ndcg": 0.6309297535714575
+        },
+        {
+          "question_id": "q-fact-09",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.2,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-fact-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.2,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-multi-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-multi-05",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-multi-02",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-part-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-part-03",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 1.0
+        }
+      ]
+    },
+    "ck640": {
+      "mean_hit_rate": 0.6923076923076923,
+      "mean_recall_at_k": 0.5769230769230769,
+      "mean_mrr": 0.3076923076923077,
+      "mean_precision_at_k": 0.18461538461538465,
+      "mean_ndcg_at_k": 0.44416411946898726,
+      "per_question": [
+        {
+          "question_id": "q-cross-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.2,
+          "ndcg": 0.5
+        },
+        {
+          "question_id": "q-cross-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-cross-01",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.5,
+          "precision": 0.4,
+          "ndcg": 1.0616063116448506
+        },
+        {
+          "question_id": "q-fact-04",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-fact-05",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.5,
+          "precision": 0.4,
+          "ndcg": 1.1309297535714575
+        },
+        {
+          "question_id": "q-fact-10",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.2,
+          "ndcg": 0.5
+        },
+        {
+          "question_id": "q-fact-09",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.25,
+          "precision": 0.2,
+          "ndcg": 0.43067655807339306
+        },
+        {
+          "question_id": "q-fact-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.4,
+          "ndcg": 0.8868528072345416
+        },
+        {
+          "question_id": "q-multi-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-multi-05",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-multi-02",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 0.6131471927654584
+        },
+        {
+          "question_id": "q-part-01",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 0.25,
+          "precision": 0.2,
+          "ndcg": 0.2640681225725909
+        },
+        {
+          "question_id": "q-part-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        }
+      ]
+    }
+  },
+  "hybrid_plus_metadata": {
+    "ck256": {
+      "mean_hit_rate": 0.7692307692307693,
+      "mean_recall_at_k": 0.6923076923076923,
+      "mean_mrr": 0.5217948717948718,
+      "mean_precision_at_k": 0.23076923076923078,
+      "mean_ndcg_at_k": 0.7006936569679243,
+      "per_question": [
+        {
+          "question_id": "q-cross-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "ndcg": 0.6309297535714575
+        },
+        {
+          "question_id": "q-cross-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-cross-01",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.6,
+          "ndcg": 1.8868528072345416
+        },
+        {
+          "question_id": "q-fact-04",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.4,
+          "ndcg": 0.8868528072345416
+        },
+        {
+          "question_id": "q-fact-05",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.5
+        },
+        {
+          "question_id": "q-fact-10",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.3868528072345416
+        },
+        {
+          "question_id": "q-fact-09",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 1.0
+        },
+        {
+          "question_id": "q-fact-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.2,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-multi-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-multi-05",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 0.6131471927654584
+        },
+        {
+          "question_id": "q-multi-02",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-part-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-part-03",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.25,
+          "precision": 0.2,
+          "ndcg": 0.43067655807339306
+        }
+      ]
+    },
+    "ck640": {
+      "mean_hit_rate": 0.6153846153846154,
+      "mean_recall_at_k": 0.5384615384615384,
+      "mean_mrr": 0.4128205128205128,
+      "mean_precision_at_k": 0.16923076923076924,
+      "mean_ndcg_at_k": 0.5440392029910177,
+      "per_question": [
+        {
+          "question_id": "q-cross-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.2,
+          "ndcg": 0.5
+        },
+        {
+          "question_id": "q-cross-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-cross-01",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.2,
+          "ndcg": 1.0
+        },
+        {
+          "question_id": "q-fact-04",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-fact-05",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.4306765580733931
+        },
+        {
+          "question_id": "q-fact-10",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "precision": 0.2,
+          "ndcg": 0.5
+        },
+        {
+          "question_id": "q-fact-09",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.3868528072345416
+        },
+        {
+          "question_id": "q-fact-02",
+          "hit_rate": 1.0,
+          "recall": 1.0,
+          "mrr": 1.0,
+          "precision": 0.4,
+          "ndcg": 1.6309297535714575
+        },
+        {
+          "question_id": "q-multi-01",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-multi-05",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 0.5,
+          "precision": 0.2,
+          "ndcg": 0.38685280723454163
+        },
+        {
+          "question_id": "q-multi-02",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        },
+        {
+          "question_id": "q-part-01",
+          "hit_rate": 1.0,
+          "recall": 0.5,
+          "mrr": 0.2,
+          "precision": 0.2,
+          "ndcg": 0.23719771276929622
+        },
+        {
+          "question_id": "q-part-03",
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "precision": 0.0,
+          "ndcg": 0.0
+        }
+      ]
+    }
+  }
+}

@@ -12,12 +12,27 @@ from fastembed import TextEmbedding
 from papertrail.common.config import get_database_url
 
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+EXP_ENRICHED_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2-exp-enriched"
 BATCH_SIZE = 128
 
 
-def embed_all_chunks():
+def _build_enriched_text(chunk_text: str, doc_title: str | None, doc_authors: list[str] | None) -> str:
+    """Optional experimental metadata prefix (stored only under EXP_ENRICHED_MODEL_NAME)."""
+    parts: list[str] = []
+    if doc_title:
+        parts.append(f"Title: {doc_title}.")
+    if doc_authors:
+        parts.append(f"Authors: {', '.join(doc_authors)}.")
+    if parts:
+        return " ".join(parts) + "\n\n" + chunk_text
+    return chunk_text
+
+
+def embed_all_chunks(force_reembed: bool = False, enrich_metadata: bool = False):
+    target_model = EXP_ENRICHED_MODEL_NAME if enrich_metadata else MODEL_NAME
     print("=== Starting Local Embedding Pipeline ===", flush=True)
-    print(f"Model: {MODEL_NAME} (384 dimensions)", flush=True)
+    print(f"Model tag: {target_model} (base: {MODEL_NAME}, 384 dimensions)", flush=True)
+    print(f"Metadata enrichment: {'ENABLED' if enrich_metadata else 'DISABLED (raw chunk.text)'}", flush=True)
     print("Loading local embedding model...", flush=True)
     model = TextEmbedding(model_name=MODEL_NAME)
 
@@ -28,14 +43,22 @@ def embed_all_chunks():
         try:
             with psycopg.connect(url, connect_timeout=15) as conn:
                 with conn.cursor() as cur:
+                    if force_reembed:
+                        print(f"Force re-embed: clearing existing embeddings for {target_model}...", flush=True)
+                        cur.execute("DELETE FROM chunk_embeddings WHERE embedding_model = %s;", (target_model,))
+                        conn.commit()
+                        print(f"Cleared {target_model}. Re-embedding all non-reference chunks...", flush=True)
+                        force_reembed = False
+
                     cur.execute("""
-                        SELECT c.chunk_id, c.text, c.text_hash
+                        SELECT c.chunk_id, c.text, c.text_hash, d.title, d.authors
                         FROM chunks c
+                        JOIN documents d ON d.doc_id = c.doc_id
                         LEFT JOIN chunk_embeddings ce
                           ON ce.chunk_id = c.chunk_id AND ce.embedding_model = %s
                         WHERE ce.chunk_id IS NULL AND NOT c.is_references
                         ORDER BY c.doc_id, c.config_id, c.ordinal;
-                    """, (MODEL_NAME,))
+                    """, (target_model,))
 
                     remaining_rows = cur.fetchall()
                     total_remaining = len(remaining_rows)
@@ -51,15 +74,19 @@ def embed_all_chunks():
                     for i in range(0, total_remaining, BATCH_SIZE):
                         batch = remaining_rows[i:i + BATCH_SIZE]
                         chunk_ids = [r[0] for r in batch]
-                        texts = [r[1] for r in batch]
                         text_hashes = [r[2] for r in batch]
+
+                        texts = [
+                            _build_enriched_text(r[1], r[3], r[4]) if enrich_metadata else r[1]
+                            for r in batch
+                        ]
 
                         # Generate embeddings locally using CPU-optimized ONNX
                         vectors = list(model.embed(texts))
 
                         # Build records for executemany
                         records = [
-                            (c_id, MODEL_NAME, vec.tolist(), t_hash)
+                            (c_id, target_model, vec.tolist(), t_hash)
                             for c_id, vec, t_hash in zip(chunk_ids, vectors, text_hashes)
                         ]
 
@@ -83,4 +110,7 @@ def embed_all_chunks():
 
 
 if __name__ == "__main__":
-    embed_all_chunks()
+    import sys
+    force = "--force" in sys.argv
+    enrich = "--enrich" in sys.argv
+    embed_all_chunks(force_reembed=force, enrich_metadata=enrich)

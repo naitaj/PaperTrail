@@ -1,0 +1,1357 @@
+{
+  "q-ambi-02": {
+    "question_id": "q-ambi-02",
+    "split": "dev",
+    "category": "ambiguous",
+    "answerability": "unanswerable",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": "The query is ambiguous because it does not specify which model (e.g. DPR, RAG, ColBERT, RETRO), which paper, which benchmark (e.g. NQ, TriviaQA, MS MARCO), or which metric (e.g. Exact Match, Recall@20, F1).",
+    "expected_supporting_facts": []
+  },
+  "q-cross-04": {
+    "question_id": "q-cross-04",
+    "split": "dev",
+    "category": "cross_section",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "liu-2023-lost-in-middle"
+    ],
+    "expected_pages": [
+      4,
+      7
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "liu-2023-lost-in-middle:ck256:p4:c19",
+        "liu-2023-lost-in-middle:ck256:p4:c20",
+        "liu-2023-lost-in-middle:ck256:p4:c21",
+        "liu-2023-lost-in-middle:ck256:p4:c22",
+        "liu-2023-lost-in-middle:ck256:p4:c23",
+        "liu-2023-lost-in-middle:ck256:p7:c38",
+        "liu-2023-lost-in-middle:ck256:p7:c39",
+        "liu-2023-lost-in-middle:ck256:p7:c40",
+        "liu-2023-lost-in-middle:ck256:p7:c41",
+        "liu-2023-lost-in-middle:ck256:p7:c42",
+        "liu-2023-lost-in-middle:ck256:p7:c43",
+        "liu-2023-lost-in-middle:ck256:p7:c44"
+      ],
+      "ck640": [
+        "liu-2023-lost-in-middle:ck640:p4:c6",
+        "liu-2023-lost-in-middle:ck640:p4:c7",
+        "liu-2023-lost-in-middle:ck640:p7:c12",
+        "liu-2023-lost-in-middle:ck640:p7:c13"
+      ]
+    },
+    "reference_answer": "Both tasks demonstrate the same characteristic U-shaped degradation in the middle of long contexts, confirming that position bias is architectural rather than specific to QA text formatting.",
+    "expected_supporting_facts": [
+      "The key-value retrieval experiment in Section 4 mirrors the multi-document QA results from Section 3: models reliably retrieve keys located at the beginning or end, but suffer steep degradation when the key is placed in the interior."
+    ]
+  },
+  "q-cross-05": {
+    "question_id": "q-cross-05",
+    "split": "dev",
+    "category": "cross_section",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "asai-2023-self-rag"
+    ],
+    "expected_pages": [
+      3,
+      4
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "asai-2023-self-rag:ck256:p3:c12",
+        "asai-2023-self-rag:ck256:p3:c13",
+        "asai-2023-self-rag:ck256:p3:c14",
+        "asai-2023-self-rag:ck256:p3:c15",
+        "asai-2023-self-rag:ck256:p3:c16",
+        "asai-2023-self-rag:ck256:p3:c17",
+        "asai-2023-self-rag:ck256:p3:c18",
+        "asai-2023-self-rag:ck256:p4:c19",
+        "asai-2023-self-rag:ck256:p4:c20",
+        "asai-2023-self-rag:ck256:p4:c21",
+        "asai-2023-self-rag:ck256:p4:c22",
+        "asai-2023-self-rag:ck256:p4:c23",
+        "asai-2023-self-rag:ck256:p4:c24"
+      ],
+      "ck640": [
+        "asai-2023-self-rag:ck640:p3:c4",
+        "asai-2023-self-rag:ck640:p3:c5",
+        "asai-2023-self-rag:ck640:p4:c6",
+        "asai-2023-self-rag:ck640:p4:c7"
+      ]
+    },
+    "reference_answer": "The critic model is trained using prompting and GPT-4 annotations to output reflection token labels, whereas the generator model is trained on corpus text interleaved with reflection tokens produced by the critic.",
+    "expected_supporting_facts": [
+      "We first train a Critic model to generate reflection tokens using offline curated demonstrations. We then use the Critic to label raw training data, on which the Generator model is trained."
+    ]
+  },
+  "q-cross-06": {
+    "question_id": "q-cross-06",
+    "split": "dev",
+    "category": "cross_section",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "yan-2024-crag"
+    ],
+    "expected_pages": [
+      3,
+      4
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "yan-2024-crag:ck256:p3:c12",
+        "yan-2024-crag:ck256:p3:c13",
+        "yan-2024-crag:ck256:p3:c14",
+        "yan-2024-crag:ck256:p3:c15",
+        "yan-2024-crag:ck256:p3:c16",
+        "yan-2024-crag:ck256:p3:c17",
+        "yan-2024-crag:ck256:p4:c18",
+        "yan-2024-crag:ck256:p4:c19",
+        "yan-2024-crag:ck256:p4:c20",
+        "yan-2024-crag:ck256:p4:c21",
+        "yan-2024-crag:ck256:p4:c22"
+      ],
+      "ck640": [
+        "yan-2024-crag:ck640:p3:c4",
+        "yan-2024-crag:ck640:p3:c5",
+        "yan-2024-crag:ck640:p4:c6",
+        "yan-2024-crag:ck640:p4:c7"
+      ]
+    },
+    "reference_answer": "CRAG evaluates retrieval confidence against two thresholds: if confidence is high, it refines internal passages; if confidence is low, it triggers external web search; if ambiguous, it combines both.",
+    "expected_supporting_facts": [
+      "CRAG uses an evaluator that outputs confidence scores mapped to three actions: Correct (decompose internal documents), Incorrect (trigger external search), and Ambiguous (combine both sources)."
+    ]
+  },
+  "q-fact-08": {
+    "question_id": "q-fact-08",
+    "split": "dev",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "min-2023-factscore"
+    ],
+    "expected_pages": [
+      2,
+      3
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "min-2023-factscore:ck256:p2:c8",
+        "min-2023-factscore:ck256:p2:c9",
+        "min-2023-factscore:ck256:p2:c10",
+        "min-2023-factscore:ck256:p2:c11",
+        "min-2023-factscore:ck256:p2:c12",
+        "min-2023-factscore:ck256:p2:c13",
+        "min-2023-factscore:ck256:p2:c14",
+        "min-2023-factscore:ck256:p3:c15",
+        "min-2023-factscore:ck256:p3:c16",
+        "min-2023-factscore:ck256:p3:c17",
+        "min-2023-factscore:ck256:p3:c18",
+        "min-2023-factscore:ck256:p3:c19",
+        "min-2023-factscore:ck256:p3:c20",
+        "min-2023-factscore:ck256:p3:c21"
+      ],
+      "ck640": [
+        "min-2023-factscore:ck640:p2:c3",
+        "min-2023-factscore:ck640:p2:c4",
+        "min-2023-factscore:ck640:p2:c5",
+        "min-2023-factscore:ck640:p3:c6",
+        "min-2023-factscore:ck640:p3:c7"
+      ]
+    },
+    "reference_answer": "FActScore decomposes generated text into individual atomic facts (short sentences expressing a single fact) and checks whether each atomic fact is supported by the knowledge source.",
+    "expected_supporting_facts": [
+      "FActScore breaks down a generated text into a sequence of atomic facts, each evaluated individually for support by a reliable knowledge source."
+    ]
+  },
+  "q-fact-03": {
+    "question_id": "q-fact-03",
+    "split": "dev",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "karpukhin-2020-dpr"
+    ],
+    "expected_pages": [
+      2,
+      3
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "karpukhin-2020-dpr:ck256:p2:c7",
+        "karpukhin-2020-dpr:ck256:p2:c8",
+        "karpukhin-2020-dpr:ck256:p2:c9",
+        "karpukhin-2020-dpr:ck256:p2:c10",
+        "karpukhin-2020-dpr:ck256:p2:c11",
+        "karpukhin-2020-dpr:ck256:p2:c12",
+        "karpukhin-2020-dpr:ck256:p2:c13",
+        "karpukhin-2020-dpr:ck256:p3:c14",
+        "karpukhin-2020-dpr:ck256:p3:c15",
+        "karpukhin-2020-dpr:ck256:p3:c16",
+        "karpukhin-2020-dpr:ck256:p3:c17",
+        "karpukhin-2020-dpr:ck256:p3:c18",
+        "karpukhin-2020-dpr:ck256:p3:c19",
+        "karpukhin-2020-dpr:ck256:p3:c20",
+        "karpukhin-2020-dpr:ck256:p3:c21"
+      ],
+      "ck640": [
+        "karpukhin-2020-dpr:ck640:p2:c2",
+        "karpukhin-2020-dpr:ck640:p2:c3",
+        "karpukhin-2020-dpr:ck640:p2:c4",
+        "karpukhin-2020-dpr:ck640:p3:c5",
+        "karpukhin-2020-dpr:ck640:p3:c6"
+      ]
+    },
+    "reference_answer": "DPR uses two separate BERT networks (one for queries, one for passages) and trains them using negative log-likelihood loss with in-batch negatives.",
+    "expected_supporting_facts": [
+      "DPR uses a dual-encoder architecture with two independent BERT networks for queries and passages, optimized with negative log-likelihood loss."
+    ]
+  },
+  "q-fact-06": {
+    "question_id": "q-fact-06",
+    "split": "dev",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "borgeaud-2022-retro"
+    ],
+    "expected_pages": [
+      2,
+      3
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "borgeaud-2022-retro:ck256:p2:c6",
+        "borgeaud-2022-retro:ck256:p2:c7",
+        "borgeaud-2022-retro:ck256:p2:c8",
+        "borgeaud-2022-retro:ck256:p2:c9",
+        "borgeaud-2022-retro:ck256:p2:c10",
+        "borgeaud-2022-retro:ck256:p3:c11",
+        "borgeaud-2022-retro:ck256:p3:c12",
+        "borgeaud-2022-retro:ck256:p3:c13",
+        "borgeaud-2022-retro:ck256:p3:c14"
+      ],
+      "ck640": [
+        "borgeaud-2022-retro:ck640:p2:c2",
+        "borgeaud-2022-retro:ck640:p2:c3",
+        "borgeaud-2022-retro:ck640:p3:c4",
+        "borgeaud-2022-retro:ck640:p3:c5"
+      ]
+    },
+    "reference_answer": "RETRO splits the input sequence into 64-token chunks and retrieves nearest neighbours for each 64-token chunk from a 2-trillion-token database.",
+    "expected_supporting_facts": [
+      "The input sequence is split into chunks of 64 tokens. For each chunk, RETRO retrieves nearest-neighbour chunks from a 2-trillion token database."
+    ]
+  },
+  "q-fact-07": {
+    "question_id": "q-fact-07",
+    "split": "dev",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "liu-2023-lost-in-middle"
+    ],
+    "expected_pages": [
+      1,
+      3
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "liu-2023-lost-in-middle:ck256:p1:c0",
+        "liu-2023-lost-in-middle:ck256:p1:c1",
+        "liu-2023-lost-in-middle:ck256:p1:c2",
+        "liu-2023-lost-in-middle:ck256:p1:c3",
+        "liu-2023-lost-in-middle:ck256:p1:c4",
+        "liu-2023-lost-in-middle:ck256:p1:c5",
+        "liu-2023-lost-in-middle:ck256:p3:c12",
+        "liu-2023-lost-in-middle:ck256:p3:c13",
+        "liu-2023-lost-in-middle:ck256:p3:c14",
+        "liu-2023-lost-in-middle:ck256:p3:c15",
+        "liu-2023-lost-in-middle:ck256:p3:c16",
+        "liu-2023-lost-in-middle:ck256:p3:c17",
+        "liu-2023-lost-in-middle:ck256:p3:c18"
+      ],
+      "ck640": [
+        "liu-2023-lost-in-middle:ck640:p1:c0",
+        "liu-2023-lost-in-middle:ck640:p1:c1",
+        "liu-2023-lost-in-middle:ck640:p3:c4",
+        "liu-2023-lost-in-middle:ck640:p3:c5"
+      ]
+    },
+    "reference_answer": "Language models exhibit a U-shaped performance curve: performance is highest when relevant information appears at the beginning or very end of the input context, and degrades significantly when placed in the middle.",
+    "expected_supporting_facts": [
+      "Performance is highest when relevant information occurs at the beginning or end of the input context, and drops markedly when models must access relevant information in the middle of long contexts."
+    ]
+  },
+  "q-fact-01": {
+    "question_id": "q-fact-01",
+    "split": "dev",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "lewis-2020-rag"
+    ],
+    "expected_pages": [
+      2,
+      3
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "lewis-2020-rag:ck256:p2:c4",
+        "lewis-2020-rag:ck256:p2:c5",
+        "lewis-2020-rag:ck256:p2:c6",
+        "lewis-2020-rag:ck256:p2:c7",
+        "lewis-2020-rag:ck256:p2:c8",
+        "lewis-2020-rag:ck256:p2:c9",
+        "lewis-2020-rag:ck256:p2:c10",
+        "lewis-2020-rag:ck256:p2:c11",
+        "lewis-2020-rag:ck256:p3:c12",
+        "lewis-2020-rag:ck256:p3:c13",
+        "lewis-2020-rag:ck256:p3:c14",
+        "lewis-2020-rag:ck256:p3:c15",
+        "lewis-2020-rag:ck256:p3:c16",
+        "lewis-2020-rag:ck256:p3:c17"
+      ],
+      "ck640": [
+        "lewis-2020-rag:ck640:p2:c2",
+        "lewis-2020-rag:ck640:p2:c3",
+        "lewis-2020-rag:ck640:p3:c4",
+        "lewis-2020-rag:ck640:p3:c5"
+      ]
+    },
+    "reference_answer": "Lewis et al. introduce RAG-Sequence, which uses the same retrieved passage to generate the entire sequence, and RAG-Token, which can use different retrieved passages to generate each token.",
+    "expected_supporting_facts": [
+      "We propose two models: RAG-Sequence, which uses the same retrieved document to generate the complete sequence, and RAG-Token, which can use different passages per token."
+    ]
+  },
+  "q-multi-06": {
+    "question_id": "q-multi-06",
+    "split": "dev",
+    "category": "multi_source",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "liu-2023-lost-in-middle",
+      "shuster-2021-retrieval-augmentation"
+    ],
+    "expected_pages": [
+      4
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "liu-2023-lost-in-middle:ck256:p4:c19",
+        "liu-2023-lost-in-middle:ck256:p4:c20",
+        "liu-2023-lost-in-middle:ck256:p4:c21",
+        "liu-2023-lost-in-middle:ck256:p4:c22",
+        "liu-2023-lost-in-middle:ck256:p4:c23",
+        "shuster-2021-retrieval-augmentation:ck256:p4:c20",
+        "shuster-2021-retrieval-augmentation:ck256:p4:c21",
+        "shuster-2021-retrieval-augmentation:ck256:p4:c22",
+        "shuster-2021-retrieval-augmentation:ck256:p4:c23",
+        "shuster-2021-retrieval-augmentation:ck256:p4:c24",
+        "shuster-2021-retrieval-augmentation:ck256:p4:c25"
+      ],
+      "ck640": [
+        "liu-2023-lost-in-middle:ck640:p4:c6",
+        "liu-2023-lost-in-middle:ck640:p4:c7",
+        "shuster-2021-retrieval-augmentation:ck640:p4:c7",
+        "shuster-2021-retrieval-augmentation:ck640:p4:c8"
+      ]
+    },
+    "reference_answer": "Shuster et al. show that models hallucinate when retrieved context is irrelevant or noisy, while Liu et al. show that models fail to locate and utilize correct context when it is buried among distractor documents in the middle.",
+    "expected_supporting_facts": [
+      "We observe that when retrieved knowledge is of poor quality or misleading, the generator often echoes incorrect context or hallucinates.",
+      "Adding distractor documents significantly degrades retrieval accuracy, especially when the single relevant document is located in the middle of the context."
+    ]
+  },
+  "q-multi-04": {
+    "question_id": "q-multi-04",
+    "split": "dev",
+    "category": "multi_source",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "guu-2020-realm",
+      "lewis-2020-rag"
+    ],
+    "expected_pages": [
+      2,
+      3
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "guu-2020-realm:ck256:p2:c5",
+        "guu-2020-realm:ck256:p2:c6",
+        "guu-2020-realm:ck256:p2:c7",
+        "guu-2020-realm:ck256:p2:c8",
+        "guu-2020-realm:ck256:p2:c9",
+        "guu-2020-realm:ck256:p2:c10",
+        "guu-2020-realm:ck256:p2:c11",
+        "guu-2020-realm:ck256:p2:c12",
+        "lewis-2020-rag:ck256:p3:c12",
+        "lewis-2020-rag:ck256:p3:c13",
+        "lewis-2020-rag:ck256:p3:c14",
+        "lewis-2020-rag:ck256:p3:c15",
+        "lewis-2020-rag:ck256:p3:c16",
+        "lewis-2020-rag:ck256:p3:c17"
+      ],
+      "ck640": [
+        "guu-2020-realm:ck640:p2:c2",
+        "guu-2020-realm:ck640:p2:c3",
+        "guu-2020-realm:ck640:p2:c4",
+        "lewis-2020-rag:ck640:p3:c4",
+        "lewis-2020-rag:ck640:p3:c5"
+      ]
+    },
+    "reference_answer": "REALM pre-trains its dense retriever end-to-end from scratch using masked language modeling gradients, while Lewis et al. RAG initializes its retriever with pre-trained DPR weights and fine-tunes only on downstream task loss.",
+    "expected_supporting_facts": [
+      "REALM trains the dense retrieval network end-to-end during pre-training using masked language model loss without supervised query-document pairs.",
+      "We initialize our retriever with pre-trained DPR models and keep the document index fixed, updating query encoder parameters during fine-tuning."
+    ]
+  },
+  "q-multi-03": {
+    "question_id": "q-multi-03",
+    "split": "dev",
+    "category": "multi_source",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "es-2023-ragas",
+      "min-2023-factscore"
+    ],
+    "expected_pages": [
+      2
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "es-2023-ragas:ck256:p2:c5",
+        "es-2023-ragas:ck256:p2:c6",
+        "es-2023-ragas:ck256:p2:c7",
+        "es-2023-ragas:ck256:p2:c8",
+        "es-2023-ragas:ck256:p2:c9",
+        "es-2023-ragas:ck256:p2:c10",
+        "min-2023-factscore:ck256:p2:c8",
+        "min-2023-factscore:ck256:p2:c9",
+        "min-2023-factscore:ck256:p2:c10",
+        "min-2023-factscore:ck256:p2:c11",
+        "min-2023-factscore:ck256:p2:c12",
+        "min-2023-factscore:ck256:p2:c13",
+        "min-2023-factscore:ck256:p2:c14"
+      ],
+      "ck640": [
+        "es-2023-ragas:ck640:p2:c2",
+        "es-2023-ragas:ck640:p2:c3",
+        "min-2023-factscore:ck640:p2:c3",
+        "min-2023-factscore:ck640:p2:c4",
+        "min-2023-factscore:ck640:p2:c5"
+      ]
+    },
+    "reference_answer": "RAGAS evaluates faithfulness by prompting an LLM to check if statements in the answer are inferred from retrieved context, while FActScore breaks text into fine-grained atomic facts and computes the precision of supported facts against a knowledge base.",
+    "expected_supporting_facts": [
+      "Faithfulness measures the proportion of claims made in the generated answer that can be inferred directly from the provided context using prompting.",
+      "FActScore segments long-form generation into discrete atomic facts, calculating the percentage of atomic facts supported by evidence."
+    ]
+  },
+  "q-ooc-03": {
+    "question_id": "q-ooc-03",
+    "split": "dev",
+    "category": "out_of_corpus",
+    "answerability": "out_of_corpus",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": null,
+    "expected_supporting_facts": []
+  },
+  "q-ooc-02": {
+    "question_id": "q-ooc-02",
+    "split": "dev",
+    "category": "out_of_corpus",
+    "answerability": "out_of_corpus",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": null,
+    "expected_supporting_facts": []
+  },
+  "q-part-02": {
+    "question_id": "q-part-02",
+    "split": "dev",
+    "category": "partially_answerable",
+    "answerability": "partial",
+    "expected_doc_ids": [
+      "asai-2023-self-rag"
+    ],
+    "expected_pages": [
+      5
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "asai-2023-self-rag:ck256:p5:c25",
+        "asai-2023-self-rag:ck256:p5:c26",
+        "asai-2023-self-rag:ck256:p5:c27",
+        "asai-2023-self-rag:ck256:p5:c28",
+        "asai-2023-self-rag:ck256:p5:c29",
+        "asai-2023-self-rag:ck256:p5:c30",
+        "asai-2023-self-rag:ck256:p5:c31"
+      ],
+      "ck640": [
+        "asai-2023-self-rag:ck640:p5:c8",
+        "asai-2023-self-rag:ck640:p5:c9"
+      ]
+    },
+    "reference_answer": "Self-RAG specifies evaluation on 7B and 13B parameter model sizes based on Llama-2, but does not provide benchmarks for Apple M3 Max hardware.",
+    "expected_supporting_facts": [
+      "We instantiate Self-RAG using Llama-2 7B and 13B base architectures."
+    ]
+  },
+  "q-part-04": {
+    "question_id": "q-part-04",
+    "split": "dev",
+    "category": "partially_answerable",
+    "answerability": "partial",
+    "expected_doc_ids": [
+      "khattab-2020-colbert"
+    ],
+    "expected_pages": [
+      5
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "khattab-2020-colbert:ck256:p5:c34",
+        "khattab-2020-colbert:ck256:p5:c35",
+        "khattab-2020-colbert:ck256:p5:c36",
+        "khattab-2020-colbert:ck256:p5:c37",
+        "khattab-2020-colbert:ck256:p5:c38",
+        "khattab-2020-colbert:ck256:p5:c39",
+        "khattab-2020-colbert:ck256:p5:c40",
+        "khattab-2020-colbert:ck256:p5:c41",
+        "khattab-2020-colbert:ck256:p5:c42"
+      ],
+      "ck640": [
+        "khattab-2020-colbert:ck640:p5:c12",
+        "khattab-2020-colbert:ck640:p5:c13",
+        "khattab-2020-colbert:ck640:p5:c14"
+      ]
+    },
+    "reference_answer": "ColBERT describes vector quantization and token pruning for compression, but does not test on Raspberry Pi 5 single-board computers.",
+    "expected_supporting_facts": [
+      "ColBERT uses multi-vector indexing and pruning strategies to compress token representations."
+    ]
+  },
+  "q-unans-06": {
+    "question_id": "q-unans-06",
+    "split": "dev",
+    "category": "unanswerable_in_domain",
+    "answerability": "unanswerable",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": null,
+    "expected_supporting_facts": []
+  },
+  "q-unans-01": {
+    "question_id": "q-unans-01",
+    "split": "dev",
+    "category": "unanswerable_in_domain",
+    "answerability": "unanswerable",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": null,
+    "expected_supporting_facts": []
+  },
+  "q-unans-04": {
+    "question_id": "q-unans-04",
+    "split": "dev",
+    "category": "unanswerable_in_domain",
+    "answerability": "unanswerable",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": null,
+    "expected_supporting_facts": []
+  },
+  "q-unans-05": {
+    "question_id": "q-unans-05",
+    "split": "dev",
+    "category": "unanswerable_in_domain",
+    "answerability": "unanswerable",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": null,
+    "expected_supporting_facts": []
+  },
+  "q-auth-01": {
+    "question_id": "q-auth-01",
+    "split": "dev",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "liu-2023-lost-in-middle"
+    ],
+    "expected_pages": [
+      1
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "liu-2023-lost-in-middle:ck256:p1:c0",
+        "liu-2023-lost-in-middle:ck256:p1:c1",
+        "liu-2023-lost-in-middle:ck256:p1:c2",
+        "liu-2023-lost-in-middle:ck256:p1:c3",
+        "liu-2023-lost-in-middle:ck256:p1:c4",
+        "liu-2023-lost-in-middle:ck256:p1:c5"
+      ],
+      "ck640": [
+        "liu-2023-lost-in-middle:ck640:p1:c0",
+        "liu-2023-lost-in-middle:ck640:p1:c1"
+      ]
+    },
+    "reference_answer": "Kevin Lin is a co-author of 'Lost in the Middle: How Language Models Use Long Contexts' (2023), affiliated with the University of California, Berkeley.",
+    "expected_supporting_facts": [
+      "Lost in the Middle: How Language Models Use Long Contexts\n\nNelson F. Liu1∗\nKevin Lin2\nJohn Hewitt1\nAshwin Paranjape3\n\nMichele Bevilacqua3\nFabio Petroni3\nPercy Liang1\n\n1Stanford University\n2University of California, Berkeley"
+    ]
+  },
+  "q-auth-02": {
+    "question_id": "q-auth-02",
+    "split": "dev",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "khattab-2020-colbert"
+    ],
+    "expected_pages": [
+      1
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "khattab-2020-colbert:ck256:p1:c0",
+        "khattab-2020-colbert:ck256:p1:c1",
+        "khattab-2020-colbert:ck256:p1:c2",
+        "khattab-2020-colbert:ck256:p1:c3",
+        "khattab-2020-colbert:ck256:p1:c4",
+        "khattab-2020-colbert:ck256:p1:c5",
+        "khattab-2020-colbert:ck256:p1:c6",
+        "khattab-2020-colbert:ck256:p1:c7",
+        "khattab-2020-colbert:ck256:p1:c8"
+      ],
+      "ck640": [
+        "khattab-2020-colbert:ck640:p1:c0",
+        "khattab-2020-colbert:ck640:p1:c1",
+        "khattab-2020-colbert:ck640:p1:c2"
+      ]
+    },
+    "reference_answer": "The authors of ColBERT ('ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT', 2020) are Omar Khattab and Matei Zaharia, affiliated with Stanford University.",
+    "expected_supporting_facts": [
+      "ColBERT: Efficient and Effective Passage Search via\n\nContextualized Late Interaction over BERT\n\nOmar Khatab\nStanford University"
+    ]
+  },
+  "q-auth-03": {
+    "question_id": "q-auth-03",
+    "split": "dev",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "es-2023-ragas"
+    ],
+    "expected_pages": [
+      1
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "es-2023-ragas:ck256:p1:c0",
+        "es-2023-ragas:ck256:p1:c1",
+        "es-2023-ragas:ck256:p1:c2",
+        "es-2023-ragas:ck256:p1:c3",
+        "es-2023-ragas:ck256:p1:c4"
+      ],
+      "ck640": [
+        "es-2023-ragas:ck640:p1:c0",
+        "es-2023-ragas:ck640:p1:c1"
+      ]
+    },
+    "reference_answer": "The Ragas paper is authored by Shahul Es, Jithin James, Luis Espinosa-Anke, and Steven Schockaert, affiliated with Exploding Gradients, CardiffNLP (Cardiff University), and AMPLYFI.",
+    "expected_supporting_facts": [
+      "Ragas: Automated Evaluation of Retrieval Augmented Generation\n\nShahul Es†, Jithin James†, Luis Espinosa-Anke∗♢, Steven Schockaert∗\n\n†Exploding Gradients\n∗CardiffNLP, Cardiff University, United Kingdom\n\n♢AMPLYFI, United Kingdom"
+    ]
+  },
+  "q-auth-04": {
+    "question_id": "q-auth-04",
+    "split": "dev",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "yan-2024-crag"
+    ],
+    "expected_pages": [
+      1
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "yan-2024-crag:ck256:p1:c0",
+        "yan-2024-crag:ck256:p1:c1",
+        "yan-2024-crag:ck256:p1:c2",
+        "yan-2024-crag:ck256:p1:c3",
+        "yan-2024-crag:ck256:p1:c4",
+        "yan-2024-crag:ck256:p1:c5"
+      ],
+      "ck640": [
+        "yan-2024-crag:ck640:p1:c0",
+        "yan-2024-crag:ck640:p1:c1"
+      ]
+    },
+    "reference_answer": "Corrective Retrieval Augmented Generation (CRAG) is authored by Shi-Qi Yan, Jia-Chen Gu, Yun Zhu, and Zhen-Hua Ling, representing the University of Science and Technology of China (USTC), University of California, Los Angeles (UCLA), and Google DeepMind.",
+    "expected_supporting_facts": [
+      "Corrective Retrieval Augmented Generation\n\nShi-Qi Yan1*, Jia-Chen Gu2*, Yun Zhu3, Zhen-Hua Ling1\n\n1National Engineering Research Center of Speech and Language Information Processing,\nUniversity of Science and Technology of China, Hefei, China\n2Department of Computer Science, University of California, Los Angeles\n3Google DeepMind"
+    ]
+  },
+  "q-ambi-01": {
+    "question_id": "q-ambi-01",
+    "split": "test",
+    "category": "ambiguous",
+    "answerability": "unanswerable",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": "The question is ambiguous and underspecified: there is no single universally best retrieval algorithm. The optimal choice depends on trade-offs between latency, hardware, out-of-domain generalization, and index size as analyzed across the corpus.",
+    "expected_supporting_facts": []
+  },
+  "q-cross-02": {
+    "question_id": "q-cross-02",
+    "split": "test",
+    "category": "cross_section",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "karpukhin-2020-dpr"
+    ],
+    "expected_pages": [
+      3,
+      5
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "karpukhin-2020-dpr:ck256:p3:c14",
+        "karpukhin-2020-dpr:ck256:p3:c15",
+        "karpukhin-2020-dpr:ck256:p3:c16",
+        "karpukhin-2020-dpr:ck256:p3:c17",
+        "karpukhin-2020-dpr:ck256:p3:c18",
+        "karpukhin-2020-dpr:ck256:p3:c19",
+        "karpukhin-2020-dpr:ck256:p3:c20",
+        "karpukhin-2020-dpr:ck256:p3:c21",
+        "karpukhin-2020-dpr:ck256:p5:c28",
+        "karpukhin-2020-dpr:ck256:p5:c29",
+        "karpukhin-2020-dpr:ck256:p5:c30",
+        "karpukhin-2020-dpr:ck256:p5:c31",
+        "karpukhin-2020-dpr:ck256:p5:c32",
+        "karpukhin-2020-dpr:ck256:p5:c33"
+      ],
+      "ck640": [
+        "karpukhin-2020-dpr:ck640:p3:c5",
+        "karpukhin-2020-dpr:ck640:p3:c6",
+        "karpukhin-2020-dpr:ck640:p5:c9",
+        "karpukhin-2020-dpr:ck640:p5:c10"
+      ]
+    },
+    "reference_answer": "Selecting hard negatives using BM25 alongside in-batch random negatives significantly improves top-20 retrieval accuracy compared to using random negatives alone.",
+    "expected_supporting_facts": [
+      "Training with BM25 hard negatives in addition to in-batch negatives yields a dramatic increase in top-20 accuracy from 67.7% to 78.4% on Natural Questions."
+    ]
+  },
+  "q-cross-03": {
+    "question_id": "q-cross-03",
+    "split": "test",
+    "category": "cross_section",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "khattab-2020-colbert"
+    ],
+    "expected_pages": [
+      4,
+      6
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "khattab-2020-colbert:ck256:p4:c26",
+        "khattab-2020-colbert:ck256:p4:c27",
+        "khattab-2020-colbert:ck256:p4:c28",
+        "khattab-2020-colbert:ck256:p4:c29",
+        "khattab-2020-colbert:ck256:p4:c30",
+        "khattab-2020-colbert:ck256:p4:c31",
+        "khattab-2020-colbert:ck256:p4:c32",
+        "khattab-2020-colbert:ck256:p4:c33",
+        "khattab-2020-colbert:ck256:p6:c43",
+        "khattab-2020-colbert:ck256:p6:c44",
+        "khattab-2020-colbert:ck256:p6:c45",
+        "khattab-2020-colbert:ck256:p6:c46",
+        "khattab-2020-colbert:ck256:p6:c47",
+        "khattab-2020-colbert:ck256:p6:c48",
+        "khattab-2020-colbert:ck256:p6:c49",
+        "khattab-2020-colbert:ck256:p6:c50",
+        "khattab-2020-colbert:ck256:p6:c51"
+      ],
+      "ck640": [
+        "khattab-2020-colbert:ck640:p4:c9",
+        "khattab-2020-colbert:ck640:p4:c10",
+        "khattab-2020-colbert:ck640:p4:c11",
+        "khattab-2020-colbert:ck640:p6:c15",
+        "khattab-2020-colbert:ck640:p6:c16",
+        "khattab-2020-colbert:ck640:p6:c17"
+      ]
+    },
+    "reference_answer": "ColBERT pre-computes and indexes all document token embeddings offline using vector quantization and inverted list pruning, allowing fast GPU/CPU vector gather and MaxSim scoring at query time.",
+    "expected_supporting_facts": [
+      "By pre-computing all token representations for documents and indexing them with vector quantization, ColBERT avoids re-encoding documents, achieving sub-100ms latency on large corpora."
+    ]
+  },
+  "q-cross-01": {
+    "question_id": "q-cross-01",
+    "split": "test",
+    "category": "cross_section",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "lewis-2020-rag"
+    ],
+    "expected_pages": [
+      3,
+      4
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "lewis-2020-rag:ck256:p3:c12",
+        "lewis-2020-rag:ck256:p3:c13",
+        "lewis-2020-rag:ck256:p3:c14",
+        "lewis-2020-rag:ck256:p3:c15",
+        "lewis-2020-rag:ck256:p3:c16",
+        "lewis-2020-rag:ck256:p3:c17",
+        "lewis-2020-rag:ck256:p4:c18",
+        "lewis-2020-rag:ck256:p4:c19",
+        "lewis-2020-rag:ck256:p4:c20",
+        "lewis-2020-rag:ck256:p4:c21",
+        "lewis-2020-rag:ck256:p4:c22",
+        "lewis-2020-rag:ck256:p4:c23"
+      ],
+      "ck640": [
+        "lewis-2020-rag:ck640:p3:c4",
+        "lewis-2020-rag:ck640:p3:c5",
+        "lewis-2020-rag:ck640:p4:c6",
+        "lewis-2020-rag:ck640:p4:c7"
+      ]
+    },
+    "reference_answer": "RAG-Sequence treats the retrieved document as a latent variable that is fixed throughout the entire sequence, requiring a modified thorough beam search that marginalizes across hypotheses across different documents.",
+    "expected_supporting_facts": [
+      "For RAG-Sequence, decoding cannot be solved with standard beam search because probabilities do not factorize token-by-token. We perform thorough decoding using separate beams per document and aggregating scores."
+    ]
+  },
+  "q-fact-04": {
+    "question_id": "q-fact-04",
+    "split": "test",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "khattab-2020-colbert"
+    ],
+    "expected_pages": [
+      2,
+      3
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "khattab-2020-colbert:ck256:p2:c9",
+        "khattab-2020-colbert:ck256:p2:c10",
+        "khattab-2020-colbert:ck256:p2:c11",
+        "khattab-2020-colbert:ck256:p2:c12",
+        "khattab-2020-colbert:ck256:p2:c13",
+        "khattab-2020-colbert:ck256:p2:c14",
+        "khattab-2020-colbert:ck256:p2:c15",
+        "khattab-2020-colbert:ck256:p2:c16",
+        "khattab-2020-colbert:ck256:p3:c17",
+        "khattab-2020-colbert:ck256:p3:c18",
+        "khattab-2020-colbert:ck256:p3:c19",
+        "khattab-2020-colbert:ck256:p3:c20",
+        "khattab-2020-colbert:ck256:p3:c21",
+        "khattab-2020-colbert:ck256:p3:c22",
+        "khattab-2020-colbert:ck256:p3:c23",
+        "khattab-2020-colbert:ck256:p3:c24",
+        "khattab-2020-colbert:ck256:p3:c25"
+      ],
+      "ck640": [
+        "khattab-2020-colbert:ck640:p2:c3",
+        "khattab-2020-colbert:ck640:p2:c4",
+        "khattab-2020-colbert:ck640:p2:c5",
+        "khattab-2020-colbert:ck640:p3:c6",
+        "khattab-2020-colbert:ck640:p3:c7",
+        "khattab-2020-colbert:ck640:p3:c8"
+      ]
+    },
+    "reference_answer": "ColBERT uses a late-interaction mechanism called MaxSim, computing the sum of maximum cosine similarities between each query token embedding and all document token embeddings.",
+    "expected_supporting_facts": [
+      "ColBERT introduces late interaction via the MaxSim operator, which computes the sum of maximal inner products between query token representations and document token representations."
+    ]
+  },
+  "q-fact-05": {
+    "question_id": "q-fact-05",
+    "split": "test",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "shuster-2021-retrieval-augmentation"
+    ],
+    "expected_pages": [
+      1,
+      2
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "shuster-2021-retrieval-augmentation:ck256:p1:c0",
+        "shuster-2021-retrieval-augmentation:ck256:p1:c1",
+        "shuster-2021-retrieval-augmentation:ck256:p1:c2",
+        "shuster-2021-retrieval-augmentation:ck256:p1:c3",
+        "shuster-2021-retrieval-augmentation:ck256:p1:c4",
+        "shuster-2021-retrieval-augmentation:ck256:p1:c5",
+        "shuster-2021-retrieval-augmentation:ck256:p2:c6",
+        "shuster-2021-retrieval-augmentation:ck256:p2:c7",
+        "shuster-2021-retrieval-augmentation:ck256:p2:c8",
+        "shuster-2021-retrieval-augmentation:ck256:p2:c9",
+        "shuster-2021-retrieval-augmentation:ck256:p2:c10",
+        "shuster-2021-retrieval-augmentation:ck256:p2:c11",
+        "shuster-2021-retrieval-augmentation:ck256:p2:c12"
+      ],
+      "ck640": [
+        "shuster-2021-retrieval-augmentation:ck640:p1:c0",
+        "shuster-2021-retrieval-augmentation:ck640:p1:c1",
+        "shuster-2021-retrieval-augmentation:ck640:p2:c2",
+        "shuster-2021-retrieval-augmentation:ck640:p2:c3",
+        "shuster-2021-retrieval-augmentation:ck640:p2:c4"
+      ]
+    },
+    "reference_answer": "Retrieval augmentation substantially reduces conversational hallucination rates across open-domain dialogue benchmarks by grounding responses in retrieved factual knowledge passages.",
+    "expected_supporting_facts": [
+      "We show that retrieval augmentation drastically reduces hallucination in dialogue, improving factual accuracy on knowledge-intensive conversation tasks."
+    ]
+  },
+  "q-fact-10": {
+    "question_id": "q-fact-10",
+    "split": "test",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "asai-2023-self-rag"
+    ],
+    "expected_pages": [
+      2,
+      3
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "asai-2023-self-rag:ck256:p2:c6",
+        "asai-2023-self-rag:ck256:p2:c7",
+        "asai-2023-self-rag:ck256:p2:c8",
+        "asai-2023-self-rag:ck256:p2:c9",
+        "asai-2023-self-rag:ck256:p2:c10",
+        "asai-2023-self-rag:ck256:p2:c11",
+        "asai-2023-self-rag:ck256:p3:c12",
+        "asai-2023-self-rag:ck256:p3:c13",
+        "asai-2023-self-rag:ck256:p3:c14",
+        "asai-2023-self-rag:ck256:p3:c15",
+        "asai-2023-self-rag:ck256:p3:c16",
+        "asai-2023-self-rag:ck256:p3:c17",
+        "asai-2023-self-rag:ck256:p3:c18"
+      ],
+      "ck640": [
+        "asai-2023-self-rag:ck640:p2:c2",
+        "asai-2023-self-rag:ck640:p2:c3",
+        "asai-2023-self-rag:ck640:p3:c4",
+        "asai-2023-self-rag:ck640:p3:c5"
+      ]
+    },
+    "reference_answer": "Self-RAG uses special reflection tokens including Retrieve (deciding whether to fetch), IsRel (relevance of retrieved context), IsSup (groundedness / support), and IsUse (usefulness of generated response).",
+    "expected_supporting_facts": [
+      "Self-RAG generates reflection tokens categorized into Retrieve, IsRel (context relevance), IsSup (groundedness/support), and IsUse (utility/quality) to self-evaluate outputs."
+    ]
+  },
+  "q-fact-09": {
+    "question_id": "q-fact-09",
+    "split": "test",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "es-2023-ragas"
+    ],
+    "expected_pages": [
+      1,
+      2
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "es-2023-ragas:ck256:p1:c0",
+        "es-2023-ragas:ck256:p1:c1",
+        "es-2023-ragas:ck256:p1:c2",
+        "es-2023-ragas:ck256:p1:c3",
+        "es-2023-ragas:ck256:p1:c4",
+        "es-2023-ragas:ck256:p2:c5",
+        "es-2023-ragas:ck256:p2:c6",
+        "es-2023-ragas:ck256:p2:c7",
+        "es-2023-ragas:ck256:p2:c8",
+        "es-2023-ragas:ck256:p2:c9",
+        "es-2023-ragas:ck256:p2:c10"
+      ],
+      "ck640": [
+        "es-2023-ragas:ck640:p1:c0",
+        "es-2023-ragas:ck640:p1:c1",
+        "es-2023-ragas:ck640:p2:c2",
+        "es-2023-ragas:ck640:p2:c3"
+      ]
+    },
+    "reference_answer": "Ragas evaluates faithfulness (grounding in context), answer relevance (answering the prompt), and context relevance (retrieval precision).",
+    "expected_supporting_facts": [
+      "Ragas focuses on evaluating three core dimensions without reference human labels: faithfulness of the answer to the context, answer relevance to the query, and context relevance of retrieved passages."
+    ]
+  },
+  "q-fact-02": {
+    "question_id": "q-fact-02",
+    "split": "test",
+    "category": "direct_factual",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "guu-2020-realm"
+    ],
+    "expected_pages": [
+      1,
+      2
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "guu-2020-realm:ck256:p1:c0",
+        "guu-2020-realm:ck256:p1:c1",
+        "guu-2020-realm:ck256:p1:c2",
+        "guu-2020-realm:ck256:p1:c3",
+        "guu-2020-realm:ck256:p1:c4",
+        "guu-2020-realm:ck256:p2:c5",
+        "guu-2020-realm:ck256:p2:c6",
+        "guu-2020-realm:ck256:p2:c7",
+        "guu-2020-realm:ck256:p2:c8",
+        "guu-2020-realm:ck256:p2:c9",
+        "guu-2020-realm:ck256:p2:c10",
+        "guu-2020-realm:ck256:p2:c11",
+        "guu-2020-realm:ck256:p2:c12"
+      ],
+      "ck640": [
+        "guu-2020-realm:ck640:p1:c0",
+        "guu-2020-realm:ck640:p1:c1",
+        "guu-2020-realm:ck640:p2:c2",
+        "guu-2020-realm:ck640:p2:c3",
+        "guu-2020-realm:ck640:p2:c4"
+      ]
+    },
+    "reference_answer": "REALM pre-trains the retriever using a masked language modeling (MLM) objective over a knowledge corpus via an unsupervised neural retrieval step.",
+    "expected_supporting_facts": [
+      "REALM augments language model pre-training with a latent knowledge retriever that attends over a large text corpus, trained end-to-end via masked language modeling."
+    ]
+  },
+  "q-multi-01": {
+    "question_id": "q-multi-01",
+    "split": "test",
+    "category": "multi_source",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "borgeaud-2022-retro",
+      "karpukhin-2020-dpr"
+    ],
+    "expected_pages": [
+      2,
+      3
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "borgeaud-2022-retro:ck256:p2:c6",
+        "borgeaud-2022-retro:ck256:p2:c7",
+        "borgeaud-2022-retro:ck256:p2:c8",
+        "borgeaud-2022-retro:ck256:p2:c9",
+        "borgeaud-2022-retro:ck256:p2:c10",
+        "karpukhin-2020-dpr:ck256:p3:c14",
+        "karpukhin-2020-dpr:ck256:p3:c15",
+        "karpukhin-2020-dpr:ck256:p3:c16",
+        "karpukhin-2020-dpr:ck256:p3:c17",
+        "karpukhin-2020-dpr:ck256:p3:c18",
+        "karpukhin-2020-dpr:ck256:p3:c19",
+        "karpukhin-2020-dpr:ck256:p3:c20",
+        "karpukhin-2020-dpr:ck256:p3:c21"
+      ],
+      "ck640": [
+        "borgeaud-2022-retro:ck640:p2:c2",
+        "borgeaud-2022-retro:ck640:p2:c3",
+        "karpukhin-2020-dpr:ck640:p3:c5",
+        "karpukhin-2020-dpr:ck640:p3:c6"
+      ]
+    },
+    "reference_answer": "DPR divides documents into 100-word passages without crossing boundaries, whereas RETRO segments text into much smaller 64-token chunks and retrieves nearest neighbours at the chunk level.",
+    "expected_supporting_facts": [
+      "We split Wikipedia into disjoint text passages of 100 words as the basic retrieval unit.",
+      "We split the tokenized text into chunks of 64 tokens, constructing our key-value index over these 64-token chunks."
+    ]
+  },
+  "q-multi-05": {
+    "question_id": "q-multi-05",
+    "split": "test",
+    "category": "multi_source",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "asai-2023-self-rag",
+      "yan-2024-crag"
+    ],
+    "expected_pages": [
+      2
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "asai-2023-self-rag:ck256:p2:c6",
+        "asai-2023-self-rag:ck256:p2:c7",
+        "asai-2023-self-rag:ck256:p2:c8",
+        "asai-2023-self-rag:ck256:p2:c9",
+        "asai-2023-self-rag:ck256:p2:c10",
+        "asai-2023-self-rag:ck256:p2:c11",
+        "yan-2024-crag:ck256:p2:c6",
+        "yan-2024-crag:ck256:p2:c7",
+        "yan-2024-crag:ck256:p2:c8",
+        "yan-2024-crag:ck256:p2:c9",
+        "yan-2024-crag:ck256:p2:c10",
+        "yan-2024-crag:ck256:p2:c11"
+      ],
+      "ck640": [
+        "asai-2023-self-rag:ck640:p2:c2",
+        "asai-2023-self-rag:ck640:p2:c3",
+        "yan-2024-crag:ck640:p2:c2",
+        "yan-2024-crag:ck640:p2:c3"
+      ]
+    },
+    "reference_answer": "Self-RAG learns special 'Retrieve' tokens to decide on demand whether to retrieve during token generation, whereas CRAG uses an external retrieval evaluator module with confidence thresholds to trigger web search or document filtering.",
+    "expected_supporting_facts": [
+      "Self-RAG dynamically determines when to retrieve by generating special [Retrieve] tokens on a per-segment basis.",
+      "CRAG designs an external retrieval evaluator that assesses the quality of retrieved documents and determines corrective execution branches."
+    ]
+  },
+  "q-multi-02": {
+    "question_id": "q-multi-02",
+    "split": "test",
+    "category": "multi_source",
+    "answerability": "answerable",
+    "expected_doc_ids": [
+      "karpukhin-2020-dpr",
+      "khattab-2020-colbert"
+    ],
+    "expected_pages": [
+      2
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "karpukhin-2020-dpr:ck256:p2:c7",
+        "karpukhin-2020-dpr:ck256:p2:c8",
+        "karpukhin-2020-dpr:ck256:p2:c9",
+        "karpukhin-2020-dpr:ck256:p2:c10",
+        "karpukhin-2020-dpr:ck256:p2:c11",
+        "karpukhin-2020-dpr:ck256:p2:c12",
+        "karpukhin-2020-dpr:ck256:p2:c13",
+        "khattab-2020-colbert:ck256:p2:c9",
+        "khattab-2020-colbert:ck256:p2:c10",
+        "khattab-2020-colbert:ck256:p2:c11",
+        "khattab-2020-colbert:ck256:p2:c12",
+        "khattab-2020-colbert:ck256:p2:c13",
+        "khattab-2020-colbert:ck256:p2:c14",
+        "khattab-2020-colbert:ck256:p2:c15",
+        "khattab-2020-colbert:ck256:p2:c16"
+      ],
+      "ck640": [
+        "karpukhin-2020-dpr:ck640:p2:c2",
+        "karpukhin-2020-dpr:ck640:p2:c3",
+        "karpukhin-2020-dpr:ck640:p2:c4",
+        "khattab-2020-colbert:ck640:p2:c3",
+        "khattab-2020-colbert:ck640:p2:c4",
+        "khattab-2020-colbert:ck640:p2:c5"
+      ]
+    },
+    "reference_answer": "DPR collapses the entire query and passage into single 768-dimensional CLS vectors, whereas ColBERT retains multi-vector token embeddings for all tokens and computes late interaction MaxSim.",
+    "expected_supporting_facts": [
+      "DPR uses the representation of the [CLS] token to produce a single 768-dimensional embedding for the entire passage.",
+      "ColBERT preserves token-level embeddings for every token in the query and document, avoiding collapsing text into a single vector."
+    ]
+  },
+  "q-ooc-01": {
+    "question_id": "q-ooc-01",
+    "split": "test",
+    "category": "out_of_corpus",
+    "answerability": "out_of_corpus",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": null,
+    "expected_supporting_facts": []
+  },
+  "q-ooc-04": {
+    "question_id": "q-ooc-04",
+    "split": "test",
+    "category": "out_of_corpus",
+    "answerability": "out_of_corpus",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": null,
+    "expected_supporting_facts": []
+  },
+  "q-part-01": {
+    "question_id": "q-part-01",
+    "split": "test",
+    "category": "partially_answerable",
+    "answerability": "partial",
+    "expected_doc_ids": [
+      "borgeaud-2022-retro",
+      "guu-2020-realm"
+    ],
+    "expected_pages": [
+      5,
+      14
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "borgeaud-2022-retro:ck256:p14:c66",
+        "borgeaud-2022-retro:ck256:p14:c67",
+        "borgeaud-2022-retro:ck256:p14:c68",
+        "guu-2020-realm:ck256:p5:c27",
+        "guu-2020-realm:ck256:p5:c28",
+        "guu-2020-realm:ck256:p5:c29",
+        "guu-2020-realm:ck256:p5:c30",
+        "guu-2020-realm:ck256:p5:c31",
+        "guu-2020-realm:ck256:p5:c32"
+      ],
+      "ck640": [
+        "borgeaud-2022-retro:ck640:p14:c26",
+        "guu-2020-realm:ck640:p5:c10",
+        "guu-2020-realm:ck640:p5:c11"
+      ]
+    },
+    "reference_answer": "The papers specify hardware architectures (TPU v3 pods for REALM, TPU v3/v4 for RETRO), but neither paper discloses the financial cost in USD or kilowatt-hours of the electricity consumed.",
+    "expected_supporting_facts": [
+      "Pre-training was conducted on Google Cloud TPU v3 pods.",
+      "RETRO models were trained on TPU v3 and TPU v4 infrastructure."
+    ]
+  },
+  "q-part-03": {
+    "question_id": "q-part-03",
+    "split": "test",
+    "category": "partially_answerable",
+    "answerability": "partial",
+    "expected_doc_ids": [
+      "min-2023-factscore"
+    ],
+    "expected_pages": [
+      3
+    ],
+    "gold_chunk_ids": {
+      "ck256": [
+        "min-2023-factscore:ck256:p3:c15",
+        "min-2023-factscore:ck256:p3:c16",
+        "min-2023-factscore:ck256:p3:c17",
+        "min-2023-factscore:ck256:p3:c18",
+        "min-2023-factscore:ck256:p3:c19",
+        "min-2023-factscore:ck256:p3:c20",
+        "min-2023-factscore:ck256:p3:c21"
+      ],
+      "ck640": [
+        "min-2023-factscore:ck640:p3:c6",
+        "min-2023-factscore:ck640:p3:c7"
+      ]
+    },
+    "reference_answer": "FActScore is evaluated using English Wikipedia biographical entries; the paper does not evaluate Spanish medical transcripts.",
+    "expected_supporting_facts": [
+      "We test FActScore on generated biographies of people from English Wikipedia."
+    ]
+  },
+  "q-unans-02": {
+    "question_id": "q-unans-02",
+    "split": "test",
+    "category": "unanswerable_in_domain",
+    "answerability": "unanswerable",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": null,
+    "expected_supporting_facts": []
+  },
+  "q-unans-08": {
+    "question_id": "q-unans-08",
+    "split": "test",
+    "category": "unanswerable_in_domain",
+    "answerability": "unanswerable",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": null,
+    "expected_supporting_facts": []
+  },
+  "q-unans-03": {
+    "question_id": "q-unans-03",
+    "split": "test",
+    "category": "unanswerable_in_domain",
+    "answerability": "unanswerable",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": null,
+    "expected_supporting_facts": []
+  },
+  "q-unans-07": {
+    "question_id": "q-unans-07",
+    "split": "test",
+    "category": "unanswerable_in_domain",
+    "answerability": "unanswerable",
+    "expected_doc_ids": [],
+    "expected_pages": [],
+    "gold_chunk_ids": {
+      "ck256": [],
+      "ck640": []
+    },
+    "reference_answer": null,
+    "expected_supporting_facts": []
+  }
+}

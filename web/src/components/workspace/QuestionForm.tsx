@@ -5,13 +5,13 @@ import { useState, KeyboardEvent } from "react";
 interface QuestionFormProps {
   onSubmit: (
     query: string,
-    retriever: "lexical" | "embedding",
+    retriever: "lexical" | "embedding" | "hybrid",
     chunkConfig: string,
     topK?: number
   ) => void;
   isLoading: boolean;
   hasAnswer?: boolean;
-  lockRetriever?: "embedding" | "lexical";
+  lockRetriever?: "embedding" | "lexical" | "hybrid";
 }
 
 export function QuestionForm({
@@ -21,14 +21,14 @@ export function QuestionForm({
   lockRetriever,
 }: QuestionFormProps) {
   const [query, setQuery] = useState("");
-  const [retriever, setRetriever] = useState<"lexical" | "embedding">(
+  const [retriever, setRetriever] = useState<"lexical" | "embedding" | "hybrid">(
     lockRetriever || "embedding"
   );
   const [chunkConfig, setChunkConfig] = useState<string>("ck256");
   const [topK, setTopK] = useState<number>(5);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
-  const handleRetrieverChange = (newRetriever: "lexical" | "embedding") => {
+  const handleRetrieverChange = (newRetriever: "lexical" | "embedding" | "hybrid") => {
     setRetriever(newRetriever);
     setChunkConfig(newRetriever === "lexical" ? "ck640" : "ck256");
   };
@@ -94,7 +94,11 @@ export function QuestionForm({
               <div className="inline-flex items-center gap-1.5 border border-[#1558c9]/40 bg-[#0c101c] px-3 py-1 font-mono text-[11px] text-[#f8fafc] shadow-[0_0_8px_rgba(21,88,201,0.2)]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#d4ff24]"></span>
                 <span className="uppercase tracking-wider font-semibold">
-                  {lockRetriever === "embedding" ? "Dense MiniLM (384-d)" : "BM25 Lexical"}
+                  {lockRetriever === "embedding"
+                    ? "Dense MiniLM (384-d)"
+                    : lockRetriever === "hybrid"
+                    ? "Hybrid RRF"
+                    : "BM25 Lexical"}
                 </span>
               </div>
             ) : (
@@ -120,6 +124,17 @@ export function QuestionForm({
                   }`}
                 >
                   BM25 Lexical
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleRetrieverChange("hybrid")}
+                  className={`px-3 py-1 font-mono text-[11px] uppercase tracking-wider transition-all ${
+                    retriever === "hybrid"
+                      ? "bg-[#1558c9] text-white font-semibold shadow-[0_0_10px_rgba(21,88,201,0.6)]"
+                      : "text-[#94a3b8] hover:text-[#f8fafc]"
+                  }`}
+                >
+                  Hybrid RRF
                 </button>
               </div>
             )}

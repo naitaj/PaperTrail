@@ -18,6 +18,15 @@ export interface AnswerResponse {
   retrieved: ScoredChunk[];
   model?: string;
   gate_triggered?: boolean;
+  actual_retriever?: "lexical" | "embedding" | "hybrid";
+  requested_retriever?: "lexical" | "embedding" | "hybrid";
+  retrieval_fallback?: {
+    triggered: boolean;
+    requested_mode: string;
+    actual_mode: string;
+    reason: string | null;
+  };
+  metadata_augmentation_used?: boolean;
   timings_ms?: {
     retrieve: number;
     generate: number;
@@ -134,6 +143,18 @@ export function AnswerPanel({
           </span>
         )}
       </div>
+
+      {/* Retrieval Fallback Diagnostic Notice (Correction #7) */}
+      {response.retrieval_fallback?.triggered && (
+        <div className="my-3 p-3 bg-blue-950/20 border-l-2 border-[#1558c9] text-blue-200 font-sans text-[12px]">
+          <span className="font-mono text-[10px] uppercase font-bold block mb-0.5 tracking-wide text-[#d4ff24]">
+            Retrieval Mode Fallback ({response.retrieval_fallback.requested_mode} →{" "}
+            {response.retrieval_fallback.actual_mode})
+          </span>
+          {response.retrieval_fallback.reason ||
+            `Executed ${response.retrieval_fallback.actual_mode} retrieval fallback.`}
+        </div>
+      )}
 
       {/* Fast Abstention Notice if Gate Triggered */}
       {gate_triggered && (

@@ -38,7 +38,7 @@ export function Workspace() {
 
   const handleAsk = async (
     query: string,
-    retriever: "lexical" | "embedding",
+    retriever: "lexical" | "embedding" | "hybrid",
     chunkConfig: string,
     topK: number = 5
   ) => {
@@ -48,16 +48,23 @@ export function Workspace() {
 
     try {
       let queryVector: number[] | undefined;
+      let activeRetriever: "lexical" | "embedding" | "hybrid" = retriever;
+      let activeChunkConfig = chunkConfig;
+      let fallbackReason: string | null = null;
 
-      // Generate query embedding locally in the browser if dense retriever is chosen
-      if (retriever === "embedding") {
+      // Generate query embedding locally in the browser if dense or hybrid retriever is chosen
+      if (retriever === "embedding" || retriever === "hybrid") {
         try {
           queryVector = await embedQueryClient(query);
         } catch (embedErr) {
-          console.error("Client embedding generation error:", embedErr);
-          throw new Error(
-            "Failed to generate client-side embedding. Please verify your network connection to load the model weights, or select BM25 Lexical retrieval."
+          const errMsg = embedErr instanceof Error ? embedErr.message : String(embedErr);
+          console.warn(
+            "Client embedding generation failed; falling back to BM25 lexical retrieval:",
+            errMsg
           );
+          fallbackReason = `Client ONNX embedding failed (${errMsg}); executed BM25 lexical fallback.`;
+          activeRetriever = "lexical";
+          activeChunkConfig = "ck640";
         }
       }
 
@@ -66,12 +73,15 @@ export function Workspace() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           query,
-          retriever,
-          chunkConfig,
+          retriever: activeRetriever,
+          requestedRetriever: retriever,
+          fallbackReason,
+          chunkConfig: activeChunkConfig,
           queryVector,
           scopeDocId: selectedScope,
           corpusVersion: "v1.0",
           k: topK,
+          enableMetadataAugmentation: true,
         }),
       });
 

@@ -1,22 +1,26 @@
 /**
  * Abstention Gate (TRD §7.4, FR-ABS-01..03).
  * Rejects queries before LLM invocation when retrieval evidence is clearly insufficient.
- * Saves LLM tokens and prevents hallucinations on out-of-corpus queries.
+ * Preserves separate native thresholds for BM25 and Cosine Similarity, and evaluates
+ * Hybrid retrieval using its underlying native component scores (never mixing scales).
  */
 
 import { ScoredChunk } from "@/lib/retrieval/types";
 import { GATE_THRESHOLDS } from "./thresholds";
+
+export type EvidenceSufficiency = "sufficient" | "partial_or_weak" | "insufficient" | "none";
 
 export interface GateEvaluationResult {
   shouldAbstain: boolean;
   abstentionReason: string | null;
   topScore: number;
   threshold: number;
+  sufficiency: EvidenceSufficiency;
 }
 
 export function evaluateAbstentionGate(
   retrieved: ScoredChunk[],
-  retriever: "lexical" | "embedding",
+  retriever: "lexical" | "embedding" | "hybrid",
   chunkConfig: string,
   isScoped: boolean = false
 ): GateEvaluationResult {
@@ -28,19 +32,52 @@ export function evaluateAbstentionGate(
         : "insufficient_evidence: zero matching passages found in the corpus",
       topScore: 0.0,
       threshold: 0.0,
+      sufficiency: "none",
+    };
+  }
+
+  const bm25Base = GATE_THRESHOLDS.bm25[chunkConfig] ?? 11.0;
+  const embBase = GATE_THRESHOLDS.embedding[chunkConfig] ?? 0.35;
+
+  const bm25Threshold = isScoped ? 1.0 : bm25Base;
+  const embThreshold = isScoped ? 0.01 : embBase;
+
+  if (retriever === "hybrid") {
+    const maxBm25 = Math.max(
+      0,
+      ...retrieved.map((c) => (typeof c.raw_bm25_score === "number" ? c.raw_bm25_score : 0))
+    );
+    const maxEmb = Math.max(
+      0,
+      ...retrieved.map((c) => (typeof c.raw_embedding_score === "number" ? c.raw_embedding_score : 0))
+    );
+    const topRrf = retrieved[0].score;
+
+    const bm25Passes = maxBm25 >= bm25Threshold;
+    const embPasses = maxEmb >= embThreshold;
+
+    if (!bm25Passes && !embPasses) {
+      return {
+        shouldAbstain: true,
+        abstentionReason: `insufficient_evidence: hybrid components below threshold (max BM25 ${maxBm25.toFixed(2)} < ${bm25Threshold.toFixed(2)}, max cosine ${maxEmb.toFixed(2)} < ${embThreshold.toFixed(2)})`,
+        topScore: topRrf,
+        threshold: embThreshold,
+        sufficiency: "insufficient",
+      };
+    }
+
+    const bothPass = bm25Passes && embPasses;
+    return {
+      shouldAbstain: false,
+      abstentionReason: null,
+      topScore: topRrf,
+      threshold: embThreshold,
+      sufficiency: bothPass ? "sufficient" : "partial_or_weak",
     };
   }
 
   const topScore = retrieved[0].score;
-  const thresholdMap = retriever === "lexical" ? GATE_THRESHOLDS.bm25 : GATE_THRESHOLDS.embedding;
-  const baseThreshold = thresholdMap[chunkConfig] ?? (retriever === "lexical" ? 11.0 : 0.35);
-
-  // When scoped to a specific document (e.g. an uploaded user document or a specific paper),
-  // retrieval is already strictly constrained to that target document. Short questions (e.g., "who is naila")
-  // produce lower raw cosine similarity against dense paragraph chunks than multi-sentence academic queries,
-  // but still contain the target context. We calibrate the scoped threshold to 0.01 so the LLM with strict
-  // citation auditing can synthesize a verified answer while still catching total misses (score <= 0).
-  const threshold = isScoped ? (retriever === "lexical" ? 1.0 : 0.01) : baseThreshold;
+  const threshold = retriever === "lexical" ? bm25Threshold : embThreshold;
 
   if (topScore < threshold) {
     return {
@@ -48,14 +85,19 @@ export function evaluateAbstentionGate(
       abstentionReason: `insufficient_evidence: top retrieval score (${topScore.toFixed(2)}) is below confidence threshold (${threshold.toFixed(2)})`,
       topScore,
       threshold,
+      sufficiency: "insufficient",
     };
   }
+
+  const passingCount = retrieved.filter((c) => c.score >= threshold).length;
+  const sufficiency: EvidenceSufficiency =
+    passingCount >= 2 || topScore >= threshold * 1.25 ? "sufficient" : "partial_or_weak";
 
   return {
     shouldAbstain: false,
     abstentionReason: null,
     topScore,
     threshold,
+    sufficiency,
   };
 }
-

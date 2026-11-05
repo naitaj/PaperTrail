@@ -122,7 +122,25 @@ export function EvidencePanel({
                         <span className="text-[#64748b]">p.{p.page_start}</span>
                       )}
                     </div>
-                    <span className="text-[#d4ff24] font-bold">
+                    <span
+                      className="text-[#d4ff24] font-bold"
+                      title={
+                        p.retriever_source === "lexical"
+                          ? "Raw Okapi BM25 Score"
+                          : p.retriever_source === "hybrid"
+                          ? `Hybrid RRF Score (Cosine: ${
+                              typeof p.raw_embedding_score === "number"
+                                ? p.raw_embedding_score.toFixed(3)
+                                : "n/a"
+                            }, BM25: ${
+                              typeof p.raw_bm25_score === "number"
+                                ? p.raw_bm25_score.toFixed(2)
+                                : "n/a"
+                            })`
+                          : "Cosine Similarity Score"
+                      }
+                    >
+                      {p.retriever_source === "lexical" ? "BM25 " : p.retriever_source === "hybrid" ? "RRF " : ""}
                       {typeof p.score === "number" ? p.score.toFixed(3) : p.score}
                     </span>
                   </div>

@@ -49,8 +49,10 @@ No relevant passages were found in the corpus. You must abstain.`;
 
   const passageBlocks = passages
     .map((p, idx) => {
+      const authorLine = p.doc_authors && p.doc_authors.length > 0 ? ` | Authors: ${p.doc_authors.join(", ")}` : "";
+      const yearLine = p.doc_year ? ` | Year: ${p.doc_year}` : "";
       return `<passage index="${idx + 1}" chunk_id="${p.chunk_id}" doc="${p.doc_id}" page="${p.page_start}" score="${p.score.toFixed(3)}">
-[Title: ${p.doc_title || p.doc_id} | Page ${p.page_start}]
+[Title: ${p.doc_title || p.doc_id}${authorLine}${yearLine} | Page ${p.page_start}]
 ${p.text}
 </passage>`;
     })

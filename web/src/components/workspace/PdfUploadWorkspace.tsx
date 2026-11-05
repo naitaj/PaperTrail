@@ -244,7 +244,7 @@ export function PdfUploadWorkspace() {
 
   const handleAsk = async (
     query: string,
-    retriever: "lexical" | "embedding",
+    retriever: "lexical" | "embedding" | "hybrid",
     chunkConfig: string,
     topK: number = 5
   ) => {
@@ -254,13 +254,17 @@ export function PdfUploadWorkspace() {
 
     try {
       let queryVector: number[] | undefined;
+      let activeRetriever: "lexical" | "embedding" | "hybrid" = retriever;
+      let fallbackReason: string | null = null;
 
-      if (retriever === "embedding") {
+      if (retriever === "embedding" || retriever === "hybrid") {
         try {
           queryVector = await embedQueryClient(query);
         } catch (embedErr) {
-          console.error("Client embedding error:", embedErr);
-          throw new Error("Failed to generate query embedding in browser.");
+          const errMsg = embedErr instanceof Error ? embedErr.message : String(embedErr);
+          console.warn("Client embedding error, falling back to lexical:", errMsg);
+          fallbackReason = `Client ONNX embedding failed (${errMsg}); executed BM25 lexical fallback.`;
+          activeRetriever = "lexical";
         }
       }
 
@@ -269,12 +273,15 @@ export function PdfUploadWorkspace() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           query,
-          retriever,
+          retriever: activeRetriever,
+          requestedRetriever: retriever,
+          fallbackReason,
           chunkConfig,
           queryVector,
           scopeDocId: selectedDocId,
           corpusVersion: "user-upload",
           k: topK,
+          enableMetadataAugmentation: true,
         }),
       });
 

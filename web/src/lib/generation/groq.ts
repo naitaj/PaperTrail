@@ -25,6 +25,7 @@ function getGroqClient(): Groq {
 
 export const PRIMARY_MODEL = "openai/gpt-oss-120b";
 export const FALLBACK_MODEL = "openai/gpt-oss-20b";
+export const TERTIARY_MODEL = "qwen/qwen3.8-27b";
 
 export async function generateGroundedAnswer(
   question: string,
@@ -42,38 +43,37 @@ export async function generateGroundedAnswer(
   let usedModel = PRIMARY_MODEL;
   let usageInfo: { prompt_tokens: number; completion_tokens: number; total_tokens: number } | undefined;
 
-  try {
-    const completion = await groq.chat.completions.create({
-      model: PRIMARY_MODEL,
-      messages,
-      temperature: 0.0,
-      response_format: { type: "json_object" },
-    });
-    rawJson = completion.choices[0]?.message?.content || "{}";
-    if (completion.usage) {
-      usageInfo = {
-        prompt_tokens: completion.usage.prompt_tokens,
-        completion_tokens: completion.usage.completion_tokens,
-        total_tokens: completion.usage.total_tokens,
-      };
+  const modelsToTry = [PRIMARY_MODEL, FALLBACK_MODEL, TERTIARY_MODEL];
+  let lastError: unknown = null;
+
+  for (const candidateModel of modelsToTry) {
+    try {
+      usedModel = candidateModel;
+      const completion = await groq.chat.completions.create({
+        model: candidateModel,
+        messages,
+        temperature: 0.0,
+        max_tokens: candidateModel === TERTIARY_MODEL ? 550 : 1200,
+        response_format: { type: "json_object" },
+      });
+      rawJson = completion.choices[0]?.message?.content || "{}";
+      if (completion.usage) {
+        usageInfo = {
+          prompt_tokens: completion.usage.prompt_tokens,
+          completion_tokens: completion.usage.completion_tokens,
+          total_tokens: completion.usage.total_tokens,
+        };
+      }
+      lastError = null;
+      break;
+    } catch (err: unknown) {
+      lastError = err;
+      console.warn(`Model ${candidateModel} failed, rotating to next fallback:`, err);
     }
-  } catch (err: unknown) {
-    console.warn(`Primary model ${PRIMARY_MODEL} failed, falling back to ${FALLBACK_MODEL}:`, err);
-    usedModel = FALLBACK_MODEL;
-    const fallbackCompletion = await groq.chat.completions.create({
-      model: FALLBACK_MODEL,
-      messages,
-      temperature: 0.0,
-      response_format: { type: "json_object" },
-    });
-    rawJson = fallbackCompletion.choices[0]?.message?.content || "{}";
-    if (fallbackCompletion.usage) {
-      usageInfo = {
-        prompt_tokens: fallbackCompletion.usage.prompt_tokens,
-        completion_tokens: fallbackCompletion.usage.completion_tokens,
-        total_tokens: fallbackCompletion.usage.total_tokens,
-      };
-    }
+  }
+
+  if (lastError) {
+    throw lastError;
   }
 
   interface ParsedClaim {

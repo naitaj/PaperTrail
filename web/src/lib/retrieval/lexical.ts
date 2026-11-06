@@ -67,6 +67,15 @@ export class LexicalRetriever implements Retriever {
       return [];
     }
 
+    // De-noise query terms: strip procedural references like "Section 3" or "Table 2"
+    // which cause BM25 to over-index on structural headers rather than technical content.
+    const cleanedQuery = trimmedQuery
+      .replace(/\b(section|sec\.?|table|tab\.?|figure|fig\.?|appendix)\s+\d+[a-z]?\b/gi, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const effectiveQuery = cleanedQuery.length >= 5 ? cleanedQuery : trimmedQuery;
+
     const stoplist: string[] = ["the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for"];
 
     interface Bm25Row {
@@ -75,7 +84,7 @@ export class LexicalRetriever implements Retriever {
     }
 
     const rankedRows = await query<Bm25Row>(BM25_QUERY, [
-      trimmedQuery,
+      effectiveQuery,
       configId,
       scopeDocId,
       k,

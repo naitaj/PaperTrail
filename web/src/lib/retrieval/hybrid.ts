@@ -110,8 +110,10 @@ export function reciprocalRankFusion(
 
 export class HybridRetriever implements Retriever {
   async retrieve(options: RetrievalOptions): Promise<ScoredChunk[]> {
-    const { k = 5 } = options;
-    const candidateDepth = Math.max(k * 4, 25);
+    const { k = 5, query: queryText = "" } = options;
+    const isComparative =
+      /\b(compare|contrast|differ|difference|differences|versus|vs\.?|both|between)\b/i.test(queryText);
+    const candidateDepth = Math.max(k * 4, 30);
 
     const candidateOptions: RetrievalOptions = {
       ...options,
@@ -135,7 +137,34 @@ export class HybridRetriever implements Retriever {
       lexicalWeight: 1.0,
     });
 
-    return fused.slice(0, k);
+    if (!isComparative || options.scopeDocId) {
+      return fused.slice(0, k);
+    }
+
+    // Apply document diversity cap for comparative queries:
+    // Prevent any single document from occupying more than 50% of the allocated context window.
+    const maxPerDoc = Math.max(Math.ceil(k * 0.5), 2);
+    const docCounts = new Map<string, number>();
+    const diverse: ScoredChunk[] = [];
+    const overflow: ScoredChunk[] = [];
+
+    for (const chunk of fused) {
+      const count = docCounts.get(chunk.doc_id) || 0;
+      if (count < maxPerDoc) {
+        docCounts.set(chunk.doc_id, count + 1);
+        diverse.push(chunk);
+        if (diverse.length >= k) break;
+      } else {
+        overflow.push(chunk);
+      }
+    }
+
+    // If diversity filtering didn't fill the k budget, backfill from remaining ranked candidates
+    while (diverse.length < k && overflow.length > 0) {
+      diverse.push(overflow.shift()!);
+    }
+
+    return diverse;
   }
 }
 

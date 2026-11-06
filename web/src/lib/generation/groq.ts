@@ -52,7 +52,7 @@ const MAX_CACHE_ENTRIES = 200;
 
 function computeCacheKey(question: string, passages: ScoredChunk[]): string {
   const normalizedQ = question.trim().toLowerCase().replace(/\s+/g, " ");
-  const chunkSignature = passages.map((p) => `${p.chunk_id}:${p.text_hash || ""}`).join("|");
+  const chunkSignature = passages.map((p) => `${p.chunk_id}:${p.text.length}`).join("|");
   return crypto.createHash("sha256").update(`${normalizedQ}::${chunkSignature}`).digest("hex");
 }
 

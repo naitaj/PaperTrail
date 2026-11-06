@@ -1,8 +1,10 @@
 /**
  * Grounded generation engine using Groq API (TRD §7, FR-GEN-01..04).
- * Uses llama-3.3-70b-versatile with structured JSON format and verbatim quote verification.
+ * Implements multi-model quota pool rotation + rate-limit cooldown tracking +
+ * in-memory response caching for identical deterministic (question + chunks) pairs.
  */
 
+import crypto from "crypto";
 import Groq from "groq-sdk";
 import { validateCitations } from "@/lib/citations/validate";
 import { ScoredChunk } from "@/lib/retrieval/types";
@@ -19,18 +21,102 @@ function getGroqClient(): Groq {
   if (!apiKey) {
     throw new Error("GROQ_API_KEY is not defined in environment variables");
   }
-  groqClient = new Groq({ apiKey });
+  groqClient = new Groq({ apiKey, maxRetries: 0 });
   return groqClient;
 }
 
-export const PRIMARY_MODEL = "openai/gpt-oss-120b";
-export const FALLBACK_MODEL = "openai/gpt-oss-20b";
-export const TERTIARY_MODEL = "qwen/qwen3.8-27b";
+export const PRIMARY_MODEL = "llama-3.3-70b-versatile";
+export const FALLBACK_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct";
+export const TERTIARY_MODEL = "qwen/qwen3-32b";
+
+/**
+ * Pool of active Groq models with independent free-tier TPM/TPD buckets.
+ * Ordered by grounded JSON synthesis quality and quota generosity.
+ */
+export const MODEL_POOL: string[] = [
+  "llama-3.3-70b-versatile",
+  "meta-llama/llama-4-scout-17b-16e-instruct",
+  "meta-llama/llama-4-maverick-17b-128e-instruct",
+  "qwen/qwen3-32b",
+  "openai/gpt-oss-120b",
+  "openai/gpt-oss-20b",
+  "llama-3.1-8b-instant",
+];
+
+// In-memory map of model -> timestamp (ms) until which the model is on rate-limit cooldown
+const modelCooldownUntil = new Map<string, number>();
+
+// In-memory cache of deterministic (question + passage chunk IDs) -> GenerateAnswerResult
+const responseCache = new Map<string, GenerateAnswerResult>();
+const MAX_CACHE_ENTRIES = 200;
+
+function computeCacheKey(question: string, passages: ScoredChunk[]): string {
+  const normalizedQ = question.trim().toLowerCase().replace(/\s+/g, " ");
+  const chunkSignature = passages.map((p) => `${p.chunk_id}:${p.text_hash || ""}`).join("|");
+  return crypto.createHash("sha256").update(`${normalizedQ}::${chunkSignature}`).digest("hex");
+}
+
+function getOrderedCandidateModels(): string[] {
+  const now = Date.now();
+  const available: string[] = [];
+  const coolingDown: { model: string; until: number }[] = [];
+
+  for (const model of MODEL_POOL) {
+    const until = modelCooldownUntil.get(model) || 0;
+    if (until <= now) {
+      if (until > 0) modelCooldownUntil.delete(model);
+      available.push(model);
+    } else {
+      coolingDown.push({ model, until });
+    }
+  }
+
+  // Sort cooling-down models by soonest expiry as last-resort fallbacks
+  coolingDown.sort((a, b) => a.until - b.until);
+  return [...available, ...coolingDown.map((c) => c.model)];
+}
+
+function markModelRateLimited(model: string, err: unknown): void {
+  const msg = err instanceof Error ? err.message : String(err);
+  const lower = msg.toLowerCase();
+  const now = Date.now();
+
+  if (lower.includes("tokens per day") || lower.includes("tpd") || lower.includes("requests per day")) {
+    // Daily quota exhausted on this model -> cool down for 30 minutes
+    modelCooldownUntil.set(model, now + 30 * 60 * 1000);
+  } else if (lower.includes("429") || lower.includes("rate_limit") || lower.includes("rate limit")) {
+    // Per-minute TPM/RPM limit -> cool down for 65 seconds
+    modelCooldownUntil.set(model, now + 65 * 1000);
+  } else if (lower.includes("model_not_found") || lower.includes("decommissioned") || lower.includes("404")) {
+    // Model unavailable -> cool down for 1 hour
+    modelCooldownUntil.set(model, now + 60 * 60 * 1000);
+  }
+}
+
+function cleanJsonContent(raw: string): string {
+  let cleaned = raw.trim();
+  // Strip <think>...</think> blocks if emitted by reasoning models like qwen3-32b
+  cleaned = cleaned.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+  // Strip markdown code fences if present
+  if (cleaned.startsWith("```")) {
+    cleaned = cleaned.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "").trim();
+  }
+  return cleaned || "{}";
+}
 
 export async function generateGroundedAnswer(
   question: string,
   passages: ScoredChunk[]
 ): Promise<GenerateAnswerResult> {
+  const cacheKey = computeCacheKey(question, passages);
+  const cached = responseCache.get(cacheKey);
+  if (cached) {
+    return {
+      ...cached,
+      usage: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 },
+    };
+  }
+
   const groq = getGroqClient();
   const userContent = buildUserMessage(question, passages);
 
@@ -43,7 +129,7 @@ export async function generateGroundedAnswer(
   let usedModel = PRIMARY_MODEL;
   let usageInfo: { prompt_tokens: number; completion_tokens: number; total_tokens: number } | undefined;
 
-  const modelsToTry = [PRIMARY_MODEL, FALLBACK_MODEL, TERTIARY_MODEL];
+  const modelsToTry = getOrderedCandidateModels();
   let lastError: unknown = null;
 
   for (const candidateModel of modelsToTry) {
@@ -53,10 +139,10 @@ export async function generateGroundedAnswer(
         model: candidateModel,
         messages,
         temperature: 0.0,
-        max_tokens: candidateModel === TERTIARY_MODEL ? 550 : 1200,
+        max_tokens: 750,
         response_format: { type: "json_object" },
       });
-      rawJson = completion.choices[0]?.message?.content || "{}";
+      rawJson = cleanJsonContent(completion.choices[0]?.message?.content || "{}");
       if (completion.usage) {
         usageInfo = {
           prompt_tokens: completion.usage.prompt_tokens,
@@ -68,7 +154,8 @@ export async function generateGroundedAnswer(
       break;
     } catch (err: unknown) {
       lastError = err;
-      console.warn(`Model ${candidateModel} failed, rotating to next fallback:`, err);
+      markModelRateLimited(candidateModel, err);
+      console.warn(`Model ${candidateModel} failed, rotating to next model in pool:`, err);
     }
   }
 
@@ -108,7 +195,7 @@ export async function generateGroundedAnswer(
   // Validate citations and quotes according to TRD §7.5
   const validation = validateCitations(rawClaims, passages, rawDecision, true);
 
-  return {
+  const finalResult: GenerateAnswerResult = {
     decision: validation.decision,
     answer: String(parsed.answer || ""),
     claims: validation.kept_claims,
@@ -120,4 +207,12 @@ export async function generateGroundedAnswer(
     diagnostics: validation.diagnostics,
     usage: usageInfo,
   };
+
+  if (responseCache.size >= MAX_CACHE_ENTRIES) {
+    const oldestKey = responseCache.keys().next().value;
+    if (oldestKey) responseCache.delete(oldestKey);
+  }
+  responseCache.set(cacheKey, finalResult);
+
+  return finalResult;
 }

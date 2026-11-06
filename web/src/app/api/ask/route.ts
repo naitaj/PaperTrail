@@ -81,7 +81,11 @@ export async function POST(req: NextRequest) {
     };
 
     let retrieved: ScoredChunk[] = [];
-    const effectiveK = !scopeDocId ? Math.max(k, 10) : k;
+    const isComparativeQuery =
+      /\b(compare|contrast|differ|difference|differences|versus|vs\.?|both|between)\b/i.test(query);
+    const effectiveK = !scopeDocId
+      ? Math.min(Math.max(k, isComparativeQuery ? 8 : 6), 8)
+      : Math.min(k, 6);
 
     if (actualRetriever === "lexical") {
       retrieved = await lexicalRetriever.retrieve({

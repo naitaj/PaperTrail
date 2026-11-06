@@ -25,22 +25,22 @@ function getGroqClient(): Groq {
   return groqClient;
 }
 
-export const PRIMARY_MODEL = "llama-3.3-70b-versatile";
-export const FALLBACK_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct";
-export const TERTIARY_MODEL = "qwen/qwen3-32b";
+export const PRIMARY_MODEL = "openai/gpt-oss-120b";
+export const FALLBACK_MODEL = "openai/gpt-oss-20b";
+export const TERTIARY_MODEL = "qwen/qwen3.8-27b";
 
 /**
- * Pool of active Groq models with independent free-tier TPM/TPD buckets.
- * Ordered by grounded JSON synthesis quality and quota generosity.
+ * Pool of active Groq chat models available on this API key.
+ * Each model has its own independent free-tier TPM/TPD bucket.
+ * Ordered by grounded JSON synthesis quality.
+ *
+ * To discover available models: GET https://api.groq.com/openai/v1/models
  */
 export const MODEL_POOL: string[] = [
-  "llama-3.3-70b-versatile",
-  "meta-llama/llama-4-scout-17b-16e-instruct",
-  "meta-llama/llama-4-maverick-17b-128e-instruct",
-  "qwen/qwen3-32b",
   "openai/gpt-oss-120b",
   "openai/gpt-oss-20b",
-  "llama-3.1-8b-instant",
+  "qwen/qwen3.8-27b",
+  "allam-2-7b",
 ];
 
 // In-memory map of model -> timestamp (ms) until which the model is on rate-limit cooldown

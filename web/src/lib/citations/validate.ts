@@ -125,7 +125,7 @@ export function validateCitations(
     const overlapRatio = isNonTrivialQuote
       ? windowOverlapRatio(searchableText, rawQuote)
       : 0.0;
-    const isOverlapMatch = overlapRatio >= 0.85;
+    const isOverlapMatch = overlapRatio >= 0.60;
 
     let quoteVerified = false;
     let finalQuote = rawQuote;

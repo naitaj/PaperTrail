@@ -1,196 +1,187 @@
 # PaperTrail: Evaluated Research-Paper Assistant
 
-> **An evaluated, grounded scientific research assistant comparing Okapi BM25 vs. Dense Embedding retrieval with verified citations and abstention benchmarking.**
-
-[![Python Tests](https://img.shields.io/badge/pytest-22%20passed-emerald)](python/tests/)
-[![Next.js Build](https://img.shields.io/badge/next.js-v16%20clean-blue)](web/)
-[![Database](https://img.shields.io/badge/database-Supabase%20pgvector%20(RLS)-indigo)](db/migrations/)
-[![Inference Cost](https://img.shields.io/badge/AI%20Cost-%240.00%20(Zero--Cost)-success)](docs/contributions.md)
+PaperTrail is an evaluated scientific question-answering system designed to eliminate unverified citations, hallucinated claims, and silent failures on out-of-corpus queries. The platform implements and compares three retrieval strategies—Okapi BM25, dense semantic search via `all-MiniLM-L6-v2`, and Reciprocal Rank Fusion (RRF) hybrid search—over a curated corpus of foundational computer science papers and user-uploaded PDFs.
 
 ---
 
-## 📖 Executive Summary
+## Key Capabilities
 
-**PaperTrail** is a production-grade research assistant designed to answer technical scientific questions over a curated corpus of foundational computer science papers. It is built to address the critical failure modes of standard Retrieval-Augmented Generation (RAG) systems: **unverified citations, hallucinated extrapolations, and silent confabulation on out-of-domain queries**.
-
-### Key System Capabilities
-1. **Empirical Retrieval Comparison:** Direct head-to-head evaluation between pure PostgreSQL **Okapi BM25** and **all-MiniLM-L6-v2 (384-d)** dense semantic search.
-2. **Deterministic Citation Verification:** Every generated claim must provide an exact chunk identifier and a verbatim quotation verified against the underlying document payload. Unverified assertions automatically trigger status downgrading (`answerable` &rarr; `partial` &rarr; `abstain`).
-3. **Pre-LLM Confidence Gating (~1ms, 0 Tokens):** Calibrated mathematical score thresholds fast-abstain on out-of-domain or ungroundable queries before calling the LLM, eliminating hallucination risk and unnecessary token spend.
-4. **Zero-Cost Inference Architecture:** Powered exclusively by **Groq Cloud** (`openai/gpt-oss-120b`) for ultra-fast generation and open-source `sentence-transformers/all-MiniLM-L6-v2` running locally in Python during ingestion and in-browser via `@xenova/transformers` WebAssembly.
-5. **Editorial Broadsheet Workspace:** High-density, tactile 3-column academic workspace designed in Google Stitch, featuring paper indexing, interactive citation cross-highlighting, and adjacent context expansion modals ($\pm 1$ chunk).
+- **Comparative Retrieval:** Direct head-to-head benchmarking among Okapi BM25 (PostgreSQL `tsvector`), dense vector similarity (pgvector 384-dimensional cosine distance), and reciprocal rank fusion hybrid retrieval.
+- **Deterministic Citation Verification:** Generated claims require an exact chunk identifier and verbatim text quote verified against the underlying document payload. Unverified assertions downgrade the response status (`answerable` -> `partial` -> `abstain`).
+- **Pre-LLM Confidence Gating:** Calibrated retrieval score thresholds evaluate evidence sufficiency prior to model invocation, fast-abstaining on out-of-corpus questions in under 1 second with zero LLM token consumption.
+- **Dynamic Document Ingestion:** Client-side text extraction via `unpdf` and browser-side vector generation bypass serverless payload limits, allowing large PDFs (>4 MB) to be chunked, embedded, and indexed with full row-level security isolation.
+- **Resilient Generation Engine:** Multi-model fallback pool using Groq with in-memory per-model rate-limit cooldown tracking and deterministic response caching.
 
 ---
 
-## 📊 Empirical Experimental Results
+## Benchmark Results
 
-Evaluated across **40 stratified scientific questions** split equally into a 20-question Development partition (`questions.dev.jsonl`) and a strictly locked 20-question Held-Out Test partition (`questions.test.jsonl`, locked under `data/eval/split.sha256`).
+Evaluation was conducted over 40 stratified questions divided into a 20-question Development split (`questions.dev.jsonl`) and a locked Held-Out Test split (`questions.test.jsonl`, verified via SHA-256).
 
-### Final Test Split Benchmark ($K=5$, 20 Questions)
+### Test Split Retrieval & Grounding ($K=5$)
 
-| Retrieval Model | Chunk Config | HitRate@5 | Recall@5 | MRR | Citation Precision | Abstention Accuracy | Avg Latency |
+| Retrieval Method | Chunk Config | HitRate@5 | Recall@5 | MRR | Citation Precision | Abstention Accuracy | Average Latency |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Dense Embed (all-MiniLM-L6-v2)** | `ck256` | **60.0%** | **56.7%** | 0.343 | **100.0%** | **100.0%** | **911 ms** |
-| **Okapi BM25 (Lexical Inverted)** | `ck640` | 46.7% | 43.3% | **0.372** | **100.0%** | **100.0%** | 1,549 ms |
+| **Dense (all-MiniLM-L6-v2)** | `ck256` | **60.0%** | **56.7%** | 0.343 | **100.0%** | **100.0%** | **911 ms** |
+| **Okapi BM25 (Lexical)** | `ck640` | 46.7% | 43.3% | **0.372** | **100.0%** | **100.0%** | 1,549 ms |
 | **Okapi BM25 (Reference)** | `ck256` | 46.7% | 43.3% | 0.467 | 66.7% | **100.0%** | 1,462 ms |
 
-### Key Experimental Insights
-- **Dense Semantic Superiority:** Dense retrieval (`embedding_ck256`) outperformed BM25 by **+13.3% on HitRate@5** and **+13.4% on Recall@5**, demonstrating clear advantages on paraphrased technical concepts and semantic inquiries.
-- **Lexical Precision at Rank 1:** When exact technical terms were explicitly present in the query, BM25 achieved superior reciprocal rank (**MRR 0.372** vs. 0.343).
-- **Flawless Grounding & Safety:** Both pre-registered configurations delivered **100% Citation Precision** and **100% Abstention Accuracy**, validating our dual-gate defense against confabulation.
+### Performance Observations
 
-Full details are documented in [`docs/experiments/tuning-log.md`](file:///d:/PaperTrail/docs/experiments/tuning-log.md) and [`docs/failure-analysis.md`](file:///d:/PaperTrail/docs/failure-analysis.md).
+1. **Semantic Recall:** Dense retrieval (`ck256`) exceeded lexical BM25 by 13.3 percentage points on HitRate@5 and 13.4 percentage points on Recall@5 for queries using conceptual or paraphrased terms.
+2. **Lexical Rank-1 Precision:** When queries used precise author names or technical terminology, BM25 achieved higher mean reciprocal rank (MRR 0.372 vs. 0.343).
+3. **Grounding Consistency:** Pre-registered evaluation runs achieved 100% Citation Precision and 100% Abstention Accuracy on out-of-domain queries.
 
 ---
 
-## 🏛️ System Architecture
+## Architecture
 
-```mermaid
-flowchart TD
-    User([User Query]) --> PreGate{Pre-LLM Confidence Gate}
-    
-    subgraph Browser ["Client-Side Browser (Next.js 16)"]
-        User
-        WASMEmbed["@xenova/transformers (all-MiniLM-L6-v2 ONNX)"]
-        UI["Editorial Broadsheet 3-Column UI"]
-    end
-    
-    subgraph RetrievalEngine ["PostgreSQL / Supabase pgvector (RLS Enforced)"]
-        BM25Index[("Okapi BM25 SQL Inverted Index")]
-        HNSWIndex[("pgvector HNSW Cosine Index (384-d)")]
-    end
-    
-    User -->|Embedding Mode| WASMEmbed
-    WASMEmbed -->|Query Vector| HNSWIndex
-    User -->|Lexical Mode| BM25Index
-    
-    HNSWIndex -->|Top-K Chunks| PreGate
-    BM25Index -->|Top-K Chunks| PreGate
-    
-    PreGate -->|< Tau_Threshold| FastAbstain["Fast-Abstain (~1ms, 0 Tokens)"]
-    PreGate -->|>= Tau_Threshold| LLM["Groq Cloud: openai/gpt-oss-120b"]
-    
-    LLM --> StructuredOutput["Structured Claims & Verbatim Quotes"]
-    StructuredOutput --> CitationValidator["Deterministic Citation Verifier"]
-    CitationValidator -->|Verified Quotes| UI
-    CitationValidator -->|Mismatch Found| Downgrade["Downgrade: partial / abstain"]
-    Downgrade --> UI
-    FastAbstain --> UI
+```
+User Query
+    │
+    ▼
+Retriever Selection (Lexical / Dense / Hybrid)
+    │
+    ├── Lexical: PostgreSQL Okapi BM25 (tsvector over non-reference chunks)
+    ├── Dense:   pgvector Cosine Similarity (384-d all-MiniLM-L6-v2 embeddings)
+    └── Hybrid:  Reciprocal Rank Fusion (k=60) with document diversity cap
+    │
+    ▼
+Pre-LLM Confidence Gate
+    ├── Score < Threshold ──> Fast Abstain (<1s, 0 tokens)
+    └── Score ≥ Threshold
+            │
+            ▼
+        Prompt Assembly (Untrusted context blocks)
+            │
+            ▼
+        Groq LLM Generation Pool (llama-3.3-70b / gpt-oss / qwen)
+            │
+            ▼
+        Citation Validation Engine
+            ├── Chunk existence check
+            ├── Verbatim quote overlap check (threshold ≥ 0.60)
+            └── Lexical claim-support heuristic
+            │
+            ▼
+        Response Output (VERIFIED ANSWER / PARTIAL EVIDENCE / ABSTAIN)
 ```
 
 ---
 
-## 📚 Indexed Corpus Manifest
+## Foundation Corpus
 
-The PaperTrail corpus comprises **12 open-access foundation papers** in natural language processing and information retrieval, locked under [`data/manifest/corpus.yaml`](file:///d:/PaperTrail/data/manifest/corpus.yaml):
+The baseline evaluation corpus consists of 12 open-access papers defined in `data/manifest/corpus.yaml`:
 
-1. **Vaswani et al. (2017)** — *Attention Is All You Need* (`arxiv_1706_03762`)
-2. **Lewis et al. (2020)** — *Retrieval-Augmented Generation for Knowledge-Intensive NLP* (`arxiv_2005_11401`)
-3. **Robertson & Zaragoza (2009)** — *The Probabilistic Relevance Framework: BM25 and Beyond* (`fntir_bm25_2009`)
-4. **Karpukhin et al. (2020)** — *Dense Passage Retrieval for Open-Domain Question Answering* (`arxiv_2004_04906`)
-5. **Hu et al. (2021)** — *LoRA: Low-Rank Adaptation of Large Language Models* (`arxiv_2106_09685`)
-6. **Liu et al. (2023)** — *Lost in the Middle: How Language Models Use Long Contexts* (`arxiv_2307_03172`)
-7. **Es et al. (2023)** — *RAGAS: Automated Evaluation of Retrieval Augmented Generation* (`arxiv_2305_14283`)
-8. **Devlin et al. (2018)** — *BERT: Pre-training of Deep Bidirectional Transformers* (`arxiv_1810_04805`)
-9. **Radford et al. (2019)** — *Language Models are Unsupervised Multitask Learners (GPT-2)* (`openai_gpt2_2019`)
-10. **Touvron et al. (2023)** — *LLaMA: Open and Efficient Foundation Language Models* (`arxiv_2302_13971`)
-11. **Guu et al. (2020)** — *REALM: Retrieval-Augmented Language Model Pre-Training* (`arxiv_2002_08909`)
-12. **Borgeaud et al. (2022)** — *Improving Language Models by Retrieving from Trillions of Tokens (RETRO)* (`arxiv_2112_04426`)
+1. Vaswani et al. (2017) — *Attention Is All You Need*
+2. Lewis et al. (2020) — *Retrieval-Augmented Generation for Knowledge-Intensive NLP*
+3. Robertson & Zaragoza (2009) — *The Probabilistic Relevance Framework: BM25 and Beyond*
+4. Karpukhin et al. (2020) — *Dense Passage Retrieval for Open-Domain Question Answering*
+5. Hu et al. (2021) — *LoRA: Low-Rank Adaptation of Large Language Models*
+6. Liu et al. (2023) — *Lost in the Middle: How Language Models Use Long Contexts*
+7. Es et al. (2023) — *RAGAS: Automated Evaluation of Retrieval Augmented Generation*
+8. Devlin et al. (2018) — *BERT: Pre-training of Deep Bidirectional Transformers*
+9. Radford et al. (2019) — *Language Models are Unsupervised Multitask Learners*
+10. Touvron et al. (2023) — *LLaMA: Open and Efficient Foundation Language Models*
+11. Guu et al. (2020) — *REALM: Retrieval-Augmented Language Model Pre-Training*
+12. Borgeaud et al. (2022) — *Improving Language Models by Retrieving from Trillions of Tokens (RETRO)*
 
-- **Total Searchable Chunks:** 2,015 chunks across two configurations:
-  - `ck256`: 256 tokens, 32 overlap.
-  - `ck640`: 640 tokens, 64 overlap.
-- **Lexical Vocabulary:** 6,288 indexed unique terms with pre-computed postings and document statistics.
+- **Total Chunks:** 2,015 chunks across two configurations: `ck256` (256 tokens, 32 overlap) and `ck640` (640 tokens, 64 overlap).
+- **Postings:** 6,288 indexed lexical terms with pre-computed collection statistics. Reference sections are tagged (`is_references = true`) and excluded from retrieval indexes.
 
 ---
 
-## 🚀 Quickstart Guide
+## Setup and Installation
 
-### 1. Prerequisites
-- **Python:** 3.12+ (managed with `uv` or virtualenv)
-- **Node.js:** 18+ (tested with v20/v22)
-- **Database:** Supabase PostgreSQL instance with `pgvector`
-- **LLM Key:** Free **Groq Cloud API Key** (`GROQ_API_KEY`)
+### Prerequisites
 
-### 2. Environment Configuration
-Create a `.env` file in the project root:
+- Python 3.12+ (managed with `uv`)
+- Node.js 18+ (tested on v20 and v22)
+- Supabase PostgreSQL database with `pgvector` extension enabled
+- Groq Cloud API key
+
+### Environment Variables
+
+Configure `.env` in the root directory (and `web/.env.local` for local Next.js development):
+
 ```ini
-# Supabase PostgreSQL Database (Transaction pooler & direct port)
-DATABASE_URL="postgresql://postgres.[ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres"
-DIRECT_URL="postgresql://postgres.[ref]:[password]@aws-0-[region].pooler.supabase.com:5432/postgres"
+# Supabase PostgreSQL connection strings
+DATABASE_URL="postgresql://postgres.[project-ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres"
+DIRECT_URL="postgresql://postgres.[project-ref]:[password]@aws-0-[region].pooler.supabase.com:5432/postgres"
 
-# Groq Cloud API Key (Strictly zero-cost LLM generation)
+# Groq API Key
 GROQ_API_KEY="gsk_..."
 ```
 
-### 3. Database Migrations
-Apply migrations 001 through 005 to provision schemas, BM25 inverted tables, `vector(384)` columns, HNSW indices, and Row-Level Security:
+### Database Provisioning
+
+Apply schema migrations (001 through 006) to set up tables, BM25 term tables, vector columns, indexes, and Row-Level Security:
+
 ```bash
-# Python venv setup
 cd python
 uv sync
 cd ..
-
-# Apply migrations
-python/scripts/apply_migrations.py
+python python/scripts/apply_migrations.py
 ```
 
-### 4. Ingestion & Embedding Pipeline
-Ingest the 12 open-access PDFs, extract clean Markdown text, chunk across both configurations, index BM25 terms, and generate 384-dimensional dense vectors:
+### Ingestion and Embedding
+
+To populate the 12 base papers, extract page-bounded text, generate `ck256` and `ck640` chunks, and compute 384-dimensional dense vectors:
+
 ```bash
 python -m papertrail.ingest.pipeline
 ```
 
-### 5. Launch the Web Application
-Start the Next.js development server:
+### Web Application
+
 ```bash
 cd web
 npm install
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser to access the interactive workspace.
+
+The application will be available at `http://localhost:3000`.
 
 ---
 
-## 🧪 Evaluation & Verification Commands
+## Testing and Verification
 
-Run the full automated test suite and benchmark runners:
+Run the test suite and evaluation scripts:
 
 ```bash
-# Run all Python unit and integration tests (22 tests)
-pytest
+# Python unit and schema tests
+cd python
+uv run pytest -v
 
-# Run Dev split retrieval evaluation (BM25 vs. Dense on ck256 & ck640)
-python -m papertrail.evaluation.compare_retrieval
+# Code quality and style checks
+uv run ruff check .
 
-# Run Test split evaluation with citation verification and gate calibration
-python -m papertrail.evaluation.runner --split test --k 5
-
-# Validate web code quality and production build
-cd web
+# Next.js type checking and production build
+cd ../web
 npm run lint
 npm run build
+
+# Retrieval evaluation on the development split
+python -m papertrail.evaluation.compare_retrieval
+
+# End-to-end evaluation run on test split
+python -m papertrail.evaluation.runner --split test --k 5
 ```
 
 ---
 
-## 🛡️ Security Hardening
+## Security Model
 
-- **Supabase Row-Level Security (RLS):** All 12 tables in schema `public` plus `_migrations` enforce RLS (`005_enable_rls.sql`). Public HTTP endpoints via PostgREST cannot perform unauthorized mutations or scrape internal evaluation splits (`eval_*`).
-- **Secret Isolation:** Environment secrets (`.env`) are strictly isolated and ignored by git.
-- **Partition Integrity:** The held-out test split is verified via SHA-256 hash checks before benchmark execution.
-
----
-
-## 📑 Technical Documentation Directory
-
-- [`docs/defence-notes.md`](file:///d:/PaperTrail/docs/defence-notes.md): Comprehensive defense addressing the TRD §18 technical rubric questions.
-- [`docs/contributions.md`](file:///d:/PaperTrail/docs/contributions.md): Novel engineering patterns, systems design, and algorithmic contributions.
-- [`docs/limitations.md`](file:///d:/PaperTrail/docs/limitations.md): Boundary conditions, corpus scale constraints, and threshold calibration nuances.
-- [`docs/failure-analysis.md`](file:///d:/PaperTrail/docs/failure-analysis.md): Qualitative taxonomy of retrieval and citation failure modes.
-- [`docs/experiments/tuning-log.md`](file:///d:/PaperTrail/docs/experiments/tuning-log.md): Pre-registered chunk configuration selection and parameter logs.
+- **PostgreSQL Row-Level Security (RLS):** All tables enforce RLS policies. Client queries executed via PostgREST cannot modify document rows, read staging test tables, or access internal evaluation sets.
+- **Document Ownership Isolation:** User document uploads and deletions use cryptographically signed session tokens. Document deletion is restricted through a stored procedure (`public.delete_user_document`) that verifies `auth.uid()` and prevents mutation or deletion of the frozen `v1.0` foundation corpus.
+- **Evaluation Partition Integrity:** The held-out test split is checked against its recorded SHA-256 digest before benchmark execution to ensure evaluation reproducibility.
 
 ---
 
-## 📄 License
-Open-access academic demonstration project. Built for the **PaperTrail** evaluated research-paper assistant technical specification.
+## Documentation
+
+- `docs/defence-notes.md`: Architectural defense addressing the rubric requirements.
+- `docs/contributions.md`: System design decisions and engineering details.
+- `docs/limitations.md`: Scope boundaries, corpus constraints, and failure edge cases.
+- `docs/failure-analysis.md`: Detailed breakdown of retrieval and citation anomalies.
+- `docs/experiments/tuning-log.md`: Pre-registered experiment logs and parameter tracking.

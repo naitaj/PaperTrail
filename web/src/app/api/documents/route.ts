@@ -1,10 +1,19 @@
 /**
  * GET /api/documents (TRD §9.2, FR-COL-02, FR-UI-01).
+ *
  * Returns list of ingested papers with metadata.
+ * Implements Option A — Strict Private User Workspace:
+ *   - v1.0 base corpus papers: always visible to everyone.
+ *   - User-uploaded documents (corpus_version = 'user-upload'): only visible
+ *     to the authenticated owner (owner_id matches the caller's JWT sub claim).
+ *   - Legacy uploads with owner_id IS NULL: hidden from all users (orphaned).
+ *
+ * Unauthenticated callers see only the v1.0 base corpus.
  */
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db/client";
+import { verifyRequestSession } from "@/lib/auth/session";
 
 interface DocumentRow {
   doc_id: string;
@@ -19,14 +28,33 @@ interface DocumentRow {
   corpus_version: string;
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const docs = await query<DocumentRow>(`
-      SELECT doc_id, title, authors, year, venue, doi, source_url, n_pages, status, corpus_version
-      FROM documents
-      WHERE status = 'ready'
-      ORDER BY year DESC, title ASC;
-    `);
+    const session = await verifyRequestSession(req);
+    const uid = session?.uid ?? null;
+
+    let docs: DocumentRow[];
+
+    if (uid) {
+      // Authenticated: return v1.0 base papers + this user's own uploads
+      docs = await query<DocumentRow>(
+        `SELECT doc_id, title, authors, year, venue, doi, source_url, n_pages, status, corpus_version
+         FROM documents
+         WHERE status = 'ready'
+           AND (corpus_version = 'v1.0' OR owner_id = $1)
+         ORDER BY year DESC, title ASC;`,
+        [uid]
+      );
+    } else {
+      // Unauthenticated: return only v1.0 base papers
+      docs = await query<DocumentRow>(
+        `SELECT doc_id, title, authors, year, venue, doi, source_url, n_pages, status, corpus_version
+         FROM documents
+         WHERE status = 'ready'
+           AND corpus_version = 'v1.0'
+         ORDER BY year DESC, title ASC;`
+      );
+    }
 
     return NextResponse.json({
       documents: docs,

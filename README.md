@@ -9,7 +9,7 @@ PaperTrail is an evaluated scientific question-answering system designed to elim
 - **Comparative Retrieval:** Direct head-to-head benchmarking among Okapi BM25 (PostgreSQL `tsvector`), dense vector similarity (pgvector 384-dimensional cosine distance), and reciprocal rank fusion hybrid retrieval.
 - **Deterministic Citation Verification:** Generated claims require an exact chunk identifier and verbatim text quote verified against the underlying document payload. Unverified assertions downgrade the response status (`answerable` -> `partial` -> `abstain`).
 - **Pre-LLM Confidence Gating:** Calibrated retrieval score thresholds evaluate evidence sufficiency prior to model invocation, fast-abstaining on out-of-corpus questions in under 1 second with zero LLM token consumption.
-- **Dynamic Document Ingestion:** Client-side text extraction via `unpdf` and browser-side vector generation bypass serverless payload limits, allowing large PDFs (>4 MB) to be chunked, embedded, and indexed with full row-level security isolation.
+- **Dynamic Document Ingestion & Private Workspaces:** Client-side text extraction via `unpdf` and browser-side vector generation bypass serverless payload limits. Uploaded PDFs are bound to cryptographically verified session identities, ensuring uploaded documents are private to their owner while preserving shared access to the baseline foundation corpus.
 - **Resilient Generation Engine:** Multi-model fallback pool using Groq with in-memory per-model rate-limit cooldown tracking and deterministic response caching.
 
 ---
@@ -179,7 +179,7 @@ python -m papertrail.evaluation.runner --split test --k 5
 ## Security Model
 
 - **PostgreSQL Row-Level Security (RLS):** All tables enforce RLS policies. Client queries executed via PostgREST cannot modify document rows, read staging test tables, or access internal evaluation sets.
-- **Document Ownership Isolation:** User document uploads and deletions use cryptographically signed session tokens. Document deletion is restricted through a stored procedure (`public.delete_user_document`) that verifies `auth.uid()` and prevents mutation or deletion of the frozen `v1.0` foundation corpus.
+- **Document Ownership & Workspace Isolation:** Document listing, queries, and deletions strictly enforce user boundaries. The document catalog returns the shared `v1.0` research corpus alongside only the calling user's authenticated uploads (`owner_id = auth.uid()`). Document deletion is restricted through a transactional stored procedure (`public.delete_user_document`) that verifies ownership and prevents mutation or deletion of base corpus papers.
 - **Evaluation Partition Integrity:** The held-out test split is checked against its recorded SHA-256 digest before benchmark execution to ensure evaluation reproducibility.
 
 ---

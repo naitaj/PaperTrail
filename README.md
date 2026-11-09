@@ -16,21 +16,24 @@ PaperTrail is an evaluated scientific question-answering system designed to elim
 
 ## Benchmark Results
 
-Evaluation was conducted over 40 stratified questions divided into a 20-question Development split (`questions.dev.jsonl`) and a locked Held-Out Test split (`questions.test.jsonl`, verified via SHA-256).
+Evaluation was conducted over 44 stratified questions divided into a 24-question Development split (`questions.dev.jsonl`) and a locked Held-Out Test split (`questions.test.jsonl`, 20 questions verified via SHA-256).
 
-### Test Split Retrieval & Grounding ($K=5$)
+### Test Split Retrieval & Grounding Benchmark ($K=5$, 20 Questions)
 
 | Retrieval Method | Chunk Config | HitRate@5 | Recall@5 | MRR | Citation Precision | Abstention Accuracy | Average Latency |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Dense (all-MiniLM-L6-v2)** | `ck256` | **60.0%** | **56.7%** | 0.343 | **100.0%** | **100.0%** | **911 ms** |
-| **Okapi BM25 (Lexical)** | `ck640` | 46.7% | 43.3% | **0.372** | **100.0%** | **100.0%** | 1,549 ms |
-| **Okapi BM25 (Reference)** | `ck256` | 46.7% | 43.3% | 0.467 | 66.7% | **100.0%** | 1,462 ms |
+| **Hybrid (RRF)** | `ck256` | **76.9%** | **69.2%** | 0.522 | **80.8%** | **100.0%** | **1,835 ms** |
+| **Dense (all-MiniLM-L6-v2)** | `ck256` | 69.2% | 65.4% | 0.396 | **80.8%** | **100.0%** | **1,839 ms** |
+| **Dense (all-MiniLM-L6-v2)** | `ck640` | 69.2% | 57.7% | 0.308 | 82.1% | **100.0%** | 2,145 ms |
+| **Okapi BM25 (Lexical)** | `ck256` | 53.8% | 50.0% | **0.538** | 78.3% | **100.0%** | 2,067 ms |
+| **Okapi BM25 (Lexical)** | `ck640` | 53.8% | 50.0% | 0.429 | **80.8%** | **100.0%** | 2,317 ms |
 
 ### Performance Observations
 
-1. **Semantic Recall:** Dense retrieval (`ck256`) exceeded lexical BM25 by 13.3 percentage points on HitRate@5 and 13.4 percentage points on Recall@5 for queries using conceptual or paraphrased terms.
-2. **Lexical Rank-1 Precision:** When queries used precise author names or technical terminology, BM25 achieved higher mean reciprocal rank (MRR 0.372 vs. 0.343).
-3. **Grounding Consistency:** Pre-registered evaluation runs achieved 100% Citation Precision and 100% Abstention Accuracy on out-of-domain queries.
+1. **Hybrid Retrieval Superiority:** Reciprocal Rank Fusion (`hybrid_ck256`) achieved the highest overall retrieval coverage on the test split (**76.9% HitRate@5** and **69.2% Recall@5**), combining lexical precision with dense semantic recall.
+2. **Dense vs. Lexical Recall:** Dense retrieval (`ck256`) exceeded lexical BM25 by 15.4 percentage points on HitRate@5 (69.2% vs. 53.8%) and 15.4 percentage points on Recall@5 (65.4% vs. 50.0%) for queries using conceptual or paraphrased terms.
+3. **Lexical Rank-1 Precision:** When queries contained exact matching author or technical terms, BM25 achieved superior reciprocal rank (**MRR 0.538** vs. 0.396).
+4. **Grounding & Safety:** All configurations achieved **100.0% Abstention Accuracy** on out-of-domain and unanswerable queries via the pre-LLM score gate, with citation precision ranging between 78.3% and 82.1%.
 
 ---
 
@@ -115,13 +118,16 @@ GROQ_API_KEY="gsk_..."
 
 ### Database Provisioning
 
-Apply schema migrations (001 through 006) to set up tables, BM25 term tables, vector columns, indexes, and Row-Level Security:
+Apply schema migrations (001 through 006) located in `db/migrations/` using `psql` or your database management tool:
 
 ```bash
-cd python
-uv sync
-cd ..
-python python/scripts/apply_migrations.py
+# Execute sequentially against your PostgreSQL database
+psql $DATABASE_URL -f db/migrations/001_init.sql
+psql $DATABASE_URL -f db/migrations/002_roles.sql
+psql $DATABASE_URL -f db/migrations/003_indexes.sql
+psql $DATABASE_URL -f db/migrations/004_minilm_embeddings.sql
+psql $DATABASE_URL -f db/migrations/005_enable_rls.sql
+psql $DATABASE_URL -f db/migrations/006_secure_document_ownership_and_delete_rpc.sql
 ```
 
 ### Ingestion and Embedding
